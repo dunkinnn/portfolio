@@ -19,8 +19,8 @@ const stats = [
 ]
 
 const education = {
-  degree: 'BS in Information Technology',
-  major: 'Major in Web and Mobile App Development',
+  degree: 'Bachelor of Science in Information Technology',
+  major: 'Major in Web and Mobile Application Development',
   school: 'Isabela State University',
   period: 'August 2022 - July 2026',
 }

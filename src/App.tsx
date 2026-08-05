@@ -8,20 +8,24 @@ import Contact from './sections/Contact'
 import Footer from './sections/Footer'
 import SkillsPage from './pages/SkillsPage'
 import ExperiencePage from './pages/ExperiencePage'
+import ProjectPage from './pages/ProjectPage'
 import { useHashRoute } from './lib/useHashRoute'
 
 function App() {
   const hash = useHashRoute()
 
-  // The two full pages this site has, reached via Skills' "View all" and
-  // Experience's "View details" links. Anything else (including plain
-  // section anchors like #about) falls through to the normal single-page
-  // layout.
+  // The full pages this site has, reached via Skills' "View all",
+  // Experience's "View details", and Hero's featured project card.
+  // Anything else (including plain section anchors like #about) falls
+  // through to the normal single-page layout.
   if (hash === '#/skills') {
     return <SkillsPage />
   }
   if (hash === '#/experience') {
     return <ExperiencePage />
+  }
+  if (hash === '#/project') {
+    return <ProjectPage />
   }
 
   return (

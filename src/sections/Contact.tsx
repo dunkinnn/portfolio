@@ -24,10 +24,6 @@ const PHONE_NUMBER = '+639970710157'
 const LINKEDIN_URL = 'https://www.linkedin.com/in/angelou-bulauan-125401338/'
 const CALENDLY_URL = 'https://calendly.com/'
 
-// lucide-react dropped brand icons (LinkedIn, GitHub, etc.) in v1 - this
-// project is on ^1.28.0, so there's no `Linkedin` export to import. Same
-// brand path Hero.tsx's socials row already uses, wrapped to match the
-// `{ className }` signature the other rows' lucide icons use.
 function LinkedInIcon({ className }: { className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="currentColor">
@@ -70,7 +66,7 @@ const contactRows = [
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 const inputClassName =
-  'w-full rounded-xl border border-slate-200/80 bg-white/50 px-4 py-3 text-sm text-slate-900 shadow-sm backdrop-blur-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-800/80 dark:bg-slate-950/40 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-400 dark:focus:bg-slate-950 dark:focus:ring-cyan-400/10'
+  'w-full rounded-xl border border-slate-200/80 bg-white/50 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm text-slate-900 shadow-sm backdrop-blur-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-800/80 dark:bg-slate-950/40 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-400 dark:focus:bg-slate-950 dark:focus:ring-cyan-400/10'
 
 const cardClassName =
   'rounded-2xl border border-slate-200/80 bg-white/70 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/60'
@@ -124,14 +120,10 @@ export default function Contact() {
       id="contact"
       reveal={false}
       fullBleed
-      // Divider restored (previous change removed it to merge with
-      // Experience - undone) and a distinct blue-tinted background instead
-      // of the shared bg-slate-50/50 tint, so Contact reads as its own
-      // closing section again rather than continuing the block above it.
-      className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 py-16 text-slate-900 transition-colors duration-300 dark:border-slate-800/80 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 dark:text-slate-100"
+      className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 py-10 sm:py-16 text-slate-900 transition-colors duration-300 dark:border-slate-800/80 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 dark:text-slate-100"
     >
       {/* Background glow effects */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-purple-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[300px] sm:h-[400px] w-[300px] sm:w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-purple-500/10 blur-3xl" />
 
       <SectionHeading number="05">Contact</SectionHeading>
 
@@ -140,33 +132,23 @@ export default function Contact() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}
-        className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-stretch"
+        className="mt-6 sm:mt-10 grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-stretch"
       >
-        {/* Left Column: Heading, Contact Cards, Availability. Neither
-            mt-auto nor justify-between worked - both just relocated the
-            stretched extra height into an empty gap somewhere, which still
-            reads as a gap. Instead the Quick response/Available row below
-            is flex-1 and its cards are h-full, so the extra height grows
-            those two cards themselves (taller cards, content vertically
-            centered) rather than leaving visible empty space anywhere.
-            All of that height-matching is lg-only - below lg the two
-            columns stack, so there's no shared row height to match and
-            forcing h-full there just risks a collapsed/zero-height flex
-            chain on narrow screens. */}
-        <motion.div variants={item} className="flex flex-col gap-6 lg:h-full">
+        {/* Left Column */}
+        <motion.div variants={item} className="flex flex-col gap-4 sm:gap-6 lg:h-full">
           <div>
-            <h3 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
               Let&apos;s work{' '}
               <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-400 bg-clip-text text-transparent dark:from-blue-400 dark:via-cyan-300 dark:to-teal-300">
                 together.
               </span>
             </h3>
-            <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
+            <p className="mt-2 sm:mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400">
               Have a project in mind or just want to say hello? I&apos;d love to hear from you.
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2.5 sm:gap-3">
             {contactRows.map((row) => {
               const Icon = row.icon
               const isEmail = row.href.startsWith('mailto:')
@@ -180,63 +162,59 @@ export default function Contact() {
                   whileHover={{ y: -3, scale: 1.015 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.2 }}
-                  className={`group flex items-center gap-4 p-4 transition-colors duration-200 hover:border-cyan-500/50 hover:shadow-md ${cardClassName}`}
+                  className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 transition-colors duration-200 hover:border-cyan-500/50 hover:shadow-md ${cardClassName}`}
                 >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-400/10 dark:text-blue-400">
-                    <Icon className="h-5 w-5" />
+                  <span className="grid h-8 w-8 sm:h-10 sm:w-10 shrink-0 place-items-center rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-400/10 dark:text-blue-400">
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    <span className="block text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">
                       {row.label}
                     </span>
-                    <span className="block truncate text-xs text-slate-500 dark:text-slate-400">
+                    <span className="block truncate text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
                       {row.value}
                     </span>
                   </span>
 
-                  {/* Copy button feature for email row */}
                   {isEmail ? (
                     <button
                       type="button"
                       onClick={handleCopyEmail}
                       title="Copy email address"
-                      className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                      className="rounded-lg p-1.5 sm:p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                     >
                       {copied ? (
-                        <Check className="h-4 w-4 text-emerald-500" />
+                        <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-500" />
                       ) : (
-                        <Copy className="h-4 w-4" />
+                        <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       )}
                     </button>
                   ) : (
-                    <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-600 dark:group-hover:text-cyan-300" />
+                    <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-slate-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-600 dark:group-hover:text-cyan-300" />
                   )}
                 </motion.a>
               )
             })}
           </div>
 
-          {/* Quick status badges - flex-1 + h-full on each card absorbs the
-              extra stretched height as taller cards (content re-centers via
-              items-center) instead of leaving a gap above this row.
-              lg-only, same reason as the column wrapper above. */}
-          <div className="grid gap-3 sm:grid-cols-2 lg:flex-1">
+          {/* Quick status badges */}
+          <div className="grid gap-2.5 sm:gap-3 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:flex-1">
             <motion.div
               whileHover={{ y: -3 }}
               transition={{ duration: 0.2 }}
-              className={`flex items-center gap-3 p-4 lg:h-full ${cardClassName}`}
+              className={`flex items-center gap-3 p-3 sm:p-4 lg:h-full ${cardClassName}`}
             >
               <motion.span
                 whileHover={{ rotate: -10, scale: 1.1 }}
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400"
+                className="grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400"
               >
-                <Clock className="h-4 w-4" />
+                <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </motion.span>
               <div>
                 <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
                   Quick response
                 </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">
                   Replies within 24 hrs
                 </p>
               </div>
@@ -245,7 +223,7 @@ export default function Contact() {
             <motion.div
               whileHover={{ y: -3 }}
               transition={{ duration: 0.2 }}
-              className={`flex items-center gap-3 p-4 lg:h-full ${cardClassName}`}
+              className={`flex items-center gap-3 p-3 sm:p-4 lg:h-full ${cardClassName}`}
             >
               <span className="relative flex h-3 w-3 shrink-0 items-center justify-center">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -255,7 +233,7 @@ export default function Contact() {
                 <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
                   Available for work
                 </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">
                   Freelance & full-time
                 </p>
               </div>
@@ -263,30 +241,26 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        {/* Right Column: Contact Form. h-full + lg:items-stretch on the
-            parent grid makes this match the left column's height (heading
-            through the Quick response/Available cards) instead of just
-            hugging its own content - lg-only, same reason as the left
-            column. */}
-        <motion.div variants={item} className={`flex flex-col p-6 sm:p-8 lg:h-full ${cardClassName}`}>
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:bg-cyan-400/10 dark:text-cyan-400">
-              <Send className="h-5 w-5" />
+        {/* Right Column: Form */}
+        <motion.div variants={item} className={`flex flex-col p-4 sm:p-8 lg:h-full ${cardClassName}`}>
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="grid h-8 w-8 sm:h-10 sm:w-10 shrink-0 place-items-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:bg-cyan-400/10 dark:text-cyan-400">
+              <Send className="h-4 w-4 sm:h-5 sm:w-5" />
             </span>
             <div>
-              <h4 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+              <h4 className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100">
                 Send a message
               </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
                 Fill out the form and I&apos;ll get back to you soon.
               </p>
             </div>
           </div>
 
-          <form ref={formRef} onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4 lg:flex-1">
-            <div className="grid gap-4 sm:grid-cols-2">
+          <form ref={formRef} onSubmit={handleSubmit} className="mt-4 sm:mt-6 flex flex-col gap-3 sm:gap-4 lg:flex-1">
+            <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
+                <label htmlFor="name" className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                   Your name
                 </label>
                 <input
@@ -299,7 +273,7 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
+                <label htmlFor="email" className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                   Your email
                 </label>
                 <input
@@ -314,7 +288,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <label htmlFor="subject" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
+              <label htmlFor="subject" className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                 Subject
               </label>
               <input
@@ -327,54 +301,54 @@ export default function Contact() {
             </div>
 
             <div className="flex flex-col lg:flex-1">
-              <label htmlFor="message" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
+              <label htmlFor="message" className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
                 Message
               </label>
               <textarea
                 id="message"
                 name="message"
                 required
-                rows={4}
+                rows={3}
                 placeholder="Tell me about your project or idea..."
                 className={`${inputClassName} resize-none lg:flex-1`}
               />
             </div>
 
-            {/* Action Buttons & Status Notifications */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Action Buttons */}
+            <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
               <motion.button
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={status === 'sending'}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-cyan-500 dark:text-slate-950 dark:hover:bg-cyan-400 dark:focus:ring-offset-slate-900"
+                className="flex-1 xs:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-cyan-500 dark:text-slate-950 dark:hover:bg-cyan-400 dark:focus:ring-offset-slate-900"
               >
                 {status === 'sending' ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin" />
                     Sending...
                   </>
                 ) : (
                   <>
                     Send message
-                    <Send className="h-3.5 w-3.5" />
+                    <Send className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                   </>
                 )}
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98, rotate: -8 }}
+                whileTap={{ scale: 0.98 }}
                 type="button"
                 onClick={handleClear}
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200/80 px-4 py-3 text-sm font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
+                className="flex-1 xs:flex-none inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200/80 px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
               >
-                <RotateCcw className="h-3.5 w-3.5" />
-                Clear
+                <RotateCcw className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                Clear Form
               </motion.button>
             </div>
 
-            {/* Accessible Live Feedback */}
+            {/* Live Feedback */}
             <div aria-live="polite" className="mt-1">
               <AnimatePresence mode="wait">
                 {status === 'sent' && (
@@ -382,9 +356,9 @@ export default function Contact() {
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 rounded-xl bg-emerald-500/10 p-3 text-xs font-medium text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
+                    className="flex items-center gap-2 rounded-xl bg-emerald-500/10 p-2.5 sm:p-3 text-[11px] sm:text-xs font-medium text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
                   >
-                    <Check className="h-4 w-4 shrink-0" />
+                    <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                     <span>Message sent successfully! I will reply shortly.</span>
                   </motion.div>
                 )}
@@ -394,17 +368,17 @@ export default function Contact() {
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 rounded-xl bg-rose-500/10 p-3 text-xs font-medium text-rose-600 dark:bg-rose-500/20 dark:text-rose-400"
+                    className="flex items-center gap-2 rounded-xl bg-rose-500/10 p-2.5 sm:p-3 text-[11px] sm:text-xs font-medium text-rose-600 dark:bg-rose-500/20 dark:text-rose-400"
                   >
-                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                     <span>Failed to send. Please try again or email directly.</span>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-              <Lock className="h-3 w-3" />
+            <p className="mt-0.5 flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-400 dark:text-slate-500">
+              <Lock className="h-3 w-3 shrink-0" />
               Your information is secure and only used to respond.
             </p>
           </form>

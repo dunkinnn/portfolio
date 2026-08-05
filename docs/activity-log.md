@@ -1,6 +1,251 @@
 
 # Activity log
 
+## 2026-08-05 — Hero's card shrunk back down; section height fixed again
+
+**Changed** `src/components/ProjectCard.tsx`, `src/sections/Hero.tsx`
+
+- The redesigned `ProjectCard` (taller `aspect-[16/10]` image, icon badge,
+  tags row, CTA row) made Hero's card noticeably taller than before, which
+  grew the section past the viewport and pushed/overlapped the next
+  section - same failure mode fixed earlier this project under a different
+  cause. Added a `compact` prop to `ProjectCard` (shorter `aspect-[2/1]`
+  image, `p-4` instead of `p-5`, icon badge hidden, smaller title, tighter
+  spacing) and passed it from Hero's usage only - the Projects grid keeps
+  the full-size card.
+- Also reapplied the section-height fix from earlier in the project:
+  `min-h-dvh` -> `min-h-[88dvh]` and the layout wrapper's `pt-16` -> `pt-10`,
+  so there's headroom before the card's height can push the section past
+  the fold again.
+
+## 2026-08-05 — ProjectCard redesigned with more visual polish
+
+**Changed** `src/components/ProjectCard.tsx`
+
+- The plain version (basic border, flat tag pills) read as an unstyled
+  data dump per user feedback. Rebuilt it with the interactive/visual
+  language already used elsewhere on the site: cursor-tracked spotlight +
+  tilt-on-hover (same pattern as Hero used to have), an always-on ambient
+  corner glow that brightens on hover, a gradient icon badge (sky-to-indigo,
+  title initials) next to the eyebrow, and a real "View project" CTA row
+  with an animated arrow pinned to the bottom via `mt-auto`.
+- Tag pills are now color-coded by meaning instead of all looking the same:
+  "Ongoing" -> amber, "UI/UX Design" -> violet, everything else (tech
+  stack) -> neutral slate. Matching is by substring/exact match in a small
+  `tagStyle()` helper, so any future tag automatically gets the right color
+  without touching the render logic.
+- Image area bumped to `aspect-[16/10]` with a hover zoom on real images;
+  the placeholder (no `imageUrl` yet) keeps the shimmer-sweep animation.
+
+## 2026-08-05 — "Ongoing" now visible; UI/UX role added for two projects
+
+**Changed** `src/sections/Projects.tsx`
+
+- The `status: 'Ongoing'` field on each project was never actually rendered
+  - the current `ProjectCard` component has no status prop, it only shows
+  the `tags` list. Folded `'Ongoing'` into `tags` (first entry) for all
+  three projects so it's visible again, same fix already applied to Hero's
+  card earlier this session.
+- Added a `'UI/UX Design'` tag to LandKoTo and Smart Plate (not the corn
+  project) - the user is also the UI/UX designer on those two, on top of
+  full-stack developer.
+
+## 2026-08-05 — Projects grid back to plain equal-sized cards
+
+**Changed** `src/sections/Projects.tsx`
+
+- Dropped the bento sizing (`span` field, `lg:col-span-2`/`lg:row-span-*`,
+  `lg:auto-rows-*`) again - back to a plain `grid-cols-1 sm:grid-cols-2
+  lg:grid-cols-3` with all three project cards the same size.
+
+## 2026-08-05 — ProjectCard rebuilt to the user-provided component
+
+**Changed** `src/components/ProjectCard.tsx`, `src/sections/Hero.tsx`
+
+- Replaced the tilt/spotlight `ProjectCard` from earlier this session with
+  the simpler component the user wrote directly: plain `<a>` (no framer
+  motion), eyebrow/title/description on top, a real `<img>` preview area,
+  tags at the bottom. Only deviation from what was pasted: `imageUrl` is
+  optional and falls back to the existing placeholder box, so cards without
+  a real screenshot yet (Hero's card) don't render a broken `<img>`.
+- Updated Hero.tsx's call site to match the new prop set (no more `status`/
+  `ctaLabel` props - folded "Ongoing" into the `tags` array instead, since
+  this design doesn't have a separate status pill).
+- Projects.tsx was already updated (by the user, outside this session) to
+  call the new component with `imageUrl` paths like
+  `/images/corn-app-mockup.png` - those files don't exist in `public/` yet,
+  so those three cards will show broken images until real screenshots are
+  added there.
+
+## 2026-08-05 — Projects grid back to a bento layout, using ProjectCard
+
+**Changed** `src/components/ProjectCard.tsx`, `src/sections/Projects.tsx`
+
+- Brought the bento sizing back (corn project as a `lg:col-span-2
+  lg:row-span-2` featured tile, the other two as normal 1x1 cells) on top
+  of the shared `ProjectCard` from last turn, instead of the plain 3-equal
+  grid.
+- `ProjectCard` now takes an optional `className` prop for bento sizing and
+  fills its grid cell (`flex h-full flex-col`); its content area is
+  `flex-1 flex-col` with the tags/CTA row pinned to the bottom via
+  `mt-auto` so extra height in a taller cell (like the 2x2 featured tile)
+  turns into breathing room above the CTA instead of a cropped or
+  awkwardly stretched image.
+- Re-added `lg:auto-rows-[25rem]` to the grid so `row-span-2` has a fixed
+  unit to actually span two of.
+
+## 2026-08-05 — Projects grid now reuses Hero's featured card UI
+
+**Added** `src/components/ProjectCard.tsx`
+**Changed** `src/sections/Hero.tsx`, `src/sections/Projects.tsx`
+
+- Extracted Hero's featured project card (tilt-on-hover, cursor spotlight,
+  full-bleed `aspect-[2/1]` preview with shimmer sweep, eyebrow + status
+  pill, title, description, tags + "View project" CTA all in one card) into
+  a shared `ProjectCard` component. The tilt/spotlight motion values had to
+  move with it - hooks can't be reused across multiple mapped elements from
+  a single parent, they need their own component instance per card.
+- Hero.tsx now renders `<ProjectCard>` instead of ~70 lines of inline JSX;
+  removed the now-unused tilt/spotlight state and handlers from `Hero()`.
+- Projects.tsx dropped its old bento-grid card design (avatar initial,
+  separate badge/stack rows, fixed `lg:auto-rows-*` height, 2x2 featured
+  span) in favor of three `ProjectCard`s in a plain 3-column grid, each
+  with an `eyebrow` category label ("Mobile app"/"Web app") and "Ongoing"
+  status pill instead of the old "Featured" pill - the corn project is no
+  longer visually distinguished from the other two in this grid (it's
+  still marked as Hero's featured pick separately).
+- LandKoTo and Smart Plate still have no dedicated project page, so their
+  `href` is `#` for now, same placeholder as before.
+
+## 2026-08-05 — Projects grid preview image resized for better UX
+
+**Changed** `src/sections/Projects.tsx`
+
+- The preview slot added last turn was a small `h-28` box that read as an
+  afterthought rather than a real image area. Switched it to match Hero's
+  card treatment: `aspect-[16/9]`, full-bleed edge-to-edge via `-mx-6`
+  (breaking the card's horizontal padding), plus the same hover-zoom and
+  shimmer-sweep effects Hero's preview slot has. Bumped the grid's fixed
+  card height (`lg:auto-rows-*`) from 25rem to 33rem to fit the larger
+  image without crowding the rest of the card.
+
+## 2026-08-05 — Preview image added to Projects grid cards
+
+**Changed** `src/sections/Projects.tsx`
+
+- Added a placeholder preview slot (same pattern as Hero's featured card -
+  radial-gradient background, "project screenshot" label, swap for a real
+  `<img>` later) between the description and the stack-tags row, so each
+  card now reads title -> description -> image -> stack -> "View project",
+  matching the order used on Hero's card.
+- Bumped the grid's fixed card height (`lg:auto-rows-*`) from 19rem to
+  25rem to fit the added image without crowding the other rows.
+
+## 2026-08-05 — Stack tags split out into their own row above the CTA
+
+**Changed** `src/sections/Projects.tsx`
+
+- The top pill row mixed status badges (Featured/Ongoing) with tech stack
+  tags (PHP, Flutter, etc), all styled the same way. Split them: `badges`
+  now holds only status pills (top row, unchanged), and a new `stack` field
+  renders as its own row of mono-font tags directly above the "View
+  project"/links row at the bottom, matching the tag style already used on
+  Hero's featured card.
+- Bumped the grid's fixed card height (`lg:auto-rows-*`) from 17rem to
+  19rem to fit the extra row without crowding the line-clamped title/
+  description.
+
+## 2026-08-05 — Corn project link relabeled "View project"
+
+**Changed** `src/sections/Hero.tsx`, `src/sections/Projects.tsx`
+
+- The corn detector's link/CTA said "Case study" / "View case study",
+  implying Angelou authored a research case study. She clarified her role
+  was building the mobile app and integrating the trained model, not
+  writing up the research - so the label overstated it. Relabeled to
+  "View project" in both Hero's featured card and the Projects grid entry.
+  `#/project` page text was already scoped correctly ("My role is building
+  the Flutter mobile app and integrating both trained models...") - no
+  change needed there.
+
+## 2026-08-05 — Projects cards resized to fit the new content
+
+**Changed** `src/sections/Projects.tsx`
+
+- LandKoTo/Smart Plate's longer titles, descriptions, and 4-badge rows
+  risked overflowing the grid's fixed `lg:auto-rows-[14rem]` card height
+  (the article has `overflow-hidden`, so overflow would silently clip
+  content instead of growing). Bumped the row height to `17rem` and added
+  `lg:line-clamp-2` on the title / `lg:line-clamp-3` on the description as a
+  hard cap, so any future project card degrades gracefully instead of
+  clipping mid-word. Clamping is `lg:`-scoped only - below that breakpoint
+  cards use natural auto height, where there's no overflow risk to begin
+  with. Title/icon row switched from `items-center` to `items-start` so a
+  wrapped 2-line title aligns with the icon instead of drifting off-center.
+
+## 2026-08-05 — Two more real projects added to Projects grid
+
+**Changed** `src/sections/Projects.tsx`
+
+- Replaced the remaining two placeholders ("Project Two"/"Project Three")
+  with real projects, both marked "Ongoing" (full-stack developer role,
+  confirmed with user):
+  - LandKoTo: web-based land record management system for LGU San Pablo
+    (PHP, MySQL, Bootstrap) - centralizes property records, document
+    storage, form generation, and property mapping in place of the
+    Assessor's Office's manual Excel/paper workflow.
+  - Smart Plate: AI-powered meal planning mobile app (Flutter, Dart) -
+    generates personalized meal plans, automated grocery lists, and
+    real-time nutritional insights.
+- Neither has a live site or dedicated case-study page yet, so `links` is
+  empty for both (unlike the corn project's "Case study" link to `#/project`).
+
+## 2026-08-05 — Corn project marked "Ongoing" and added to Projects grid
+
+**Changed** `src/sections/Hero.tsx`, `src/pages/ProjectPage.tsx`, `src/sections/Projects.tsx`
+
+- Added an amber "Ongoing" status pill next to the "Featured work" eyebrow on
+  both the Hero card and the `#/project` page (matches the existing pill
+  style used elsewhere, e.g. About's "Available for projects" badge).
+- Projects.tsx: replaced the first placeholder ("Project One") with the real
+  corn nutrient deficiency detector entry (Featured + Ongoing badges, Flutter
+  and TensorFlow Lite tags, "Case study" link to `#/project`). Extended the
+  badge-styling logic to special-case "Ongoing" with amber styling, same
+  pattern as the existing "Featured" case. Project Two/Three remain
+  placeholders.
+
+## 2026-08-05 — Featured project is now the corn nutrient deficiency app
+
+**Changed** `src/sections/Hero.tsx`, `src/pages/ProjectPage.tsx`
+
+- Replaced the placeholder featured-project content (Hero card + `#/project`
+  page) with the real project: a mobile app for a CS thesis at Isabela State
+  University - Cabagan that detects nitrogen/phosphorus/potassium
+  deficiencies in corn leaves. Pipeline is YOLOv8 (detection) +
+  EfficientNetB0 (classification), exported to TensorFlow Lite for on-device
+  inference in a Flutter app, plus a rule-based fertilizer recommendation
+  screen. Angelou's role: mobile app development and trained-model
+  integration.
+- Hero card tags: Flutter, TensorFlow Lite, YOLOv8. Full page adds Dart and
+  EfficientNetB0, plus a three-paragraph case study (problem, approach, role).
+- Still needs: a real screenshot/preview image once the app UI exists (both
+  files still show the placeholder preview slot).
+
+## 2026-08-05 — Hero's featured project card navigates to its own page
+
+**Added** `src/pages/ProjectPage.tsx`
+**Changed** `src/App.tsx`, `src/sections/Hero.tsx`
+
+- Hero's featured work card linked to `#projects` (scrolled to the Projects
+  section); now links to `#/project`, a standalone page
+  (`src/pages/ProjectPage.tsx`) - same pattern as Skills' `#/skills` and
+  Experience's `#/experience`. Wired into `App.tsx` alongside those routes.
+- The new page reuses the card's existing placeholder content (title,
+  outcome line, tags, preview slot) plus a longer case-study paragraph and
+  a "See all projects" link back to `#projects`. Both the card and page are
+  still placeholders - flagged with a comment to keep them in sync once
+  real project details replace them.
+
 ## 2026-08-05 — About tightened after the Academic Background card
 
 **Changed** `src/sections/About.tsx`

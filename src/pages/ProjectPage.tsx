@@ -1,0 +1,122 @@
+import { motion } from 'framer-motion'
+import { ArrowLeft } from 'lucide-react'
+import { stagger, useRiseVariant } from '../lib/motion'
+
+// Standalone page at #/project, linked from Hero's featured work card.
+// Real project: mobile app for a computer science thesis (Isabela State
+// University, Cabagan) detecting corn leaf nutrient deficiencies.
+export default function ProjectPage() {
+  const item = useRiseVariant()
+
+  return (
+    <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
+      <div className="mx-auto w-full max-w-4xl px-6 py-16 sm:px-8 lg:px-10">
+        <a
+          href="#hero"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          Back to home
+        </a>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="mt-8"
+        >
+          <motion.div variants={item} className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-sky-600 dark:text-sky-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+              Featured work
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              Ongoing
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={item}
+            className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+          >
+            Corn Leaf Nutrient Deficiency Detector
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-400"
+          >
+            A mobile app that lets farmers photograph a corn leaf and get an on-device diagnosis—nitrogen,
+            phosphorus, or potassium deficiency—with matching fertilizer guidance.
+          </motion.p>
+
+          {/* Adjusted height using aspect-[2/1] to match the Hero card aspect ratio */}
+          <motion.div
+            variants={item}
+            className="relative mt-8 aspect-[2/1] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(56,189,248,0.12),transparent_60%)]" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
+                project screenshot
+              </span>
+            </div>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
+            {['Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8', 'EfficientNetB0'].map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-xs text-slate-500 dark:border-slate-800/60 dark:bg-slate-950/60 dark:text-slate-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div variants={item} className="mt-6 space-y-4 text-base leading-relaxed text-slate-600 dark:text-slate-400">
+            <p>
+              Corn is one of the most widely grown crops in the Philippines, and Isabela—where
+              this project is based—produces more of it than any other province. Nitrogen,
+              phosphorus, and potassium deficiencies can cut yield by 30–50%, but the visible
+              symptoms usually do not show up until well after the window for correcting them has
+              passed, leaving farmers to diagnose leaves by eye in the field.
+            </p>
+            <p>
+              This project is the mobile half of a computer science thesis built with a research
+              team at Isabela State University - Cabagan. The thesis trains two models: a YOLOv8
+              detector that localizes the affected region on a leaf, and an EfficientNetB0
+              classifier that identifies which nutrient is deficient. My role is building the
+              Flutter mobile app and integrating both trained models, exported to TensorFlow Lite,
+              so detection and classification run fully on-device without needing internet connectivity.
+            </p>
+            <p>
+              On top of the detection pipeline, the app includes a rule-based recommendation
+              screen: once a deficiency is classified, it surfaces the matching fertilizer type,
+              application rate, and timing guidance, logging the results for later reference.
+            </p>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-8">
+            <a
+              href="#projects"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
+            >
+              See all projects
+              <svg
+                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
