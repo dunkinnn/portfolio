@@ -1,6 +1,17 @@
 
 # Activity log
 
+## 2026-08-05 — About tightened after the Academic Background card
+
+**Changed** `src/sections/About.tsx`
+
+- The Academic Background card added earlier made the section noticeably
+  taller, so tightened spacing throughout to bring it back down: section
+  `paddingClassName` `py-6 md:py-10` to `py-5 md:py-8`; heading-to-grid gap
+  `mt-8` to `mt-6`, column gap `gap-8` to `gap-6`; both bio paragraphs'
+  `mt-5`/`mt-4` to `mt-3`; Academic Background card `mt-6`/`p-5` to
+  `mt-5`/`p-4`; stat tiles' gap `mt-8` to `mt-5` and `p-5` to `p-4`.
+
 ## 2026-08-05 — Removed GoHighLevel
 
 **Changed** `src/data/skills.tsx`

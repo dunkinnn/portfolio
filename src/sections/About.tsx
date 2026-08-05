@@ -57,12 +57,12 @@ export default function About() {
       id="about"
       reveal={false}
       fullBleed
-      paddingClassName="py-6 md:py-10"
+      paddingClassName="py-5 md:py-8"
       className="border-t border-slate-200/80 bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/40"
     >
       <SectionHeading number="01">About</SectionHeading>
 
-      <div className="mt-8 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="mt-6 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-12">
         {/* LEFT: Interactive Portrait Frame */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -129,7 +129,7 @@ export default function About() {
 
             <motion.p
               variants={item}
-              className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
+              className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
             >
               I&apos;m a full-stack developer and UI/UX designer based in the Philippines. I spend
               most of my time in the space between Figma and the browser — turning interface
@@ -139,7 +139,7 @@ export default function About() {
 
             <motion.p
               variants={item}
-              className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
+              className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
             >
               My process starts with the interaction, not the visual polish — how something
               should behave before how it should look. That habit carries into the build: clean
@@ -151,7 +151,7 @@ export default function About() {
           {/* Academic Background */}
           <motion.div
             variants={item}
-            className="mt-6 flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/50"
+            className="mt-5 flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white/70 p-4 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/50"
           >
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sky-500/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-400">
               <GraduationCap className="h-5 w-5" />
@@ -170,12 +170,12 @@ export default function About() {
           {/* Metric Grid Cards */}
           <motion.dl
             variants={item}
-            className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3"
+            className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3"
           >
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/50 dark:hover:border-white/20 dark:hover:bg-slate-900/80"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/70 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/50 dark:hover:border-white/20 dark:hover:bg-slate-900/80"
               >
                 <div className="absolute top-0 right-0 h-16 w-16 -mr-4 -mt-4 rounded-full bg-sky-500/5 blur-xl group-hover:bg-sky-500/10 transition-colors" />
                 <dt className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
