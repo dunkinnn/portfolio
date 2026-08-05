@@ -9,12 +9,6 @@ import {
   PenTool,
   Webhook,
 } from 'lucide-react'
-// Imported rather than referenced as "/gohighlevel.svg" so Vite fingerprints
-// and bundles it; files under src/assets aren't served from the site root.
-// Real logo, not a component - GoHighLevel isn't in the icon set we're
-// using elsewhere, and its mark is multi-color rather than a single glyph
-// that a `color` prop could tint anyway.
-import gohighlevelLogo from '../assets/gohighlevel.svg'
 import {
   SiAndroidstudio,
   SiComposer,
@@ -40,15 +34,10 @@ import {
   SiSupabase,
   SiTailwindcss,
   SiVite,
+  SiWebflow,
+  SiWix,
   SiWordpress,
 } from 'react-icons/si'
-
-// GoHighLevel's mark is a real multi-color logo, not a single-color glyph a
-// `color` prop could tint - wrapping the image so it still fits the same
-// `Icon` slot every other entry uses.
-function GoHighLevelIcon({ className }: { className?: string }) {
-  return <img src={gohighlevelLogo} alt="" aria-hidden="true" className={className} />
-}
 
 export interface Tech {
   label: string
@@ -120,8 +109,8 @@ export const skillGroups: { title: string; items: Tech[] }[] = [
     title: 'CMS & Marketing',
     items: [
       { label: 'WordPress', Icon: SiWordpress, color: '#21759B' },
-      // Real logo (src/assets/gohighlevel.svg) - not in any icon set we use.
-      { label: 'GoHighLevel', Icon: GoHighLevelIcon, color: '#0EA5E9' },
+      { label: 'Webflow', Icon: SiWebflow, color: '#146EF5' },
+      { label: 'Wix', Icon: SiWix, color: '#0C6EFC' },
     ],
   },
   {

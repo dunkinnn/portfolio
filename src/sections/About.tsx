@@ -6,6 +6,7 @@ import {
   useReducedMotion,
   useSpring,
 } from 'framer-motion'
+import { GraduationCap } from 'lucide-react'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import profileUrl from '../assets/profile.png'
@@ -16,6 +17,13 @@ const stats = [
   { value: '12+', label: 'Projects Shipped' },
   { value: '2', label: 'Disciplines, One Workflow' },
 ]
+
+const education = {
+  degree: 'BS in Information Technology',
+  major: 'Major in Web and Mobile App Development',
+  school: 'Isabela State University',
+  period: 'August 2022 - July 2026',
+}
 
 export default function About() {
   const reduced = useReducedMotion()
@@ -139,6 +147,25 @@ export default function About() {
               and edge cases show up.
             </motion.p>
           </div>
+
+          {/* Academic Background */}
+          <motion.div
+            variants={item}
+            className="mt-6 flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/50"
+          >
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sky-500/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-400">
+              <GraduationCap className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                {education.degree}
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{education.major}</p>
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                {education.school} &middot; {education.period}
+              </p>
+            </div>
+          </motion.div>
 
           {/* Metric Grid Cards */}
           <motion.dl

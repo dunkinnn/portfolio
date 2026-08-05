@@ -148,8 +148,12 @@ export default function Contact() {
             reads as a gap. Instead the Quick response/Available row below
             is flex-1 and its cards are h-full, so the extra height grows
             those two cards themselves (taller cards, content vertically
-            centered) rather than leaving visible empty space anywhere. */}
-        <motion.div variants={item} className="flex h-full flex-col gap-6">
+            centered) rather than leaving visible empty space anywhere.
+            All of that height-matching is lg-only - below lg the two
+            columns stack, so there's no shared row height to match and
+            forcing h-full there just risks a collapsed/zero-height flex
+            chain on narrow screens. */}
+        <motion.div variants={item} className="flex flex-col gap-6 lg:h-full">
           <div>
             <h3 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
               Let&apos;s work{' '}
@@ -214,12 +218,13 @@ export default function Contact() {
 
           {/* Quick status badges - flex-1 + h-full on each card absorbs the
               extra stretched height as taller cards (content re-centers via
-              items-center) instead of leaving a gap above this row. */}
-          <div className="grid flex-1 gap-3 sm:grid-cols-2">
+              items-center) instead of leaving a gap above this row.
+              lg-only, same reason as the column wrapper above. */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:flex-1">
             <motion.div
               whileHover={{ y: -3 }}
               transition={{ duration: 0.2 }}
-              className={`flex h-full items-center gap-3 p-4 ${cardClassName}`}
+              className={`flex items-center gap-3 p-4 lg:h-full ${cardClassName}`}
             >
               <motion.span
                 whileHover={{ rotate: -10, scale: 1.1 }}
@@ -240,7 +245,7 @@ export default function Contact() {
             <motion.div
               whileHover={{ y: -3 }}
               transition={{ duration: 0.2 }}
-              className={`flex h-full items-center gap-3 p-4 ${cardClassName}`}
+              className={`flex items-center gap-3 p-4 lg:h-full ${cardClassName}`}
             >
               <span className="relative flex h-3 w-3 shrink-0 items-center justify-center">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -261,8 +266,9 @@ export default function Contact() {
         {/* Right Column: Contact Form. h-full + lg:items-stretch on the
             parent grid makes this match the left column's height (heading
             through the Quick response/Available cards) instead of just
-            hugging its own content. */}
-        <motion.div variants={item} className={`flex h-full flex-col p-6 sm:p-8 ${cardClassName}`}>
+            hugging its own content - lg-only, same reason as the left
+            column. */}
+        <motion.div variants={item} className={`flex flex-col p-6 sm:p-8 lg:h-full ${cardClassName}`}>
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:bg-cyan-400/10 dark:text-cyan-400">
               <Send className="h-5 w-5" />
@@ -277,7 +283,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <form ref={formRef} onSubmit={handleSubmit} className="mt-6 flex flex-1 flex-col gap-4">
+          <form ref={formRef} onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4 lg:flex-1">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
@@ -320,7 +326,7 @@ export default function Contact() {
               />
             </div>
 
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-col lg:flex-1">
               <label htmlFor="message" className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
                 Message
               </label>
@@ -330,7 +336,7 @@ export default function Contact() {
                 required
                 rows={4}
                 placeholder="Tell me about your project or idea..."
-                className={`${inputClassName} flex-1 resize-none`}
+                className={`${inputClassName} resize-none lg:flex-1`}
               />
             </div>
 

@@ -1,6 +1,53 @@
 
 # Activity log
 
+## 2026-08-05 — Removed GoHighLevel
+
+**Changed** `src/data/skills.tsx`
+
+- Dropped the GoHighLevel entry from CMS & Marketing, along with its now
+  -unused `GoHighLevelIcon` wrapper component and the `gohighlevelLogo`
+  import (would otherwise be a `noUnusedLocals` error). `src/assets/
+  gohighlevel.svg` itself is left in place, unreferenced - Vite only bundles
+  what's imported, so an unused file in `src/assets` doesn't affect the
+  build.
+
+## 2026-08-05 — Added Webflow and Wix to CMS & Marketing
+
+**Changed** `src/data/skills.tsx`
+
+- Added Webflow and Wix to the CMS & Marketing group. Verified `SiWebflow`
+  and `SiWix` both exist in the installed `react-icons` package (grepped
+  `node_modules/.pnpm/react-icons@5.7.0_react@19.2.8/.../si/index.d.ts`
+  directly - the root `node_modules/react-icons` symlink itself keeps
+  returning an I/O error in this sandbox, same as earlier sessions) before
+  using them, per the standing practice since the earlier `SiCss3` crash.
+
+## 2026-08-05 — Contact: height-matching scoped to lg, safe on mobile
+
+**Changed** `src/sections/Contact.tsx`
+
+- The height-matching classes added for the two-column layout (`h-full` on
+  both column wrappers, `flex-1`/`h-full` on the Quick response/Available
+  cards, `flex-1` on the form and the message field) only make sense once
+  the columns sit side by side at `lg`. Below `lg` the columns stack
+  vertically via the grid's default single-column behavior, so there's no
+  shared row height to match - left unscoped, that height/flex chain had no
+  definite size to resolve against on narrow screens, which is the kind of
+  thing that can silently collapse a flex item to zero height. Rescoped
+  every one of those classes to `lg:` (`lg:h-full`, `lg:flex-1`), so mobile
+  gets plain natural stacking with no height gymnastics at all.
+
+## 2026-08-05 — Added academic background to About
+
+**Changed** `src/sections/About.tsx`
+
+- Added an "Academic Background" card (graduation cap icon, degree, major,
+  school, dates) between the bio paragraphs and the stat tiles: BS in
+  Information Technology, major in Web and Mobile App Development, Isabela
+  State University, August 2022 - July 2026. Styled to match the existing
+  stat-tile card treatment (rounded-2xl border, backdrop blur).
+
 ## 2026-08-05 — Contact: extra height grows the badge cards, not a gap
 
 **Changed** `src/sections/Contact.tsx`
