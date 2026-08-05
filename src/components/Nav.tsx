@@ -8,8 +8,8 @@ import ThemeToggle from './ThemeToggle'
 
 const links = [
   { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Tools & Workflow' },
   { href: '#projects', label: 'Projects' },
+  { href: '#skills', label: 'Skills' },
   { href: '#experience', label: 'Experience' },
 ]
 
@@ -60,88 +60,92 @@ export default function Nav() {
   }, [open])
 
   return (
-    // Fixed rather than sticky, so the nav floats over the hero instead of
-    // reserving a band of page background above it.
-    <div className="fixed inset-x-0 top-4 z-50 mx-auto w-full max-w-7xl px-4">
+    // Fixed and flush to the viewport edge - a full-width bar rather than a
+    // floating pill, so it reads as a classic sticky nav.
+    <div className="fixed inset-x-0 top-0 z-50 w-full">
       <header
-        className={`flex items-center justify-between rounded-2xl border px-6 transition-[padding,background-color,border-color,box-shadow] duration-300 ease-out motion-reduce:transition-none ${
+        className={`w-full border-b transition-[background-color,border-color,box-shadow] duration-300 ease-out motion-reduce:transition-none ${
           scrolled
-            ? 'border-slate-200 bg-white/90 py-3.5 shadow-xl backdrop-blur-xl dark:border-slate-800 dark:bg-[#0F172A]/95 dark:shadow-2xl dark:shadow-black/40'
-            : 'border-slate-200/80 bg-white/70 py-3.5 shadow-lg shadow-slate-900/5 backdrop-blur-md dark:border-slate-800/80 dark:bg-[#0F172A]/70 dark:shadow-black/20'
+            ? 'border-slate-200 bg-white/90 shadow-md shadow-slate-900/5 backdrop-blur-xl dark:border-slate-800 dark:bg-[#0F172A]/95 dark:shadow-2xl dark:shadow-black/40'
+            : 'border-slate-200/60 bg-white/70 shadow-sm shadow-slate-900/5 backdrop-blur-md dark:border-slate-800/60 dark:bg-[#0F172A]/70 dark:shadow-black/10'
         }`}
       >
-        {/* Brand mark */}
-        <a href="#hero" className="group flex items-center" aria-label="Home">
-          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white transition duration-300 group-hover:border-[#2340FF]/60 group-hover:shadow-[0_0_12px_rgba(35,64,255,0.3)] dark:border-slate-800 dark:bg-slate-900/80">
-            <img
-              src={logoUrl}
-              alt="Home"
-              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-        </a>
-
-        {/* Navigation Links */}
-        <nav className="hidden items-center gap-10 text-sm font-medium text-slate-500 lg:flex lg:gap-14 dark:text-slate-400">
-          {links.map((link) => {
-            const isActive = activeSection === link.href.slice(1)
-
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? 'true' : undefined}
-                className={`group relative py-1 transition-colors duration-200 hover:text-slate-900 dark:hover:text-white ${
-                  isActive ? 'text-slate-900 dark:text-white' : ''
-                }`}
-              >
-                {link.label}
-                {/* Underline wipes in on hover/focus, and stays put for the active section */}
-                <span
-                  aria-hidden="true"
-                  className={`absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-[#2340FF] to-cyan-400 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none ${
-                    isActive ? 'scale-x-100' : 'scale-x-0'
-                  }`}
-                />
-              </a>
-            )
-          })}
-        </nav>
-
-        {/* Theme switch, CTA and the small-screen menu button */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <ThemeToggle />
-
-          <a
-            href="#contact"
-            className="hidden rounded-full bg-[#2340FF] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#2340FF]/25 transition duration-300 hover:bg-[#1f37e0] hover:shadow-[#2340FF]/40 hover:scale-[1.02] active:scale-[0.98] sm:block"
-          >
-            Contact
+        {/* Content stays inside the same column the rest of the page uses,
+            even though the bar's background now spans edge to edge. */}
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3.5 sm:px-8 lg:px-10">
+          {/* Brand mark */}
+          <a href="#hero" className="group flex items-center" aria-label="Home">
+            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white transition duration-300 group-hover:border-[#2340FF]/60 group-hover:shadow-[0_0_12px_rgba(35,64,255,0.3)] dark:border-slate-800 dark:bg-slate-900/80">
+              <img
+                src={logoUrl}
+                alt="Home"
+                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
           </a>
 
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 bg-white text-slate-600 transition duration-300 hover:border-slate-300 hover:text-slate-900 lg:hidden dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
-          >
-            {/* Two bars that cross into an X; explicit transforms so the
-                open and closed states cannot fight over --tw-translate-y. */}
-            <span aria-hidden="true" className="relative block h-4 w-4">
-              <span
-                className={`absolute inset-x-0 top-1/2 h-px bg-current transition-transform duration-300 ease-out motion-reduce:transition-none ${
-                  open ? '[transform:rotate(45deg)]' : '[transform:translateY(-4px)]'
-                }`}
-              />
-              <span
-                className={`absolute inset-x-0 top-1/2 h-px bg-current transition-transform duration-300 ease-out motion-reduce:transition-none ${
-                  open ? '[transform:rotate(-45deg)]' : '[transform:translateY(4px)]'
-                }`}
-              />
-            </span>
-          </button>
+          {/* Navigation Links */}
+          <nav className="hidden items-center gap-10 text-sm font-medium text-slate-500 lg:flex lg:gap-14 dark:text-slate-400">
+            {links.map((link) => {
+              const isActive = activeSection === link.href.slice(1)
+
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`group relative py-1 transition-colors duration-200 hover:text-slate-900 dark:hover:text-white ${
+                    isActive ? 'text-slate-900 dark:text-white' : ''
+                  }`}
+                >
+                  {link.label}
+                  {/* Underline wipes in on hover/focus, and stays put for the active section */}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-[#2340FF] to-cyan-400 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none ${
+                      isActive ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </a>
+              )
+            })}
+          </nav>
+
+          {/* Theme switch, CTA and the small-screen menu button */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle />
+
+            <a
+              href="#contact"
+              className="hidden rounded-full bg-[#2340FF] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#2340FF]/25 transition duration-300 hover:bg-[#1f37e0] hover:shadow-[#2340FF]/40 hover:scale-[1.02] active:scale-[0.98] sm:block"
+            >
+              Contact
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setOpen((value) => !value)}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 bg-white text-slate-600 transition duration-300 hover:border-slate-300 hover:text-slate-900 lg:hidden dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
+            >
+              {/* Two bars that cross into an X; explicit transforms so the
+                  open and closed states cannot fight over --tw-translate-y. */}
+              <span aria-hidden="true" className="relative block h-4 w-4">
+                <span
+                  className={`absolute inset-x-0 top-1/2 h-px bg-current transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                    open ? '[transform:rotate(45deg)]' : '[transform:translateY(-4px)]'
+                  }`}
+                />
+                <span
+                  className={`absolute inset-x-0 top-1/2 h-px bg-current transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                    open ? '[transform:rotate(-45deg)]' : '[transform:translateY(4px)]'
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 

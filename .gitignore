@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Local env vars (RESEND_API_KEY etc.) - never commit real secrets
+.env
+.env.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

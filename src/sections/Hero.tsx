@@ -8,37 +8,44 @@ import {
 } from 'framer-motion'
 import Section from '../components/Section'
 import { lazy, Suspense } from 'react'
+import { EASE, fade, rise, stagger } from '../lib/motion'
 
 const WebGLHero = lazy(() => import('../components/WebGLHero'))
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-
-// Children reveal one after another rather than as a single block.
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
-}
-
-const rise = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-}
-
-// Reduced motion still fades, it just does not travel.
-const fade = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.3 } },
-}
 
 const socials = [
   {
     label: 'GitHub',
+    // TODO: paste your GitHub profile URL here
     href: 'https://github.com',
-    path: 'M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58l-.01-2.05c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z',
+    icon: (
+      <path
+        fill="currentColor"
+        d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58l-.01-2.05c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"
+      />
+    ),
   },
   {
     label: 'LinkedIn',
-    href: 'https://linkedin.com',
-    path: 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.64h.06c.53-.95 1.83-1.95 3.76-1.95C21.6 8.69 22 11.1 22 14.24V21h-4v-5.99c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21h-4V9z',
+    // TODO: paste your LinkedIn profile URL here (recovered from a stray
+    // target attribute below - double-check it's still correct)
+    href: 'https://www.linkedin.com/in/angelou-bulauan-125401338/',
+    icon: (
+      <path
+        fill="currentColor"
+        d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.64h.06c.53-.95 1.83-1.95 3.76-1.95C21.6 8.69 22 11.1 22 14.24V21h-4v-5.99c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21h-4V9z"
+      />
+    ),
+  },
+  {
+    label: 'Email',
+    // TODO: replace with your real email address
+    href: 'mailto:you@example.com',
+    icon: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" strokeWidth={1.75} />
+        <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
+      </>
+    ),
   },
 ]
 
@@ -114,7 +121,15 @@ export default function Hero() {
             </motion.div>
 
             {/* Main Headline */}
-            <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white">
+            {/* line-height set inline, not via `leading-*` - each responsive
+                text-size utility (sm:text-6xl, lg:text-7xl) bundles its own
+                line-height and wins the cascade over a `leading-*` class at
+                that breakpoint, clipping descenders again. Inline style
+                always wins regardless of breakpoint. */}
+            <h1
+              style={{ lineHeight: 1.30 }}
+              className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white"
+            >
               <motion.span variants={item} className="block">
                 Architecting Ideas.
               </motion.span>
@@ -148,33 +163,32 @@ export default function Hero() {
               >
                 View Works
               </motion.a>
+            </motion.div>
 
-              <span
-                aria-hidden="true"
-                className="hidden h-6 w-px bg-slate-200 sm:block dark:bg-slate-800"
-              />
-
-              <div className="flex items-center gap-1">
-                {socials.map((social) => (
+            {/* Socials - own row below the CTAs. Fill in the real links in the
+                `socials` array above (GitHub, LinkedIn, email). */}
+            <motion.div variants={item} className="mt-3 flex items-center gap-1">
+              {socials.map((social) => {
+                const external = !social.href.startsWith('mailto:')
+                return (
                   <a
                     key={social.label}
                     href={social.href}
-                    target="https://www.linkedin.com/in/angelou-bulauan-125401338/"
-                    rel="noreferrer noopener"
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noreferrer noopener' : undefined}
                     aria-label={social.label}
                     className="grid h-10 w-10 place-items-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white"
                   >
                     <svg
                       aria-hidden="true"
                       viewBox="0 0 24 24"
-                      fill="currentColor"
                       className="h-[18px] w-[18px]"
                     >
-                      <path d={social.path} />
+                      {social.icon}
                     </svg>
                   </a>
-                ))}
-              </div>
+                )
+              })}
             </motion.div>
           </motion.div>
 
@@ -257,19 +271,32 @@ export default function Hero() {
       </div>
 
       {/* Scroll cue - absolute so it pins to the fold rather than adding height */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to about"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.1 }}
-        className="group absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-slate-400 transition-colors hover:text-slate-900 md:flex dark:text-slate-600 dark:hover:text-white"
-      >
-        <span className="text-[10px] font-medium uppercase tracking-[0.2em]">Scroll</span>
-        <span className="relative h-8 w-px overflow-hidden bg-slate-200 dark:bg-slate-800">
-          <span className="absolute inset-x-0 top-0 h-3 animate-scroll-cue bg-gradient-to-b from-sky-500 to-transparent motion-reduce:animate-none dark:from-sky-400" />
-        </span>
-      </motion.a>
+        <motion.a
+          href="#about"
+          aria-label="Scroll to about section"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          className="group absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex"
+        >
+          <span className="text-[10px] font-mono tracking-[0.25em] text-slate-400 group-hover:text-slate-900 dark:text-slate-500 dark:group-hover:text-slate-200 transition-colors">
+            01 // SCROLL
+          </span>
+
+          <div className="relative flex h-10 w-6 items-center justify-center rounded-full border border-slate-200/80 bg-slate-50/50 backdrop-blur-sm group-hover:border-sky-500/50 dark:border-slate-800/80 dark:bg-slate-900/50 dark:group-hover:border-sky-400/50 transition-colors">
+            <div className="relative h-6 w-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+              <motion.span
+                animate={{ y: ["-100%", "100%"] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.6,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-x-0 h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent dark:via-sky-400"
+              />
+            </div>
+          </div>
+        </motion.a>
     </Section>
   )
 }

@@ -134,3 +134,19 @@ body {
 @utility animate-scroll-cue {
   animation: scroll-cue 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
+
+/* Continuous horizontal drift for the Skills ticker rows. The track's
+   content is duplicated exactly once in the component, so translating by
+   -50% loops seamlessly back to an identical copy. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}

@@ -15,6 +15,8 @@ interface SectionProps {
   fullBleed?: boolean
   /** Overrides the inner content column on full-bleed sections. */
   contentClassName?: string
+  /** Overrides the section's top/bottom padding, e.g. 'py-14'. */
+  paddingClassName?: string
 }
 
 // Shared wrapper for consistent section spacing and max width.
@@ -26,14 +28,15 @@ export default function Section({
   direction = 'up',
   fullBleed = false,
   contentClassName = 'mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10',
+  paddingClassName = 'py-20',
 }: SectionProps) {
   const { ref, isVisible } = useScrollReveal<HTMLElement>()
 
   // Full-bleed sections drop the max width so their background reaches the
   // viewport edges; the inner wrapper restores the column for the content.
   const base = fullBleed
-    ? `w-full scroll-mt-28 py-20 ${className}`
-    : `mx-auto w-full max-w-5xl scroll-mt-28 px-6 py-20 ${className}`
+    ? `w-full scroll-mt-28 ${paddingClassName} ${className}`
+    : `mx-auto w-full max-w-5xl scroll-mt-28 px-6 ${paddingClassName} ${className}`
 
   // Deliberately not `relative`, so absolutely positioned children still
   // resolve against the outer section and can cover the full bleed area.

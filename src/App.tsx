@@ -6,8 +6,24 @@ import Skills from './sections/Skills'
 import Experience from './sections/Experience'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
+import SkillsPage from './pages/SkillsPage'
+import ExperiencePage from './pages/ExperiencePage'
+import { useHashRoute } from './lib/useHashRoute'
 
 function App() {
+  const hash = useHashRoute()
+
+  // The two full pages this site has, reached via Skills' "View all" and
+  // Experience's "View details" links. Anything else (including plain
+  // section anchors like #about) falls through to the normal single-page
+  // layout.
+  if (hash === '#/skills') {
+    return <SkillsPage />
+  }
+  if (hash === '#/experience') {
+    return <ExperiencePage />
+  }
+
   return (
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
       <Nav />
