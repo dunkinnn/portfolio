@@ -174,8 +174,8 @@ export default function Nav() {
               className="fixed inset-y-0 right-0 z-50 flex w-[82vw] max-w-xs flex-col border-l border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 lg:hidden dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-black/40"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                  Menu
+                <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/80">
+                  <img src={logoUrl} alt="Logo" className="h-full w-full object-contain" />
                 </span>
                 <button
                   type="button"
