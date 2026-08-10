@@ -100,6 +100,7 @@ export default function Contact() {
           email: data.get('email'),
           subject: data.get('subject'),
           message: data.get('message'),
+          company: data.get('company'),
         }),
       })
       if (!res.ok) throw new Error('Request failed')
@@ -258,6 +259,15 @@ export default function Contact() {
           </div>
 
           <form ref={formRef} onSubmit={handleSubmit} className="mt-4 sm:mt-6 flex flex-col gap-3 sm:gap-4 lg:flex-1">
+            {/* Honeypot - hidden from humans, bots fill it and get silently dropped. */}
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
             <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-400">
