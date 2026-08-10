@@ -1,0 +1,23 @@
+Copyright (c) 2026 Angelou Bulauan. All rights reserved.
+
+This repository and its contents, including but not limited to the source
+code, design, layout, text, graphics, and assets, are the proprietary work
+of Angelou Bulauan.
+
+No permission is granted to copy, modify, merge, publish, distribute,
+sublicense, sell, or create derivative works from any part of this
+repository, in whole or in part, without prior written permission from the
+copyright holder.
+
+Viewing this repository, or the compiled output served from it, does not
+grant any license to reuse its contents.
+
+Third-party dependencies listed in package.json remain subject to their own
+licenses.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
