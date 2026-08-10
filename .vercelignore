@@ -1,0 +1,9 @@
+# Files that never need to reach the deployment.
+.env
+.env.*
+!.env.example
+docs
+scripts
+.vscode
+README.md
+portfolio-build-plan.md

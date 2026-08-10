@@ -63,7 +63,8 @@ export default function Footer() {
         reveal={false}
         fullBleed
         contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10"
-        className="py-8 text-slate-900 dark:text-slate-100"
+        paddingClassName="py-6"
+        className="text-slate-900 dark:text-slate-100"
       >
         <motion.div
           variants={item}
