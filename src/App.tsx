@@ -9,23 +9,29 @@ import Footer from './sections/Footer'
 import SkillsPage from './pages/SkillsPage'
 import ExperiencePage from './pages/ExperiencePage'
 import ProjectPage from './pages/ProjectPage'
-import { useHashRoute } from './lib/useHashRoute'
+import AllProjectsPage from './pages/AllProjectsPage'
+import { useRoute } from './lib/useRoute'
 
 function App() {
-  const hash = useHashRoute()
+  const path = useRoute()
 
   // The full pages this site has, reached via Skills' "View all",
-  // Experience's "View details", and Hero's featured project card.
-  // Anything else (including plain section anchors like #about) falls
-  // through to the normal single-page layout.
-  if (hash === '#/skills') {
+  // Experience's "View details", Hero's featured project card, and the
+  // Projects section's cards / "All projects" link. Anything else
+  // (including plain section anchors like #about) falls through to the
+  // normal single-page layout. vercel.json rewrites any unmatched path to
+  // index.html so these resolve on a direct visit or refresh too.
+  if (path === '/skills') {
     return <SkillsPage />
   }
-  if (hash === '#/experience') {
+  if (path === '/experience') {
     return <ExperiencePage />
   }
-  if (hash === '#/project') {
+  if (path === '/project') {
     return <ProjectPage />
+  }
+  if (path === '/projects') {
+    return <AllProjectsPage />
   }
 
   return (

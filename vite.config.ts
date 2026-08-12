@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv, type Plugin, type ViteDevServer } from 'vite'
+import { defineConfig, loadEnv, type Plugin, type PluginOption, type ViteDevServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import JavaScriptObfuscator from 'javascript-obfuscator'
@@ -81,7 +81,10 @@ export default defineConfig(({ mode }) => {
   // Empty prefix loads every var, including non-VITE_ ones like RESEND_API_KEY.
   const env = loadEnv(mode, process.cwd(), '')
 
-  const plugins: Plugin[] = [react(), tailwindcss(), apiRoutes(env)]
+  // react() and tailwindcss() each return an array of plugins, not a single
+  // Plugin, so the array needs Vite's PluginOption type (which allows
+  // nested arrays) rather than Plugin[].
+  const plugins: PluginOption[] = [react(), tailwindcss(), apiRoutes(env)]
   if (env.OBFUSCATE !== 'false') plugins.push(obfuscateBundle())
 
   return { plugins }

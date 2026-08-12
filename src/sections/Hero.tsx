@@ -9,41 +9,14 @@ import {
 import Section from '../components/Section'
 import { lazy, Suspense } from 'react'
 import { EASE, fade, rise, stagger } from '../lib/motion'
+import { projects } from '../data/projects'
 
 const WebGLHero = lazy(() => import('../components/WebGLHero'))
 
-const socials = [
-  {
-    label: 'GitHub',
-    href: 'https://github.com',
-    icon: (
-      <path
-        fill="currentColor"
-        d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58l-.01-2.05c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"
-      />
-    ),
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/angelou-bulauan-125401338/',
-    icon: (
-      <path
-        fill="currentColor"
-        d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.64h.06c.53-.95 1.83-1.95 3.76-1.95C21.6 8.69 22 11.1 22 14.24V21h-4v-5.99c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21h-4V9z"
-      />
-    ),
-  },
-  {
-    label: 'Email',
-    href: 'mailto:you@example.com',
-    icon: (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" strokeWidth={1.75} />
-        <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
-      </>
-    ),
-  },
-]
+// Maisnutri (Corn Leaf Nutrient Deficiency Detector) - the CS thesis mobile
+// app - is the featured work shown here, linking through to its full case
+// study at #/project.
+const featured = projects.find((p) => p.title.includes('Corn Leaf'))!
 
 export default function Hero() {
   const reduced = useReducedMotion()
@@ -153,31 +126,6 @@ export default function Hero() {
                 View Works
               </motion.a>
             </motion.div>
-
-            {/* Social Links */}
-            <motion.div variants={item} className="mt-6 flex items-center gap-1">
-              {socials.map((social) => {
-                const external = !social.href.startsWith('mailto:')
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target={external ? '_blank' : undefined}
-                    rel={external ? 'noreferrer noopener' : undefined}
-                    aria-label={social.label}
-                    className="grid h-10 w-10 place-items-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      className="h-[18px] w-[18px]"
-                    >
-                      {social.icon}
-                    </svg>
-                  </a>
-                )
-              })}
-            </motion.div>
           </motion.div>
 
           {/* RIGHT COLUMN: Redesigned Glassmorphic Featured Work Card (5 Cols) */}
@@ -189,7 +137,7 @@ export default function Hero() {
             style={{ perspective: 1000 }}
           >
             <motion.a
-              href="#projects"
+              href="/project"
               onMouseMove={handleCardMove}
               onMouseLeave={handleCardLeave}
               whileHover={{ y: -6 }}
@@ -218,25 +166,25 @@ export default function Hero() {
                     <svg className="h-2.5 w-2.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                     </svg>
-                    app.yourproject.com
+                    maisnutri.app
                   </div>
                 </div>
 
                 {/* Screenshot / Visual Preview Area */}
                 <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/10 via-indigo-500/5 to-purple-500/10 transition-transform duration-700 ease-out group-hover:scale-105" />
-                  
-                  {/* Shimmer effect while loading/hovering */}
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/[0.04]" />
+                  <img
+                    src={featured.imageUrl}
+                    alt={featured.title}
+                    onError={(e) => {
+                      // Gracefully handle missing local image paths
+                      e.currentTarget.style.display = 'none'
+                    }}
+                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
 
-                  {/* Screenshot Overlay Placeholder */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
-                    <div className="rounded-lg border border-dashed border-slate-300 bg-white/40 px-3.5 py-2 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/40">
-                      <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
-                        ⚡ Drop project preview image
-                      </span>
-                    </div>
-                  </div>
+                  {/* Ambient glow & shimmer */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-sky-500/10 via-indigo-500/5 to-purple-500/10" />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/[0.04]" />
                 </div>
               </div>
 
@@ -251,22 +199,22 @@ export default function Hero() {
 
                   {/* Metric Tag */}
                   <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                    +42% performance
+                    {featured.metric}
                   </span>
                 </div>
 
                 <h2 className="mt-2.5 text-base font-semibold text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300">
-                  Enterprise Analytics Platform
+                  {featured.title}
                 </h2>
 
                 <p className="mt-1 text-xs leading-relaxed text-slate-600 line-clamp-2 dark:text-slate-400">
-                  Engineered a real-time analytics engine processing 2M+ events daily with sub-50ms latency.
+                  {featured.description}
                 </p>
 
                 {/* Tags & Action Link Footer */}
                 <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800/60">
                   <div className="flex flex-wrap gap-1.5">
-                    {['React', 'TypeScript', 'Tailwind'].map((tag) => (
+                    {featured.tags.map((tag) => (
                       <span
                         key={tag}
                         className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-0.5 font-mono text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Section from '../components/Section'
 import { useRiseVariant } from '../lib/motion'
@@ -9,7 +9,7 @@ const visitorIcons = [
   {
     bg: 'bg-indigo-500/10 text-indigo-500 dark:bg-indigo-400/20 dark:text-indigo-300',
     icon: (
-      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
@@ -17,7 +17,7 @@ const visitorIcons = [
   {
     bg: 'bg-sky-500/10 text-sky-500 dark:bg-sky-400/20 dark:text-sky-300',
     icon: (
-      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
@@ -25,7 +25,7 @@ const visitorIcons = [
   {
     bg: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-400/20 dark:text-emerald-300',
     icon: (
-      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
@@ -35,23 +35,28 @@ const visitorIcons = [
 export default function Footer() {
   const item = useRiseVariant()
   const [visitorCount, setVisitorCount] = useState<number | null>(null)
+  const counted = useRef(false)
 
   useEffect(() => {
-    const namespace = window.location.hostname || 'portfolio-dev'
-    const key = 'total-visitors'
+    // StrictMode runs effects twice in dev; count once per real page load.
+    if (counted.current) return
+    counted.current = true
 
-    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (typeof data.value === 'number') {
-          setVisitorCount(data.value)
-        }
-      })
-      .catch(() => {
-        const localHits = parseInt(localStorage.getItem('dev_visitor_count') || '37', 10) + 1
-        localStorage.setItem('dev_visitor_count', localHits.toString())
-        setVisitorCount(localHits)
-      })
+    // Per-browser tally. countapi.xyz shut down, so there is no shared count.
+    // Deliberate one-time sync from localStorage (an external system) on
+    // mount, guarded above against StrictMode's double-invoke - not the
+    // "derived state" case this lint rule is meant to catch, and this
+    // decorative footer badge has no perf sensitivity to the extra render.
+    try {
+      const stored = Number.parseInt(localStorage.getItem('visitor_count') ?? '', 10)
+      const next = Number.isFinite(stored) ? stored + 1 : 1
+      localStorage.setItem('visitor_count', String(next))
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setVisitorCount(next)
+    } catch {
+      // Private browsing can throw on localStorage access.
+      setVisitorCount(null)
+    }
   }, [])
 
   const overflowCount = visitorCount !== null ? Math.max(0, visitorCount - visitorIcons.length) : 34
@@ -63,7 +68,7 @@ export default function Footer() {
         reveal={false}
         fullBleed
         contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10"
-        paddingClassName="py-6"
+        paddingClassName="py-4"
         className="text-slate-900 dark:text-slate-100"
       >
         <motion.div
@@ -71,13 +76,13 @@ export default function Footer() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center justify-between gap-4 md:flex-row"
+          className="flex flex-col items-center justify-between gap-3 md:flex-row"
         >
           {/* Left Side: Logo & Status Badge */}
           <div className="flex items-center gap-3">
             <a
               href="#top"
-              className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl transition-transform hover:scale-105"
+              className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl transition-transform hover:scale-105"
             >
               <img src={logo} alt="Logo" className="h-full w-full object-cover" />
             </a>
@@ -98,13 +103,13 @@ export default function Footer() {
               {visitorIcons.map((avatar, idx) => (
                 <div
                   key={idx}
-                  className={`inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200/80 ring-2 ring-white transition-transform hover:z-10 hover:scale-110 dark:border-slate-800 dark:ring-slate-950 ${avatar.bg}`}
+                  className={`inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200/80 ring-2 ring-white transition-transform hover:z-10 hover:scale-110 dark:border-slate-800 dark:ring-slate-950 ${avatar.bg}`}
                 >
                   {avatar.icon}
                 </div>
               ))}
 
-              <div className="relative z-0 flex h-7 min-w-[2.25rem] items-center justify-center rounded-full border border-slate-800/20 bg-slate-900 px-2 font-mono text-[11px] font-bold text-sky-400 shadow-md ring-2 ring-white dark:border-slate-700/50 dark:bg-slate-900 dark:ring-slate-950">
+              <div className="relative z-0 flex h-6 min-w-[2rem] items-center justify-center rounded-full border border-slate-800/20 bg-slate-900 px-2 font-mono text-[11px] font-bold text-sky-400 shadow-md ring-2 ring-white dark:border-slate-700/50 dark:bg-slate-900 dark:ring-slate-950">
                 +{overflowCount}
               </div>
             </div>

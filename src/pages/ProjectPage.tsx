@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { stagger, useRiseVariant } from '../lib/motion'
+import { projects } from '../data/projects'
 
-// Standalone page at #/project, linked from Hero's featured work card.
+// Standalone page at /project, linked from Hero's featured work card.
 // Real project: mobile app for a computer science thesis (Isabela State
 // University, Cabagan) detecting corn leaf nutrient deficiencies.
+const project = projects.find((p) => p.title.includes('Corn Leaf'))!
+
 export default function ProjectPage() {
   const item = useRiseVariant()
 
@@ -12,7 +15,7 @@ export default function ProjectPage() {
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
       <div className="mx-auto w-full max-w-4xl px-6 py-16 sm:px-8 lg:px-10">
         <a
-          href="#hero"
+          href="/#hero"
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -56,12 +59,16 @@ export default function ProjectPage() {
             variants={item}
             className="relative mt-8 aspect-[2/1] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(56,189,248,0.12),transparent_60%)]" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
-                project screenshot
-              </span>
-            </div>
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              onError={(e) => {
+                // Gracefully handle missing local image paths
+                e.currentTarget.style.display = 'none'
+              }}
+              className="h-full w-full object-cover object-top"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(56,189,248,0.12),transparent_60%)]" />
           </motion.div>
 
           <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
@@ -96,24 +103,6 @@ export default function ProjectPage() {
               screen: once a deficiency is classified, it surfaces the matching fertilizer type,
               application rate, and timing guidance, logging the results for later reference.
             </p>
-          </motion.div>
-
-          <motion.div variants={item} className="mt-8">
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
-            >
-              See all projects
-              <svg
-                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </a>
           </motion.div>
         </motion.div>
       </div>

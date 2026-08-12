@@ -9,54 +9,7 @@ import {
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import { stagger, useRiseVariant, EASE } from '../lib/motion'
-
-export interface Project {
-  href: string
-  eyebrow: string
-  status?: string
-  title: string
-  description: string
-  tags: string[]
-  ctaLabel?: string
-  imageUrl: string
-  metric?: string
-}
-
-const projects: Project[] = [
-  {
-    href: '#/project',
-    eyebrow: 'Mobile app',
-    status: 'Ongoing',
-    title: 'Corn Leaf Nutrient Deficiency Detector',
-    description:
-      'Mobile app for a CS thesis that detects nitrogen, phosphorus, and potassium deficiencies in corn leaves on-device, using YOLOv8 detection and an EfficientNetB0 classifier.',
-    tags: ['Flutter', 'TensorFlow Lite', 'YOLOv8'],
-    imageUrl: '/images/corn-app-mockup.png',
-    metric: 'On-device AI',
-  },
-  {
-    href: '#',
-    eyebrow: 'Web app',
-    status: 'Ongoing',
-    title: 'LandKoTo: Land Record Management System',
-    description:
-      'Web-based land record system replacing manual Excel and paper files with centralized property records and mapping.',
-    tags: ['UI/UX Design', 'PHP', 'MySQL', 'Bootstrap'],
-    imageUrl: '/images/landkoto-preview.png',
-    metric: 'Centralized GIS',
-  },
-  {
-    href: '#',
-    eyebrow: 'Mobile app',
-    status: 'Ongoing',
-    title: 'Smart Plate: AI Meal Planning App',
-    description:
-      'AI-powered mobile app that generates personalized meal plans and real-time nutritional insights.',
-    tags: ['UI/UX Design', 'Flutter', 'Dart'],
-    imageUrl: '/images/smartplate-app.png',
-    metric: 'Real-time AI',
-  },
-]
+import { projects, type Project } from '../data/projects'
 
 export function ProjectCard({
   href,
@@ -65,11 +18,11 @@ export function ProjectCard({
   title,
   description,
   tags,
-  ctaLabel = 'Case Study',
   imageUrl,
   metric,
   className = '',
-}: Project & { className?: string }) {
+  fullDescription = false,
+}: Project & { className?: string; fullDescription?: boolean }) {
   const reduced = useReducedMotion()
 
   // 3D Tilt & Cursor Glow setup
@@ -175,30 +128,23 @@ export function ProjectCard({
           {title}
         </h3>
 
-        <p className="mt-1 text-xs leading-relaxed text-slate-600 line-clamp-2 dark:text-slate-400">
+        <p
+          className={`mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400 ${fullDescription ? '' : 'line-clamp-2'}`}
+        >
           {description}
         </p>
 
-        {/* Footer with Tags and CTA */}
+        {/* Footer with Tags */}
         <div className="mt-auto pt-4">
-          <div className="flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800/60">
-            <div className="flex flex-wrap gap-1.5">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-0.5 font-mono text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-sky-600 transition-transform group-hover:translate-x-0.5 dark:text-sky-400">
-              {ctaLabel}
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </span>
+          <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-3 dark:border-slate-800/60">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-0.5 font-mono text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -223,7 +169,7 @@ export default function Projects() {
         </div>
 
         <a
-          href="#"
+          href="/projects"
           className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-700 transition-colors duration-300 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
         >
           <span>All projects</span>

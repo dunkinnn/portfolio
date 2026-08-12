@@ -24,7 +24,7 @@ export default function Experience() {
         <SectionHeading number="04">Experience</SectionHeading>
 
         <a
-          href="#/experience"
+          href="/experience"
           className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
         >
           <span>View details</span>
