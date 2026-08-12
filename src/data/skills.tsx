@@ -1,12 +1,14 @@
 import type { ComponentType } from 'react'
 import {
+  Bot,
   ChartColumn,
   Clapperboard,
   Code2,
   Database,
   FileSpreadsheet,
   Palette,
-  PenTool,
+  Search,
+  Table,
   Webhook,
 } from 'lucide-react'
 import {
@@ -20,6 +22,7 @@ import {
   SiFramer,
   SiGit,
   SiGithub,
+  SiGooglegemini,
   SiHtml5,
   SiJavascript,
   SiLaravel,
@@ -30,6 +33,8 @@ import {
   SiNpm,
   SiOpenjdk,
   SiPhp,
+  SiPostgresql,
+  SiPython,
   SiReact,
   SiSupabase,
   SiTailwindcss,
@@ -73,8 +78,6 @@ export const skillGroups: { title: string; items: Tech[] }[] = [
       // No Canva app icon available (the icon set only has the unrelated
       // HTML5 <canvas> mark) - generic palette icon tinted Canva's teal.
       { label: 'Canva', Icon: Palette, color: '#00C4CC' },
-      // No Adobe icons available - generic pen-tool icon tinted Adobe red.
-      { label: 'Adobe', Icon: PenTool, color: '#FF0000' },
       { label: 'Alight Motion', Icon: Clapperboard, color: '#7C3AED' },
     ],
   },
@@ -90,11 +93,21 @@ export const skillGroups: { title: string; items: Tech[] }[] = [
       { label: 'C++', Icon: SiCplusplus, color: '#00599C' },
       { label: 'MySQL', Icon: SiMysql, color: '#4479A1' },
       { label: 'MariaDB', Icon: SiMariadb, color: '#003545' },
+      { label: 'PostgreSQL', Icon: SiPostgresql, color: '#4169E1' },
       { label: 'MongoDB', Icon: SiMongodb, color: '#47A248' },
       // No Microsoft SQL Server icon available - generic database icon.
       { label: 'Microsoft SQL Server', Icon: Database, color: '#CC2927' },
       { label: 'Supabase', Icon: SiSupabase, color: '#3ECF8E' },
       { label: 'API Integration', Icon: Webhook, color: '#0EA5E9' },
+    ],
+  },
+  {
+    title: 'AI & Intelligent Systems',
+    items: [
+      { label: 'Gemini AI API', Icon: SiGooglegemini, color: '#8E75B2' },
+      // Simple Icons dropped the OpenAI mark (trademark reasons) - generic
+      // bot icon tinted OpenAI's associated teal-green stands in.
+      { label: 'OpenAI API', Icon: Bot, color: '#10A37F' },
     ],
   },
   {
@@ -111,11 +124,18 @@ export const skillGroups: { title: string; items: Tech[] }[] = [
       { label: 'WordPress', Icon: SiWordpress, color: '#21759B' },
       { label: 'Webflow', Icon: SiWebflow, color: '#146EF5' },
       { label: 'Wix', Icon: SiWix, color: '#0C6EFC' },
+      // No dedicated SEO brand mark - generic search icon tinted green for
+      // the "growth/optimization" association.
+      { label: 'SEO Optimization', Icon: Search, color: '#16A34A' },
     ],
   },
   {
     title: 'Data Analysis',
     items: [
+      { label: 'Python', Icon: SiPython, color: '#3776AB' },
+      // SQL is a language, not a branded product - generic table icon
+      // stands in, distinct from the Database icon used for SQL Server above.
+      { label: 'SQL', Icon: Table, color: '#2563EB' },
       { label: 'Data Visualization', Icon: ChartColumn, color: '#0EA5E9' },
       { label: 'Excel', Icon: FileSpreadsheet, color: '#217346' },
     ],

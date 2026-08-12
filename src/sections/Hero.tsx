@@ -13,9 +13,9 @@ import { projects } from '../data/projects'
 
 const WebGLHero = lazy(() => import('../components/WebGLHero'))
 
-// Maisnutri (Corn Leaf Nutrient Deficiency Detector) - the CS thesis mobile
-// app - is the featured work shown here, linking through to its full case
-// study at #/project.
+// Maisnutri (Corn Leaf Nutrient Deficiency Detector) - the freelance mobile
+// app build - is the featured work shown here, linking through to its full
+// case study at /project.
 const featured = projects.find((p) => p.title.includes('Corn Leaf'))!
 
 export default function Hero() {
@@ -84,7 +84,7 @@ export default function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75 motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-400" />
               </span>
-              Available for full-stack & UI/UX roles
+              Available for Full-Stack & UI/UX roles
             </motion.div>
 
             {/* Main Headline */}

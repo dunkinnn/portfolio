@@ -4,8 +4,8 @@ import { stagger, useRiseVariant } from '../lib/motion'
 import { projects } from '../data/projects'
 
 // Standalone page at /project, linked from Hero's featured work card.
-// Real project: mobile app for a computer science thesis (Isabela State
-// University, Cabagan) detecting corn leaf nutrient deficiencies.
+// Real project: freelance-built mobile app detecting corn leaf nutrient
+// deficiencies, commissioned by a client's research team.
 const project = projects.find((p) => p.title.includes('Corn Leaf'))!
 
 export default function ProjectPage() {
@@ -72,7 +72,7 @@ export default function ProjectPage() {
           </motion.div>
 
           <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
-            {['Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8', 'EfficientNetB0'].map((tag) => (
+            {['Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8', 'EfficientNetB0', 'PostgreSQL'].map((tag) => (
               <span
                 key={tag}
                 className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-xs text-slate-500 dark:border-slate-800/60 dark:bg-slate-950/60 dark:text-slate-400"
@@ -91,12 +91,12 @@ export default function ProjectPage() {
               passed, leaving farmers to diagnose leaves by eye in the field.
             </p>
             <p>
-              This project is the mobile half of a computer science thesis built with a research
-              team at Isabela State University - Cabagan. The thesis trains two models: a YOLOv8
-              detector that localizes the affected region on a leaf, and an EfficientNetB0
-              classifier that identifies which nutrient is deficient. My role is building the
-              Flutter mobile app and integrating both trained models, exported to TensorFlow Lite,
-              so detection and classification run fully on-device without needing internet connectivity.
+              I was brought on as a freelance developer to build the mobile half of this project.
+              The app runs two trained models entirely on-device: a YOLOv8 detector that localizes
+              the affected region on a leaf, and an EfficientNetB0 classifier that identifies which
+              nutrient is deficient. My role covered building the Flutter app and integrating both
+              models, exported to TensorFlow Lite, so detection and classification work without
+              needing internet connectivity.
             </p>
             <p>
               On top of the detection pipeline, the app includes a rule-based recommendation

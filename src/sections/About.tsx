@@ -36,15 +36,15 @@ export default function About() {
   const rotateY = useSpring(tiltY, { stiffness: 220, damping: 22 })
   const glowX = useMotionValue(0)
   const glowY = useMotionValue(0)
-  const glow = useMotionTemplate`radial-gradient(300px circle at ${glowX}px ${glowY}px, rgba(56, 189, 248, 0.18), transparent 80%)`
+  const glow = useMotionTemplate`radial-gradient(240px circle at ${glowX}px ${glowY}px, rgba(56, 189, 248, 0.12), transparent 80%)`
 
   const handlePortraitMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     glowX.set(e.clientX - rect.left)
     glowY.set(e.clientY - rect.top)
     if (reduced) return
-    tiltY.set(((e.clientX - rect.left) / rect.width - 0.5) * 8)
-    tiltX.set(-((e.clientY - rect.top) / rect.height - 0.5) * 8)
+    tiltY.set(((e.clientX - rect.left) / rect.width - 0.5) * 4)
+    tiltX.set(-((e.clientY - rect.top) / rect.height - 0.5) * 4)
   }
 
   const handlePortraitLeave = () => {
@@ -76,13 +76,13 @@ export default function About() {
             onMouseMove={handlePortraitMove}
             onMouseLeave={handlePortraitLeave}
             style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-            className="group relative flex-1 min-h-[380px] w-full overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-100/60 p-2 shadow-xl shadow-slate-200/50 transition-all duration-500 hover:border-slate-300 hover:shadow-2xl dark:border-white/10 dark:from-slate-900/80 dark:to-slate-950/80 dark:shadow-none dark:hover:border-white/20"
+            className="group relative flex-1 min-h-[380px] w-full overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-100/60 p-2 shadow-xl shadow-slate-200/50 transition-all duration-500 hover:shadow-xl hover:shadow-slate-300/20 dark:border-white/10 dark:from-slate-900/80 dark:to-slate-950/80 dark:shadow-none dark:hover:border-white/20"
           >
             {/* Interactive Glow Overlay */}
             <motion.div
               aria-hidden="true"
               style={{ background: glow }}
-              className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-3xl"
+              className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-40 rounded-3xl"
             />
 
             {/* Live Indicator Badge */}
@@ -99,9 +99,9 @@ export default function About() {
               <img
                 src={profileUrl}
                 alt="Angelou Bulauan"
-                className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-transparent opacity-50 transition-opacity group-hover:opacity-25" />
             </div>
           </motion.div>
         </motion.div>
@@ -131,20 +131,18 @@ export default function About() {
               variants={item}
               className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
             >
-              I&apos;m a full-stack developer and UI/UX designer based in the Philippines. I spend
-              most of my time in the space between Figma and the browser — turning interface
-              decisions into working product, and letting what&apos;s technically possible shape
-              the design.
+              I&apos;m a Full-Stack Developer and UI/UX designer based in the Philippines. I
+              design and build digital products, working from Figma to production.
             </motion.p>
 
             <motion.p
               variants={item}
               className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300"
             >
-              My process starts with the interaction, not the visual polish — how something
-              should behave before how it should look. That habit carries into the build: clean
-              component structure, sensible state, and interfaces that hold up once real content
-              and edge cases show up.
+              I focus on how products work—not just how they look. I design around clear
+              interactions, then turn those ideas into clean, maintainable code with solid
+              component structure, sensible state management, SEO optimization, and interfaces
+              built to handle real-world use.
             </motion.p>
           </div>
 

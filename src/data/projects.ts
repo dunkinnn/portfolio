@@ -25,8 +25,8 @@ export const projects: Project[] = [
     status: 'Ongoing',
     title: 'Corn Leaf Nutrient Deficiency Detector',
     description:
-      'Mobile app for a CS thesis that detects nitrogen, phosphorus, and potassium deficiencies in corn leaves on-device, using YOLOv8 detection and an EfficientNetB0 classifier.',
-    tags: ['Flutter', 'TensorFlow Lite', 'YOLOv8'],
+      'Freelance-built mobile app that detects nitrogen, phosphorus, and potassium deficiencies in corn leaves on-device, using YOLOv8 detection and an EfficientNetB0 classifier.',
+    tags: ['Flutter', 'TensorFlow Lite', 'YOLOv8', 'PostgreSQL'],
     imageUrl: maisnutriCover,
     metric: 'On-device AI',
   },
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     title: 'Smart Plate: AI Meal Planning App',
     description:
       'AI-powered mobile app that generates personalized meal plans and real-time nutritional insights.',
-    tags: ['UI/UX Design', 'Flutter', 'Dart'],
+    tags: ['UI/UX Design', 'Flutter', 'Dart', 'PostgreSQL'],
     imageUrl: smartplateCover,
     metric: 'Real-time AI',
   },

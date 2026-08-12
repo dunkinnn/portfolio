@@ -10,6 +10,7 @@ import SkillsPage from './pages/SkillsPage'
 import ExperiencePage from './pages/ExperiencePage'
 import ProjectPage from './pages/ProjectPage'
 import AllProjectsPage from './pages/AllProjectsPage'
+import ScrollToTop from './components/ScrollToTop'
 import { useRoute } from './lib/useRoute'
 
 function App() {
@@ -21,30 +22,37 @@ function App() {
   // (including plain section anchors like #about) falls through to the
   // normal single-page layout. vercel.json rewrites any unmatched path to
   // index.html so these resolve on a direct visit or refresh too.
+  let page
   if (path === '/skills') {
-    return <SkillsPage />
-  }
-  if (path === '/experience') {
-    return <ExperiencePage />
-  }
-  if (path === '/project') {
-    return <ProjectPage />
-  }
-  if (path === '/projects') {
-    return <AllProjectsPage />
+    page = <SkillsPage />
+  } else if (path === '/experience') {
+    page = <ExperiencePage />
+  } else if (path === '/project') {
+    page = <ProjectPage />
+  } else if (path === '/projects') {
+    page = <AllProjectsPage />
+  } else {
+    page = (
+      <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
+        <Nav />
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Contact />
+        <Footer />
+      </div>
+    )
   }
 
+  // Rendered alongside every route, not just the homepage, since the
+  // sub-pages (skills, experience, project, projects) can run long too.
   return (
-    <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
-      <Nav />
-      <Hero />
-      <About />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Contact />
-      <Footer />
-    </div>
+    <>
+      {page}
+      <ScrollToTop />
+    </>
   )
 }
 
