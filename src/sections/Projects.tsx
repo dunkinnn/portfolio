@@ -105,7 +105,7 @@ export function ProjectCard({
             // No screenshot yet - placeholder until a real one is added.
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
-                project screenshot
+                project coming soon
               </span>
             </div>
           )}
