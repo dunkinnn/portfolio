@@ -91,15 +91,24 @@ export function ProjectCard({
 
         {/* Screenshot Image Container */}
         <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
-          <img
-            src={imageUrl}
-            alt={title}
-            onError={(e) => {
-              // Gracefully handle missing local image paths
-              e.currentTarget.style.display = 'none'
-            }}
-            className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-          />
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={title}
+              onError={(e) => {
+                // Gracefully handle missing local image paths
+                e.currentTarget.style.display = 'none'
+              }}
+              className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+          ) : (
+            // No screenshot yet - placeholder until a real one is added.
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
+                project screenshot
+              </span>
+            </div>
+          )}
 
           {/* Ambient Glow & Shimmer */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-sky-500/10 via-indigo-500/5 to-purple-500/10" />
@@ -192,7 +201,8 @@ export default function Projects() {
         viewport={{ once: true, amount: 0.2 }}
         className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {projects.map((project) => (
+        {/* Homepage shows at most 6 cards; the rest live on /projects. */}
+        {projects.slice(0, 6).map((project) => (
           <motion.div key={project.title} variants={item} className="h-full">
             <ProjectCard {...project} className="h-full w-full" />
           </motion.div>

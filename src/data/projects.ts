@@ -1,6 +1,7 @@
 import smartplateCover from '../assets/smartplate-cover.png'
 import landrecordsCover from '../assets/landrecords-cover.png'
 import maisnutriCover from '../assets/maisnutri-cover.png'
+import uiuxDesignCover from '../assets/C2WAD.png'
 
 export interface Project {
   href: string
@@ -9,7 +10,8 @@ export interface Project {
   title: string
   description: string
   tags: string[]
-  imageUrl: string
+  // Optional until a screenshot is added - card falls back to a placeholder.
+  imageUrl?: string
   metric?: string
 }
 
@@ -51,5 +53,31 @@ export const projects: Project[] = [
     tags: ['UI/UX Design', 'Flutter', 'Dart', 'PostgreSQL'],
     imageUrl: smartplateCover,
     metric: 'Real-time AI',
+  },
+  {
+    href: '/projects',
+    eyebrow: 'New project',
+    status: 'Coming soon',
+    title: 'Project Coming Soon',
+    description: 'Case study coming soon.',
+    tags: ['UI/UX Design', 'Figma'],
+  },
+  {
+    href: '/projects',
+    eyebrow: 'UI/UX Design',
+    status: 'Coming soon',
+    title: 'C2WAD Delivery App',
+    description:
+      'Designed a user-friendly food delivery mobile app in Figma, covering ordering, delivery tracking, payments, notifications, support, and rewards',
+    tags: ['UI/UX Design', 'Figma'],
+    imageUrl: uiuxDesignCover,
+  },
+  {
+    href: '/projects',
+    eyebrow: 'New project',
+    status: 'Coming soon',
+    title: 'Project Coming Soon (2)',
+    description: 'Case study coming soon.',
+    tags: ['UI/UX Design', 'Figma'],
   },
 ]
