@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { skillGroups, SkillPill } from '../data/skills'
 import { stagger, useRiseVariant } from '../lib/motion'
+import { goBack } from '../lib/goBack'
 
 // Standalone page at /skills, linked from the Skills section's "View all".
 // Every category laid out at once, unlike the ticker/compact views on the
@@ -13,7 +14,8 @@ export default function SkillsPage() {
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
       <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
         <a
-          href="/#hero"
+          href="/"
+          onClick={goBack}
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-400"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />

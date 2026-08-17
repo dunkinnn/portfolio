@@ -3,11 +3,13 @@ import { ArrowLeft } from 'lucide-react'
 import { ProjectCard } from '../sections/Projects'
 import { projects } from '../data/projects'
 import { stagger, useRiseVariant } from '../lib/motion'
+import { goBack } from '../lib/goBack'
 
 // Standalone page at /projects, linked from the Projects section's "All
-// projects" link and from every project card - same pattern as Skills'
-// "View all" -> /skills. Lists every project at once, reusing ProjectCard
-// so cards look identical to the home page grid.
+// projects" link - same pattern as Skills' "View all" -> /skills. Lists
+// every project at once (each card still links to its own /project/<slug>
+// detail page), reusing ProjectCard so cards look identical to the home
+// page grid.
 export default function AllProjectsPage() {
   const item = useRiseVariant()
 
@@ -15,7 +17,8 @@ export default function AllProjectsPage() {
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
       <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
         <a
-          href="/#hero"
+          href="/"
+          onClick={goBack}
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />

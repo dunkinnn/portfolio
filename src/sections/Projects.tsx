@@ -89,8 +89,13 @@ export function ProjectCard({
           </div>
         </div>
 
-        {/* Screenshot Image Container */}
-        <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
+        {/* Screenshot Image Container - sized to the image itself (no fixed
+            aspect ratio) so the whole photo shows with no letterboxing;
+            the placeholder box below still needs a fixed height since it
+            has no intrinsic size of its own. */}
+        <div
+          className={`relative overflow-hidden bg-slate-100 dark:bg-slate-900/60 ${imageUrl ? '' : 'aspect-[16/9]'}`}
+        >
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -99,7 +104,7 @@ export function ProjectCard({
                 // Gracefully handle missing local image paths
                 e.currentTarget.style.display = 'none'
               }}
-              className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+              className="block w-full transition-transform duration-700 ease-out group-hover:scale-105"
             />
           ) : (
             // No screenshot yet - placeholder until a real one is added.
@@ -113,6 +118,14 @@ export function ProjectCard({
           {/* Ambient Glow & Shimmer */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-sky-500/10 via-indigo-500/5 to-purple-500/10" />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/[0.04]" />
+
+          {/* Clickable affordance - always visible (not hover-only, so it
+              still reads on touch devices), no label text needed. */}
+          <div className="pointer-events-none absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-slate-900/60 text-white opacity-80 shadow-md backdrop-blur-md transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H8M17 7v9" />
+            </svg>
+          </div>
         </div>
       </div>
 

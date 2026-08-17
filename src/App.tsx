@@ -17,17 +17,17 @@ function App() {
   const path = useRoute()
 
   // The full pages this site has, reached via Skills' "View all",
-  // Experience's "View details", Hero's featured project card, and the
-  // Projects section's cards / "All projects" link. Anything else
-  // (including plain section anchors like #about) falls through to the
-  // normal single-page layout. vercel.json rewrites any unmatched path to
-  // index.html so these resolve on a direct visit or refresh too.
+  // Experience's "View details", every project card's own /project/<slug>
+  // detail page, and the Projects section's "All projects" link. Anything
+  // else (including plain section anchors like #about) falls through to
+  // the normal single-page layout. vercel.json rewrites any unmatched path
+  // to index.html so these resolve on a direct visit or refresh too.
   let page
   if (path === '/skills') {
     page = <SkillsPage />
   } else if (path === '/experience') {
     page = <ExperiencePage />
-  } else if (path === '/project') {
+  } else if (path.startsWith('/project/')) {
     page = <ProjectPage />
   } else if (path === '/projects') {
     page = <AllProjectsPage />
