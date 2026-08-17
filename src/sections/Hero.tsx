@@ -51,6 +51,7 @@ export default function Hero() {
       reveal={false}
       fullBleed
       contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10"
+      paddingClassName="pt-20 pb-4"
       className="relative isolate flex min-h-dvh flex-col items-center justify-center [justify-content:safe_center] overflow-hidden bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100"
     >
       {/* Background Layer 1: Radial Spotlight Matrix */}
@@ -65,7 +66,7 @@ export default function Hero() {
       </Suspense>
 
       {/* Asymmetric Split Layout Wrapper */}
-      <div className="relative z-10 w-full pb-4 pt-16">
+      <div className="relative z-10 w-full py-2">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
           
           {/* LEFT COLUMN: Main Typography & CTA (7 Cols) */}
@@ -90,7 +91,7 @@ export default function Hero() {
             {/* Main Headline */}
             <h1
               style={{ lineHeight: 1.35 }}
-              className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl dark:text-white"
+              className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl xl:text-7xl dark:text-white"
             >
               <motion.span variants={item} className="block">
                 Architecting Ideas.
@@ -171,7 +172,7 @@ export default function Hero() {
                 </div>
 
                 {/* Screenshot / Visual Preview Area */}
-                <div className="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
+                <div className="relative h-[clamp(11rem,28dvh,17.5rem)] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
                   <img
                     src={featured.imageUrl}
                     alt={featured.title}
@@ -238,33 +239,35 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Cue */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to about section"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.1 }}
-        className="group absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex"
-      >
-        <span className="text-[10px] font-mono tracking-[0.25em] text-slate-400 group-hover:text-slate-900 dark:text-slate-500 dark:group-hover:text-slate-200 transition-colors">
-          01 // SCROLL
-        </span>
+        {/* Scroll Cue - a normal flow sibling below the content above,
+            rather than pinned with position:absolute, so it can't overlap
+            the featured card on short viewports. */}
+        <motion.a
+          href="#about"
+          aria-label="Scroll to about section"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          className="group relative z-10 mt-6 hidden flex-col items-center gap-2 md:flex"
+        >
+          <span className="text-[10px] font-mono tracking-[0.25em] text-slate-400 group-hover:text-slate-900 dark:text-slate-500 dark:group-hover:text-slate-200 transition-colors">
+            01 // SCROLL
+          </span>
 
-        <div className="relative flex h-10 w-6 items-center justify-center rounded-full border border-slate-200/80 bg-slate-50/50 backdrop-blur-sm group-hover:border-sky-500/50 dark:border-slate-800/80 dark:bg-slate-900/50 dark:group-hover:border-sky-400/50 transition-colors">
-          <div className="relative h-6 w-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-            <motion.span
-              animate={{ y: ["-100%", "100%"] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1.6,
-                ease: "easeInOut",
-              }}
-              className="absolute inset-x-0 h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent dark:via-sky-400"
-            />
+          <div className="relative flex h-10 w-6 items-center justify-center rounded-full border border-slate-200/80 bg-slate-50/50 backdrop-blur-sm group-hover:border-sky-500/50 dark:border-slate-800/80 dark:bg-slate-900/50 dark:group-hover:border-sky-400/50 transition-colors">
+            <div className="relative h-6 w-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+              <motion.span
+                animate={{ y: ["-100%", "100%"] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.6,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-x-0 h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent dark:via-sky-400"
+              />
+            </div>
           </div>
-        </div>
-      </motion.a>
+        </motion.a>
     </Section>
   )
 }
