@@ -102,6 +102,11 @@ export const projects: Project[] = [
       'Designed a user-friendly food delivery mobile app in Figma, covering ordering, delivery tracking, payments, notifications, support, and rewards',
     tags: ['UI/UX Design', 'Figma'],
     imageUrl: uiuxDesignCover,
+    story: [
+      'C2WAD is a self-directed practice project built to design a complete food delivery experience end to end, rather than a single flow or screen. The goal was to think through the full loop a user goes through: browsing meals, placing and tracking an order, paying, getting notified along the way, and reaching support when something goes wrong.',
+      'Designed entirely in Figma, it covers ordering and browsing, live delivery tracking, payments, notifications, support, and a rewards program - built out as high-fidelity mobile screens with the states and interactions needed to feel like a real app rather than static mockups.',
+      'Next up is formalizing the visual language behind it into a documented design system, the same way I did for Volterra Electric - covering the color palette, typography, and component specs used across the app.',
+    ],
   },
   {
     href: '/project/project-coming-soon',
