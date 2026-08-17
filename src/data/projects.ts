@@ -2,6 +2,7 @@ import smartplateCover from '../assets/smartplate-cover.png'
 import landrecordsCover from '../assets/landrecords-cover.png'
 import maisnutriCover from '../assets/maisnutri-cover.png'
 import uiuxDesignCover from '../assets/C2WAD.png'
+import volterraCover from '../assets/volterra-cover.png'
 
 export interface Project {
   href: string
@@ -23,7 +24,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     href: '/projects',
-    eyebrow: 'Mobile app',
+    eyebrow: 'Mobile App',
     status: 'Ongoing',
     title: 'Corn Leaf Nutrient Deficiency Detector',
     description:
@@ -34,7 +35,7 @@ export const projects: Project[] = [
   },
   {
     href: '/projects',
-    eyebrow: 'Web app',
+    eyebrow: 'Web App',
     status: 'Ongoing',
     title: 'LandKoTo: Land Record Management System',
     description:
@@ -45,7 +46,7 @@ export const projects: Project[] = [
   },
   {
     href: '/projects',
-    eyebrow: 'Mobile app',
+    eyebrow: 'Mobile App',
     status: 'Ongoing',
     title: 'Smart Plate: AI Meal Planning App',
     description:
@@ -56,11 +57,13 @@ export const projects: Project[] = [
   },
   {
     href: '/projects',
-    eyebrow: 'New project',
+    eyebrow: 'UI/UX Design',
     status: 'Coming soon',
-    title: 'Project Coming Soon',
-    description: 'Case study coming soon.',
+    title: 'Volterra Electric',
+    description:
+      'Landing Page design for an electrical contractor, built around a bold, trust-focused layout with clear calls to action.',
     tags: ['UI/UX Design', 'Figma'],
+    imageUrl: volterraCover,
   },
   {
     href: '/projects',
@@ -76,7 +79,7 @@ export const projects: Project[] = [
     href: '/projects',
     eyebrow: 'New project',
     status: 'Coming soon',
-    title: 'Project Coming Soon (2)',
+    title: 'Project Coming Soon',
     description: 'Case study coming soon.',
     tags: ['UI/UX Design', 'Figma'],
   },
