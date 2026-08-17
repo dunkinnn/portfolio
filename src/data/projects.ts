@@ -96,7 +96,7 @@ export const projects: Project[] = [
   {
     href: '/project/c2wad-delivery-app',
     eyebrow: 'UI/UX Design',
-    status: 'Coming soon',
+    status: 'Personal project',
     title: 'C2WAD Delivery App',
     description:
       'Designed a user-friendly food delivery mobile app in Figma, covering ordering, delivery tracking, payments, notifications, support, and rewards',
