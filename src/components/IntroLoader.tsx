@@ -7,15 +7,45 @@ interface IntroLoaderProps {
   elouTextSrc: string
 }
 
+const SHOWN_KEY = 'intro_shown'
+
+// sessionStorage persists per-tab for the browser session, so this plays
+// once when a tab first opens the site and is skipped on every navigation
+// or refresh within that same tab after that.
+function hasShownThisTab() {
+  try {
+    return sessionStorage.getItem(SHOWN_KEY) === '1'
+  } catch {
+    // Private browsing can throw on sessionStorage access.
+    return false
+  }
+}
+
+function markShownThisTab() {
+  try {
+    sessionStorage.setItem(SHOWN_KEY, '1')
+  } catch {
+    // Private browsing can throw on sessionStorage access.
+  }
+}
+
 export default function IntroLoader({
   onComplete,
   gLogoSrc,
   elouTextSrc,
 }: IntroLoaderProps) {
-  const [stage, setStage] = useState<'pulse' | 'revealLogo' | 'sliding' | 'done'>('pulse')
-  const hasTriggeredComplete = useRef(false)
+  const [stage, setStage] = useState<'pulse' | 'revealLogo' | 'sliding' | 'done'>(() =>
+    hasShownThisTab() ? 'done' : 'pulse',
+  )
+  const hasTriggeredComplete = useRef(stage === 'done')
 
   useEffect(() => {
+    // Already shown this tab - skip the animation and signal ready right away.
+    if (stage === 'done') {
+      onComplete?.()
+      return
+    }
+
     const timer1 = setTimeout(() => {
       setStage('revealLogo')
     }, 1200)
@@ -28,6 +58,7 @@ export default function IntroLoader({
       clearTimeout(timer1)
       clearTimeout(timer2)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -44,6 +75,7 @@ export default function IntroLoader({
               const currentY = typeof latest.y === 'string' ? parseFloat(latest.y) : 0
               if (currentY <= -70) {
                 hasTriggeredComplete.current = true
+                markShownThisTab()
                 if (onComplete) onComplete()
               }
             }
