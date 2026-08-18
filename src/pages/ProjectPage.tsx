@@ -36,7 +36,7 @@ export default function ProjectPage() {
 
   return (
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
-      <div className="mx-auto w-full max-w-4xl px-6 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
         <a
           href="/"
           onClick={goBack}
