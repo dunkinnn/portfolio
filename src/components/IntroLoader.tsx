@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface IntroLoaderProps {
@@ -13,14 +13,13 @@ export default function IntroLoader({
   elouTextSrc,
 }: IntroLoaderProps) {
   const [stage, setStage] = useState<'pulse' | 'revealLogo' | 'sliding' | 'done'>('pulse')
+  const hasTriggeredComplete = useRef(false)
 
   useEffect(() => {
-    // Stage 1: Pulsing ring animation (1.2s)
     const timer1 = setTimeout(() => {
       setStage('revealLogo')
     }, 1200)
 
-    // Stage 2: Start slide-up transition (3.2s total)
     const timer2 = setTimeout(() => {
       setStage('sliding')
     }, 3200)
@@ -31,35 +30,29 @@ export default function IntroLoader({
     }
   }, [])
 
-  useEffect(() => {
-    if (stage === 'sliding') {
-      // Total slide duration is 0.8s -> 70% of 0.8s = 0.56s (560ms)
-      const triggerHeroTimer = setTimeout(() => {
-        if (onComplete) onComplete()
-      }, 560)
-
-      // Fully cleanup loader after slide completes (800ms)
-      const cleanupTimer = setTimeout(() => {
-        setStage('done')
-      }, 800)
-
-      return () => {
-        clearTimeout(triggerHeroTimer)
-        clearTimeout(cleanupTimer)
-      }
-    }
-  }, [stage, onComplete])
-
-  if (stage === 'done') return null
-
   return (
     <AnimatePresence>
       {stage !== 'done' && (
         <motion.div
           key="intro-loader"
-          initial={{ y: 0 }}
-          animate={stage === 'sliding' ? { y: '-100%' } : { y: 0 }}
+          initial={{ y: '0%' }}
+          animate={stage === 'sliding' ? { y: '-100%' } : { y: '0%' }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          onUpdate={(latest) => {
+            // Check if y reached or passed -70% during slide-up
+            if (stage === 'sliding' && !hasTriggeredComplete.current) {
+              const currentY = typeof latest.y === 'string' ? parseFloat(latest.y) : 0
+              if (currentY <= -70) {
+                hasTriggeredComplete.current = true
+                if (onComplete) onComplete()
+              }
+            }
+          }}
+          onAnimationComplete={() => {
+            if (stage === 'sliding') {
+              setStage('done')
+            }
+          }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-slate-950 text-white selection:bg-none pointer-events-none"
         >
           <div className="relative flex items-center justify-center">

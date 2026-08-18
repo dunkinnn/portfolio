@@ -7,58 +7,31 @@ import Skills from './sections/Skills'
 import Experience from './sections/Experience'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
-import SkillsPage from './pages/SkillsPage'
-import ExperiencePage from './pages/ExperiencePage'
-import ProjectPage from './pages/ProjectPage'
-import AllProjectsPage from './pages/AllProjectsPage'
-import ScrollToTop from './components/ScrollToTop'
 import IntroLoader from './components/IntroLoader'
-import { useRoute } from './lib/useRoute'
 
 import gLogoImg from './assets/G.png'
 import elouTextImg from './assets/elou.png'
 
 function App() {
-  const path = useRoute()
-  const [loading, setLoading] = useState(true)
+  const [heroVisible, setHeroVisible] = useState(false)
 
-  let page
-  if (path === '/skills') {
-    page = <SkillsPage />
-  } else if (path === '/experience') {
-    page = <ExperiencePage />
-  } else if (path.startsWith('/project/')) {
-    page = <ProjectPage />
-  } else if (path === '/projects') {
-    page = <AllProjectsPage />
-  } else {
-    page = (
+  return (
+    <>
+      <IntroLoader
+        gLogoSrc={gLogoImg}
+        elouTextSrc={elouTextImg}
+        onComplete={() => setHeroVisible(true)}
+      />
+
       <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
         <Nav />
-        <Hero />
+        <Hero isLoaded={heroVisible} />
         <About />
         <Projects />
         <Skills />
         <Experience />
         <Contact />
         <Footer />
-      </div>
-    )
-  }
-
-  return (
-    <>
-      {loading && (
-        <IntroLoader
-          gLogoSrc={gLogoImg}
-          elouTextSrc={elouTextImg}
-          onComplete={() => setLoading(false)}
-        />
-      )}
-
-      <div>
-        {page}
-        <ScrollToTop />
       </div>
     </>
   )
