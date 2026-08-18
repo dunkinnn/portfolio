@@ -72,16 +72,14 @@ export default function Nav() {
       >
         {/* Content stays inside the same column the rest of the page uses,
             even though the bar's background now spans edge to edge. */}
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3.5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3 sm:px-8 lg:px-10">
           {/* Brand mark */}
           <a href="#hero" className="group flex items-center" aria-label="Home">
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white transition duration-300 group-hover:border-[#2340FF]/60 group-hover:shadow-[0_0_12px_rgba(35,64,255,0.3)] dark:border-slate-800 dark:bg-slate-900/80">
-              <img
-                src={logoUrl}
-                alt="Home"
-                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
+            <img
+              src={logoUrl}
+              alt="Home"
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-12"
+            />
           </a>
 
           {/* Navigation Links */}
@@ -174,9 +172,7 @@ export default function Nav() {
               className="fixed inset-y-0 right-0 z-50 flex w-[82vw] max-w-xs flex-col border-l border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 lg:hidden dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-black/40"
             >
               <div className="flex items-center justify-between">
-                <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/80">
-                  <img src={logoUrl} alt="Logo" className="h-full w-full object-contain" />
-                </span>
+                <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -211,7 +207,7 @@ export default function Nav() {
                 })}
               </div>
 
-                            <a
+              <a
                 href="#contact"
                 onClick={() => setOpen(false)}
                 className="mt-6 block rounded-xl bg-[#2340FF] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#1f37e0]"

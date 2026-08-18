@@ -1,273 +1,263 @@
-import type { MouseEvent } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { lazy, Suspense, type ComponentType } from 'react'
 import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from 'framer-motion'
+  HiOutlineDevicePhoneMobile,
+  HiOutlineGlobeAlt,
+  HiOutlinePaintBrush,
+  HiOutlineCircleStack,
+  HiOutlineCheckCircle,
+  HiOutlineArrowUpRight,
+} from 'react-icons/hi2'
 import Section from '../components/Section'
-import { lazy, Suspense } from 'react'
-import { EASE, fade, rise, stagger } from '../lib/motion'
-import { projects } from '../data/projects'
+import { fade, rise, stagger } from '../lib/motion'
 
 const WebGLHero = lazy(() => import('../components/WebGLHero'))
 
-// Maisnutri (Corn Leaf Nutrient Deficiency Detector) - the freelance mobile
-// app build - is the featured work shown here, linking through to its full
-// case study at /project.
-const featured = projects.find((p) => p.title.includes('Corn Leaf'))!
+export interface ServiceItem {
+  id: string
+  title: string
+  badge: string
+  description: string
+  Icon: ComponentType<{ className?: string }>
+  tags: string[]
+}
 
-export default function Hero() {
+const SERVICES: ServiceItem[] = [
+  {
+    id: '01',
+    title: 'Cross-Platform Mobile Apps',
+    badge: 'Flutter & Android',
+    description:
+      'Building performant iOS & Android apps with smooth UI, offline storage, and API integrations.',
+    Icon: HiOutlineDevicePhoneMobile,
+    tags: ['Flutter', 'REST APIs', 'State Management'],
+  },
+  {
+    id: '02',
+    title: 'Full-Stack Web Systems',
+    badge: 'React & Backend',
+    description:
+      'Engineered admin dashboards, client portals, and responsive websites built for speed.',
+    Icon: HiOutlineGlobeAlt,
+    tags: ['React', 'PHP/Node', 'Tailwind CSS'],
+  },
+  {
+    id: '03',
+    title: 'UI/UX & Product Design',
+    badge: 'Figma to Code',
+    description:
+      'Designing clean, modern executive-level interfaces and interactive prototypes before coding.',
+    Icon: HiOutlinePaintBrush,
+    tags: ['Figma', 'Prototyping', 'Design Systems'],
+  },
+  {
+    id: '04',
+    title: 'Database & API Architecture',
+    badge: 'SQL & Infrastructure',
+    description:
+      'Structuring reliable databases, secure authentication, and optimized data workflows.',
+    Icon: HiOutlineCircleStack,
+    tags: ['PostgreSQL', 'MySQL', 'API Design'],
+  },
+]
+
+interface HeroProps {
+  isLoaded?: boolean
+}
+
+export default function Hero({ isLoaded = true }: HeroProps) {
   const reduced = useReducedMotion()
   const item = reduced ? fade : rise
-
-  // Cursor position within the card, for tilt and spotlight
-  const tiltX = useMotionValue(0)
-  const tiltY = useMotionValue(0)
-  const rotateX = useSpring(tiltX, { stiffness: 220, damping: 22 })
-  const rotateY = useSpring(tiltY, { stiffness: 220, damping: 22 })
-  const glowX = useMotionValue(0)
-  const glowY = useMotionValue(0)
-  const glow = useMotionTemplate`radial-gradient(320px circle at ${glowX}px ${glowY}px, rgba(56,189,248,0.12), transparent 75%)`
-
-  const handleCardMove = (e: MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    glowX.set(e.clientX - rect.left)
-    glowY.set(e.clientY - rect.top)
-    if (reduced) return
-    tiltY.set(((e.clientX - rect.left) / rect.width - 0.5) * 8)
-    tiltX.set(-((e.clientY - rect.top) / rect.height - 0.5) * 8)
-  }
-
-  const handleCardLeave = () => {
-    tiltX.set(0)
-    tiltY.set(0)
-  }
 
   return (
     <Section
       id="hero"
       reveal={false}
       fullBleed
-      contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10"
-      paddingClassName="pt-20 pb-4"
-      className="relative isolate flex min-h-dvh flex-col items-center justify-center [justify-content:safe_center] overflow-hidden bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100"
+      contentClassName="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
+      paddingClassName="pt-20 pb-12 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24"
+      className="relative isolate flex min-h-dvh flex-col justify-between overflow-hidden bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-sky-500/30 selection:text-sky-800 dark:selection:text-sky-200 transition-colors duration-300"
     >
-      {/* Background Layer 1: Radial Spotlight Matrix */}
-      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_80%,transparent_100%)] opacity-60 dark:bg-[radial-gradient(#334155_1px,transparent_1px)] dark:opacity-30" />
+      {/* BACKGROUND GRAPHICS */}
+      <div className="pointer-events-none absolute inset-0 -z-30 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b12_1px,transparent_1px),linear-gradient(to_bottom,#1e293b12_1px,transparent_1px)] bg-[size:2rem_2rem] sm:bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/3 -z-20 h-[300px] w-[300px] sm:h-[450px] sm:w-[450px] lg:h-[550px] lg:w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-sky-400/20 via-indigo-400/15 to-transparent dark:from-sky-500/15 dark:via-indigo-500/10 blur-[100px] sm:blur-[140px] lg:blur-[160px]" />
 
-      {/* Background Layer 2: Ambient Glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-sky-400/20 via-indigo-400/20 to-purple-400/15 blur-[160px] dark:from-sky-500/10 dark:via-indigo-500/15 dark:to-purple-500/10" />
-
-      {/* WebGL Canvas Overlay */}
       <Suspense fallback={null}>
         <WebGLHero />
       </Suspense>
 
-      {/* Asymmetric Split Layout Wrapper */}
-      <div className="relative z-10 w-full py-2">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          
-          {/* LEFT COLUMN: Main Typography & CTA (7 Cols) */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="show"
-            className="text-left lg:col-span-7"
-          >
-            {/* Live Availability Pill */}
-            <motion.div
-              variants={item}
-              className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1.5 text-xs font-semibold text-sky-700 backdrop-blur-md dark:border-sky-500/20 dark:text-sky-300"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75 motion-reduce:animate-none" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-400" />
-              </span>
-              Available for Full-Stack & UI/UX roles
-            </motion.div>
-
-            {/* Main Headline */}
-            <h1
-              style={{ lineHeight: 1.35 }}
-              className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl xl:text-7xl dark:text-white"
-            >
-              <motion.span variants={item} className="block">
-                Architecting Ideas.
-              </motion.span>
-              <motion.span
-                variants={item}
-                className="block bg-gradient-to-r from-sky-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-sky-400 dark:via-indigo-300 dark:to-violet-300"
-              >
-                Engineering Reality.
-              </motion.span>
-            </h1>
-
-            {/* Actions */}
-            <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="#contact"
-                className="group relative inline-flex items-center gap-2 rounded-xl bg-slate-900 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-slate-900/10 transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:shadow-white/5 dark:hover:bg-slate-100"
-              >
-                Let's Build Together
-                <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </motion.a>
-
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="#projects"
-                className="rounded-xl border border-slate-300 bg-white/60 px-7 py-3.5 text-sm font-semibold text-slate-700 backdrop-blur-md transition-all hover:border-slate-400 hover:bg-white hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:bg-slate-800/80 dark:hover:text-white"
-              >
-                View Works
-              </motion.a>
-            </motion.div>
-          </motion.div>
-
-          {/* RIGHT COLUMN: Redesigned Glassmorphic Featured Work Card (5 Cols) */}
-          <motion.div
-            initial={{ opacity: 0, y: 28, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.45, ease: EASE }}
-            className="lg:col-span-5"
-            style={{ perspective: 1000 }}
-          >
-            <motion.a
-              href="/project"
-              onMouseMove={handleCardMove}
-              onMouseLeave={handleCardLeave}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-              className="group relative block overflow-hidden rounded-2xl border border-slate-200/80 bg-white/70 p-1.5 shadow-2xl shadow-slate-900/5 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:border-sky-500/40 hover:shadow-sky-500/10 dark:border-slate-800/80 dark:bg-slate-900/40 dark:shadow-indigo-500/5 dark:hover:border-sky-500/30 dark:hover:shadow-sky-500/15"
-            >
-              {/* Dynamic Mouse Spotlight overlay */}
-              <motion.div
-                aria-hidden="true"
-                style={{ background: glow }}
-                className="pointer-events-none absolute inset-0 z-20 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
-
-              {/* Mac-style Window Frame Shell */}
-              <div className="relative overflow-hidden rounded-xl border border-slate-200/60 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-950/80">
-                
-                {/* Header Bar */}
-                <div className="flex h-9 items-center justify-between border-b border-slate-200/60 bg-slate-100/60 px-3.5 dark:border-slate-800/80 dark:bg-slate-900/80">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700/80 group-hover:bg-rose-400/80 transition-colors" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700/80 group-hover:bg-amber-400/80 transition-colors" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-300 dark:bg-slate-700/80 group-hover:bg-emerald-400/80 transition-colors" />
-                  </div>
-                  <div className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white/80 px-2 py-0.5 text-[10px] font-mono text-slate-400 dark:border-slate-800/80 dark:bg-slate-950/80 dark:text-slate-500">
-                    <svg className="h-2.5 w-2.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                    </svg>
-                    maisnutri.app
-                  </div>
-                </div>
-
-                {/* Screenshot / Visual Preview Area */}
-                <div className="relative h-[clamp(11rem,28dvh,17.5rem)] overflow-hidden bg-slate-100 dark:bg-slate-900/60">
-                  <img
-                    src={featured.imageUrl}
-                    alt={featured.title}
-                    onError={(e) => {
-                      // Gracefully handle missing local image paths
-                      e.currentTarget.style.display = 'none'
-                    }}
-                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Ambient glow & shimmer */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-sky-500/10 via-indigo-500/5 to-purple-500/10" />
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/[0.04]" />
-                </div>
-              </div>
-
-              {/* Card Meta & Details */}
-              <div className="p-4 pt-4">
-                <div className="flex items-center justify-between">
-                  {/* Pill Badge */}
-                  <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-medium text-sky-600 dark:border-sky-400/20 dark:text-sky-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
-                    Featured Project
-                  </div>
-
-                  {/* Metric Tag */}
-                  <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                    {featured.metric}
-                  </span>
-                </div>
-
-                <h2 className="mt-2.5 text-base font-semibold text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300">
-                  {featured.title}
-                </h2>
-
-                <p className="mt-1 text-xs leading-relaxed text-slate-600 line-clamp-2 dark:text-slate-400">
-                  {featured.description}
-                </p>
-
-                {/* Tags & Action Link Footer */}
-                <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800/60">
-                  <div className="flex flex-wrap gap-1.5">
-                    {featured.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-0.5 font-mono text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <span className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-sky-600 transition-transform group-hover:translate-x-0.5 dark:text-sky-400">
-                    Case Study
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </motion.a>
-          </motion.div>
-
-        </div>
-      </div>
-
-        {/* Scroll Cue - a normal flow sibling below the content above,
-            rather than pinned with position:absolute, so it can't overlap
-            the featured card on short viewports. */}
-        <motion.a
-          href="#about"
-          aria-label="Scroll to about section"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.1 }}
-          className="group relative z-10 mt-6 hidden flex-col items-center gap-2 md:flex"
+      {/* HERO CONTENT */}
+      <div className="relative z-10 my-auto w-full pt-6 sm:pt-12 pb-4">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate={isLoaded ? 'show' : 'hidden'}
+          className="mx-auto flex max-w-4xl flex-col items-center text-center"
         >
-          <span className="text-[10px] font-mono tracking-[0.25em] text-slate-400 group-hover:text-slate-900 dark:text-slate-500 dark:group-hover:text-slate-200 transition-colors">
-            01 // SCROLL
-          </span>
+          {/* STATUS BADGE */}
+          <motion.div variants={item} className="mb-4 sm:mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 dark:bg-emerald-950/40 px-3 py-1 text-[11px] sm:text-xs md:text-[13px] font-mono text-emerald-700 dark:text-emerald-300 shadow-sm dark:shadow-[0_0_15px_rgba(16,185,129,0.15)] backdrop-blur-md">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <span>Available for Freelance & Project Roles</span>
+            </div>
+          </motion.div>
 
-          <div className="relative flex h-10 w-6 items-center justify-center rounded-full border border-slate-200/80 bg-slate-50/50 backdrop-blur-sm group-hover:border-sky-500/50 dark:border-slate-800/80 dark:bg-slate-900/50 dark:group-hover:border-sky-400/50 transition-colors">
-            <div className="relative h-6 w-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-              <motion.span
-                animate={{ y: ["-100%", "100%"] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.6,
-                  ease: "easeInOut",
+          {/* HEADLINE */}
+          <motion.h1
+            variants={item}
+            className="w-full font-extrabold tracking-tight"
+          >
+            <span className="block text-2xl xs:text-3xl sm:text-4xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              BUILDING DIGITAL PRODUCTS
+            </span>
+            <span className="mt-1 block text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold bg-gradient-to-r from-sky-600 via-indigo-600 to-violet-600 dark:from-sky-400 dark:via-indigo-300 dark:to-violet-400 bg-clip-text text-transparent leading-tight sm:leading-none">
+              From Wireframe to Production Code.
+            </span>
+          </motion.h1>
+
+          {/* DESCRIPTION */}
+          <motion.p
+            variants={item}
+            className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-300 px-2 sm:px-0"
+          >
+            I help businesses, teams, and clients turn ideas into functional mobile apps,
+            responsive web platforms, and tailored user interfaces.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            variants={item}
+            className="mt-6 sm:mt-8 flex w-full flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 sm:px-0"
+          >
+            <a
+              href="#projects"
+              className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 px-6 py-3.5 sm:px-7 sm:py-3 text-sm sm:text-[15px] font-bold text-white dark:text-slate-950 shadow-md dark:shadow-[0_0_25px_rgba(56,189,248,0.25)] transition-all hover:brightness-110 hover:shadow-lg dark:hover:shadow-[0_0_35px_rgba(56,189,248,0.4)]"
+            >
+              <span>View Past Work</span>
+              <svg
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </a>
+            <a
+              href="#contact"
+              className="flex w-full sm:w-auto items-center justify-center rounded-xl border border-slate-200 bg-slate-100/80 dark:border-slate-800 dark:bg-slate-900/80 px-6 py-3.5 sm:px-7 sm:py-3 text-sm sm:text-[15px] font-semibold text-slate-800 dark:text-slate-200 backdrop-blur-xl transition-all hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-200/80 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+            >
+              Hire for a Project
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* SERVICES PIPELINE */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="relative mx-auto mt-12 sm:mt-16 w-full max-w-6xl"
+        >
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-950/60 p-4 sm:p-6 lg:p-8 shadow-xl dark:shadow-2xl backdrop-blur-xl transition-colors duration-300">
+            <div className="pointer-events-none absolute inset-0 opacity-15">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(to right, rgba(56,189,248,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(56,189,248,0.15) 1px, transparent 1px)',
+                  backgroundSize: '40px 40px',
                 }}
-                className="absolute inset-x-0 h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent dark:via-sky-400"
               />
             </div>
+
+            <div className="relative z-10 mb-6 sm:mb-8 flex flex-row items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
+              <div className="flex items-center gap-2 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                <HiOutlineCheckCircle className="h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                <span>What I Can Build For You</span>
+              </div>
+
+              <div className="flex items-center font-mono text-[9px] sm:text-[10px] text-slate-500 shrink-0">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 dark:border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-emerald-700 dark:text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+                  <span className="hidden xs:inline">ACCEPTING NEW PROJECTS</span>
+                  <span className="xs:hidden">AVAILABLE</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              {SERVICES.map((service, index) => {
+                const IconComponent = service.Icon
+                return (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    className="group relative flex flex-col justify-between rounded-xl sm:rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-900/40 p-5 sm:p-6 backdrop-blur-md transition-all duration-300 hover:border-sky-500/40 dark:hover:border-sky-500/40 hover:bg-white dark:hover:bg-slate-900/90 hover:shadow-lg dark:hover:shadow-[0_0_30px_rgba(56,189,248,0.12)]"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/80 text-sky-600 dark:text-sky-400 shadow-sm dark:shadow-inner group-hover:border-sky-500/30 group-hover:bg-sky-50 dark:group-hover:bg-slate-950 group-hover:text-sky-600 dark:group-hover:text-white transition-colors shrink-0">
+                          <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
+                        </div>
+                        <span className="rounded-full border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950/60 px-2.5 py-0.5 font-mono text-[9px] sm:text-[10px] text-slate-600 dark:text-slate-400 truncate">
+                          {service.badge}
+                        </span>
+                      </div>
+
+                      <h3 className="mt-4 sm:mt-5 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors">
+                        {service.title}
+                      </h3>
+                      <p className="mt-1.5 sm:mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                        {service.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-slate-200 dark:border-slate-800/60">
+                      <div className="flex flex-wrap gap-1.5">
+                        {service.tags.map((tag: string) => (
+                          <span
+                            key={tag}
+                            className="rounded-md bg-slate-200/60 dark:bg-slate-950/80 px-2 py-0.5 font-mono text-[9px] text-slate-600 dark:text-slate-400 border border-slate-300/50 dark:border-slate-800/60"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-sky-500/0 to-transparent transition-all duration-500 group-hover:via-sky-500/60" />
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            <div className="mt-6 sm:mt-8 flex flex-col items-center justify-between gap-3 sm:gap-4 border-t border-slate-200/80 dark:border-slate-800/60 pt-4 sm:pt-5 text-center md:flex-row md:text-left">
+              <p className="font-mono text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 max-w-xl">
+                Have an existing code base or a new project idea? Let's discuss scope and deliverables.
+              </p>
+              <a
+                href="#contact"
+                className="group inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 dark:hover:text-sky-300 shrink-0"
+              >
+                <span>Start a conversation</span>
+                <HiOutlineArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            </div>
           </div>
-        </motion.a>
+        </motion.div>
+      </div>
     </Section>
   )
 }

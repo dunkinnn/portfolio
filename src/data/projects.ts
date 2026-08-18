@@ -31,7 +31,7 @@ export const projects: Project[] = [
   {
     href: '/project/corn-leaf-nutrient-deficiency-detector',
     eyebrow: 'Mobile App',
-    status: 'Ongoing',
+    status: 'Project Based',
     title: 'Corn Leaf Nutrient Deficiency Detector',
     description:
       'Freelance-built mobile app that detects nitrogen, phosphorus, and potassium deficiencies in corn leaves on-device, using YOLOv8 detection and an EfficientNetB0 classifier.',
@@ -47,7 +47,7 @@ export const projects: Project[] = [
   {
     href: '/project/landkoto-land-record-management-system',
     eyebrow: 'Web App',
-    status: 'Ongoing',
+    status: 'Project Based',
     title: 'LandKoTo: Land Record Management System',
     description:
       'Web-based land record system replacing manual Excel and paper files with centralized property records and mapping.',
@@ -63,7 +63,7 @@ export const projects: Project[] = [
   {
     href: '/project/smart-plate-ai-meal-planning-app',
     eyebrow: 'Mobile App',
-    status: 'Ongoing',
+    status: 'Project Based',
     title: 'Smart Plate: AI Meal Planning App',
     description:
       'AI-powered mobile app that generates personalized meal plans and real-time nutritional insights.',

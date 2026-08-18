@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Nav from './components/Nav'
 import Hero from './sections/Hero'
 import About from './sections/About'
@@ -11,17 +12,16 @@ import ExperiencePage from './pages/ExperiencePage'
 import ProjectPage from './pages/ProjectPage'
 import AllProjectsPage from './pages/AllProjectsPage'
 import ScrollToTop from './components/ScrollToTop'
+import IntroLoader from './components/IntroLoader'
 import { useRoute } from './lib/useRoute'
+
+import gLogoImg from './assets/G.png'
+import elouTextImg from './assets/elou.png'
 
 function App() {
   const path = useRoute()
+  const [loading, setLoading] = useState(true)
 
-  // The full pages this site has, reached via Skills' "View all",
-  // Experience's "View details", every project card's own /project/<slug>
-  // detail page, and the Projects section's "All projects" link. Anything
-  // else (including plain section anchors like #about) falls through to
-  // the normal single-page layout. vercel.json rewrites any unmatched path
-  // to index.html so these resolve on a direct visit or refresh too.
   let page
   if (path === '/skills') {
     page = <SkillsPage />
@@ -46,12 +46,20 @@ function App() {
     )
   }
 
-  // Rendered alongside every route, not just the homepage, since the
-  // sub-pages (skills, experience, project, projects) can run long too.
   return (
     <>
-      {page}
-      <ScrollToTop />
+      {loading && (
+        <IntroLoader
+          gLogoSrc={gLogoImg}
+          elouTextSrc={elouTextImg}
+          onComplete={() => setLoading(false)}
+        />
+      )}
+
+      <div>
+        {page}
+        <ScrollToTop />
+      </div>
     </>
   )
 }
