@@ -10,6 +10,8 @@ export interface Project {
   eyebrow: string
   status?: string
   title: string
+  /** Short form for tight spots like the footer's work column. */
+  shortTitle?: string
   /**
    * One sentence carrying the whole project. Shown as the lead on the detail
    * page and on every card - clamped to two lines on the home page, in full
@@ -41,6 +43,7 @@ export const projects: Project[] = [
     eyebrow: 'Mobile App',
     status: 'Project Based',
     title: 'Corn Leaf Nutrient Deficiency Detector',
+    shortTitle: 'Corn Leaf Detector',
     description:
       'Flutter app that spots nitrogen, phosphorus, and potassium deficiencies in a corn leaf entirely offline - a YOLOv8 detector and an EfficientNetB0 classifier run on-device, then a recommendation screen returns the matching fertilizer, rate, and timing.',
     tags: ['Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8', 'EfficientNetB0', 'PostgreSQL'],
@@ -52,6 +55,7 @@ export const projects: Project[] = [
     eyebrow: 'Web App',
     status: 'Project Based',
     title: 'LandKoTo: Land Record Management System',
+    shortTitle: 'LandKoTo',
     description:
       "One web platform replacing an assessor's office's Excel sheets and paper folders - property records, document storage, an interactive map, automated certificates, and an audit trail that keeps ownership history traceable.",
     tags: ['UI/UX Design', 'PHP', 'MySQL', 'Bootstrap'],
@@ -63,6 +67,7 @@ export const projects: Project[] = [
     eyebrow: 'Mobile App',
     status: 'Project Based',
     title: 'Smart Plate: AI Meal Planning App',
+    shortTitle: 'Smart Plate',
     description:
       'Mobile app that generates the meal plan rather than just logging it - dietary preferences and health goals in, a personalized plan, shopping list, and real-time nutritional breakdowns out, with alerts when calories or nutrients drift off target.',
     tags: ['UI/UX Design', 'Flutter', 'Dart', 'PostgreSQL'],

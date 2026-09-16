@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowUp, ArrowUpRight, Eye } from 'lucide-react'
 import Wordmark from '../components/Wordmark'
 import { useRiseVariant } from '../lib/motion'
+import { projects } from '../data/projects'
 import {
   CALENDLY_URL,
   FACEBOOK_URL,
@@ -26,6 +27,16 @@ const elsewhere = [
   { label: 'Book a call', href: CALENDLY_URL, external: true },
   { label: 'Email', href: `mailto:${REAL_EMAIL}` },
 ]
+
+// Deep links to the case studies. A cover image is what separates a real
+// project from the "coming soon" placeholder, so it doubles as the filter.
+const selectedWork = projects
+  .filter((project) => project.imageUrl)
+  .slice(0, 4)
+  .map((project) => ({
+    label: project.shortTitle ?? project.title,
+    href: project.href,
+  }))
 
 const YEAR = 2026
 const VIEWS_KEY = 'visitor_count'
@@ -104,12 +115,13 @@ export default function Footer() {
         className="mx-auto w-full max-w-7xl px-6 pb-8 pt-14 sm:px-8 md:pt-16 lg:px-12"
       >
         {/* ================= TOP BAND =================
-            Identity on the left, two link columns on the right. Below lg the
-            columns drop under the brand block and sit side by side. */}
+            Identity on the left, three link columns filling the rest of the
+            row. Below lg the columns drop under the brand block and share a
+            row of their own. */}
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-20">
+        <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
           {/* ---------- LEFT: who and where ---------- */}
-          <div className="max-w-sm">
+          <div className="max-w-sm sm:col-span-3 lg:col-span-1 lg:max-w-none">
             <a href="/#hero" className="group inline-flex" aria-label="Home">
               <Wordmark className="text-base text-slate-900 dark:text-white" />
             </a>
@@ -138,29 +150,38 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ---------- RIGHT: the columns ---------- */}
-          <div className="grid grid-cols-2 gap-x-12 gap-y-10 sm:gap-x-20 lg:gap-x-16">
-            <div>
-              <ColumnHeading>Sitemap</ColumnHeading>
-              <ul className="mt-4 space-y-2.5">
-                {sitemap.map((link) => (
-                  <li key={link.label}>
-                    <FooterLink {...link} />
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* ---------- RIGHT: the link columns ---------- */}
+          <div>
+            <ColumnHeading>Selected work</ColumnHeading>
+            <ul className="mt-4 space-y-2.5">
+              {selectedWork.map((link) => (
+                <li key={link.href}>
+                  <FooterLink {...link} />
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div>
-              <ColumnHeading>Elsewhere</ColumnHeading>
-              <ul className="mt-4 space-y-2.5">
-                {elsewhere.map((link) => (
-                  <li key={link.label}>
-                    <FooterLink {...link} />
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div>
+            <ColumnHeading>Sitemap</ColumnHeading>
+            <ul className="mt-4 space-y-2.5">
+              {sitemap.map((link) => (
+                <li key={link.label}>
+                  <FooterLink {...link} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <ColumnHeading>Elsewhere</ColumnHeading>
+            <ul className="mt-4 space-y-2.5">
+              {elsewhere.map((link) => (
+                <li key={link.label}>
+                  <FooterLink {...link} />
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
