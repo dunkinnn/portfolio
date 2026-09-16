@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react'
 import { stagger, useRiseVariant } from '../lib/motion'
 import { projects } from '../data/projects'
 import { useRoute } from '../lib/useRoute'
-import { goBack } from '../lib/goBack'
 
 // Generic case-study page for any project, reached at /project/<slug> from
 // its card in the Projects section, the "All projects" page, or Hero's
@@ -32,118 +31,149 @@ export default function ProjectPage() {
     )
   }
 
-  const paragraphs = project.story?.length ? project.story : [project.description]
+  // Only the full write-up goes in the body. The old fallback to
+  // `description` printed the same sentence twice now that the header
+  // carries it as the lead.
+  const paragraphs = project.story ?? []
+
+  // Type / status / focus / stack, pulled out of the body so the write-up
+  // keeps a readable measure instead of running the full page width.
+  const meta = [
+    { label: 'Type', value: project.eyebrow },
+    { label: 'Status', value: project.status },
+    { label: 'Focus', value: project.metric },
+  ].filter((row): row is { label: string; value: string } => Boolean(row.value))
 
   return (
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
-      <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
-        <a
-          href="/"
-          onClick={goBack}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
-        >
-          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-          Back to home
-        </a>
-
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-          className="mt-8"
-        >
-          <motion.div variants={item} className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-sky-600 dark:text-sky-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-              {project.eyebrow}
-            </div>
-            {project.status && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                {project.status}
-              </span>
-            )}
+      <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-28 sm:px-8 lg:px-12">
+        <motion.div variants={stagger} initial="hidden" animate="show">
+          {/* A case study is the one page nested under a nav destination, so
+              it gets a way back up to the listing. */}
+          <motion.div variants={item}>
+            <a
+              href="/projects"
+              className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 py-2 pl-3 pr-4 text-eyebrow-sm text-slate-600 backdrop-blur-sm transition-colors hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-white"
+            >
+              <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+              All projects
+            </a>
           </motion.div>
+
+          {/* ================= HEADER ================= */}
 
           <motion.h1
             variants={item}
-            className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+            className="mt-8 max-w-4xl text-4xl font-extrabold tracking-[-0.03em] text-slate-900 sm:text-5xl dark:text-white"
           >
             {project.title}
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-400"
+            className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-500 dark:text-slate-400"
           >
             {project.description}
           </motion.p>
 
-          {/* Sized to the image itself (no fixed aspect ratio) so the whole
-              photo shows with no letterboxing; the placeholder box still
-              needs a fixed height (aspect-[2/1]) since it has no intrinsic
-              size of its own. */}
-          <motion.div
-            variants={item}
-            className={`relative mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5 ${project.imageUrl ? '' : 'aspect-[2/1]'}`}
-          >
-            {project.imageUrl ? (
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                onError={(e) => {
-                  // Gracefully handle missing local image paths
-                  e.currentTarget.style.display = 'none'
-                }}
-                className="block w-full"
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
-                  project coming soon
-                </span>
-              </div>
-            )}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(56,189,248,0.12),transparent_60%)]" />
-          </motion.div>
+          {/* ================= BODY =================
+              Cover, write-up and any design-system sheet share one column,
+              with the meta rail beside them. Every cover is 1500x1000, so at
+              this column width the image lands around 500px tall instead of
+              the ~700px it filled when it spanned the whole container and
+              pushed the write-up off the first screen. */}
 
-          {project.tags.length > 0 && (
-            <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-xs text-slate-500 dark:border-slate-800/60 dark:bg-slate-950/60 dark:text-slate-400"
+          <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-20">
+            <div className="min-w-0">
+              {/* The placeholder box needs a fixed height (aspect-[3/2],
+                  matching the real covers) since it has no intrinsic size. */}
+              <motion.div
+                variants={item}
+                className={`relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5 ${project.imageUrl ? '' : 'aspect-[3/2]'}`}
+              >
+                {project.imageUrl ? (
+                  <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    onError={(e) => {
+                      // Gracefully handle missing local image paths
+                      e.currentTarget.style.display = 'none'
+                    }}
+                    className="block w-full"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
+                      project coming soon
+                    </span>
+                  </div>
+                )}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(163,163,163,0.16),transparent_60%)]" />
+              </motion.div>
+
+              {paragraphs.length > 0 && (
+                <motion.div
+                  variants={item}
+                  className="mt-12 max-w-[68ch] space-y-5 text-base leading-relaxed text-slate-600 lg:text-lg dark:text-slate-400"
                 >
-                  {tag}
-                </span>
-              ))}
-            </motion.div>
-          )}
+                  {paragraphs.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </motion.div>
+              )}
 
-          <motion.div variants={item} className="mt-6 space-y-4 text-base leading-relaxed text-slate-600 dark:text-slate-400">
-            {paragraphs.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </motion.div>
+              {project.designSystemImageUrl && (
+                <motion.div variants={item} className="mt-16">
+                  <h2 className="text-eyebrow text-slate-400 dark:text-slate-600">Design System</h2>
+                  <div className="mt-4 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5">
+                    <img
+                      src={project.designSystemImageUrl}
+                      alt={`${project.title} design system`}
+                      onError={(e) => {
+                        // Gracefully handle missing local image paths
+                        e.currentTarget.style.display = 'none'
+                      }}
+                      className="block w-full"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </div>
 
-          {project.designSystemImageUrl && (
-            <motion.div variants={item} className="mt-10">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                Design System
-              </h2>
-              <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-indigo-500/5">
-                <img
-                  src={project.designSystemImageUrl}
-                  alt={`${project.title} design system`}
-                  onError={(e) => {
-                    // Gracefully handle missing local image paths
-                    e.currentTarget.style.display = 'none'
-                  }}
-                  className="block w-full"
-                />
-              </div>
-            </motion.div>
-          )}
+            {/* ================= META RAIL ================= */}
+
+            <motion.aside variants={item} className="lg:sticky lg:top-28 lg:self-start">
+              <dl className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-slate-800/80 dark:border-slate-800/80">
+                {meta.map((row) => (
+                  <div key={row.label} className="flex items-baseline justify-between gap-4 py-3">
+                    <dt className="text-eyebrow-sm text-slate-400 dark:text-slate-600">
+                      {row.label}
+                    </dt>
+                    <dd className="text-right text-sm font-medium text-slate-900 dark:text-slate-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {project.tags.length > 0 && (
+                <div className="mt-6">
+                  <h2 className="text-eyebrow-sm text-slate-400 dark:text-slate-600">Stack</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-[11px] tracking-tight text-slate-600 dark:border-slate-800/60 dark:bg-slate-950/60 dark:text-slate-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </motion.aside>
+          </div>
+
         </motion.div>
       </div>
     </div>

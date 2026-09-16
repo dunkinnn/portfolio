@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Section from '../components/Section'
 import { useRiseVariant } from '../lib/motion'
-import logo from '../assets/logo.png'
+import Wordmark from '../components/Wordmark'
 
 // Vector human avatar icons representing visitors
 const visitorIcons = [
@@ -32,15 +32,19 @@ const visitorIcons = [
   },
 ]
 
+// Module scope, not a ref: the footer renders on every route, so it remounts
+// on each client-side navigation. A per-mount guard would count a new visit
+// every time someone moved between pages.
+let counted = false
+
 export default function Footer() {
   const item = useRiseVariant()
   const [visitorCount, setVisitorCount] = useState<number | null>(null)
-  const counted = useRef(false)
 
   useEffect(() => {
-    // StrictMode runs effects twice in dev; count once per real page load.
-    if (counted.current) return
-    counted.current = true
+    // Also covers StrictMode's double-invoke in dev.
+    if (counted) return
+    counted = true
 
     // Per-browser tally. countapi.xyz shut down, so there is no shared count.
     // Deliberate one-time sync from localStorage (an external system) on
@@ -62,13 +66,13 @@ export default function Footer() {
   const overflowCount = visitorCount !== null ? Math.max(0, visitorCount - visitorIcons.length) : 34
 
   return (
-    <footer className="border-t border-slate-200/80 bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:border-slate-800/80 dark:bg-slate-950/60">
+    <footer className="border-t border-slate-200/80 bg-slate-50/50 antialiased backdrop-blur-md transition-colors duration-300 dark:border-slate-800/80 dark:bg-slate-950/60">
       <Section
         id="footer"
         reveal={false}
         fullBleed
-        contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10"
-        paddingClassName="py-4"
+        contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12"
+        paddingClassName="py-6"
         className="text-slate-900 dark:text-slate-100"
       >
         <motion.div
@@ -80,11 +84,11 @@ export default function Footer() {
         >
           {/* Left Side: Logo & Status Badge */}
           <div className="flex items-center gap-3">
-            <a
-              href="#top"
-              className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl transition-transform hover:scale-105"
-            >
-              <img src={logo} alt="Logo" className="h-full w-full object-cover" />
+            <a href="#top" className="group flex items-center" aria-label="Back to top">
+              <Wordmark
+                className="text-sm text-slate-900 dark:text-white"
+                caption="Full-Stack Developer"
+              />
             </a>
           </div>
 
@@ -95,7 +99,7 @@ export default function Footer() {
 
           {/* Right Side: Total Visitors Stack */}
           <div className="flex items-center gap-2.5">
-            <span className="font-mono text-xs font-medium text-slate-500 dark:text-slate-400">
+            <span className="text-eyebrow-sm text-slate-500 dark:text-slate-400">
               Visitors:
             </span>
 

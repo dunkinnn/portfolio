@@ -275,16 +275,16 @@ function ParticleField({
 // and so needs colours dark enough to read against white.
 const PALETTE = {
   dark: {
-    colorA: '#38bdf8',
-    colorB: '#818cf8',
-    colorHot: '#e0f2fe',
-    gridColor: '#1e293b',
+    colorA: '#a3a3a3',
+    colorB: '#8a8a8a',
+    colorHot: '#ededed',
+    gridColor: '#262626',
   },
   light: {
-    colorA: '#0284c7',
-    colorB: '#6366f1',
-    colorHot: '#0f172a',
-    gridColor: '#cbd5e1',
+    colorA: '#6b6b6b',
+    colorB: '#7a7a7a',
+    colorHot: '#171717',
+    gridColor: '#d4d4d4',
   },
 } as const
 

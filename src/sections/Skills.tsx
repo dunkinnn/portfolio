@@ -27,13 +27,15 @@ export default function Skills() {
       id="skills"
       reveal={false}
       fullBleed
-      paddingClassName="py-6 md:py-10"
+      paddingClassName="py-12 md:py-16"
       // Same tint as About and Projects, no top border - all three read as
       // one continuous block instead of separate tiled sections.
       className="bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:bg-slate-950/40"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionHeading number="03">Skills</SectionHeading>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <SectionHeading number="03" className="flex-1">
+          Skills
+        </SectionHeading>
 
         <div className="flex shrink-0 items-center gap-3">
           {/* Toggles the compact 3-category view in place - unrelated to
@@ -51,7 +53,7 @@ export default function Skills() {
           {/* Navigates to the full page - separate from the icon toggle below. */}
           <a
             href="/skills"
-            className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
+            className="group inline-flex items-center gap-2 text-eyebrow text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
           >
             <span>All Skills</span>
             <svg
@@ -79,7 +81,7 @@ export default function Skills() {
           >
             {compactGroups.map((group) => (
               <div key={group.title}>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                <h3 className="text-eyebrow text-slate-400 dark:text-slate-600">
                   {group.title}
                 </h3>
                 <div className="mt-3 flex flex-wrap gap-2.5">

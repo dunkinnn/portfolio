@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { WORDMARK_CLASS, WORDMARK_LETTERS } from '../lib/wordmark'
 
 interface IntroLoaderProps {
   onComplete?: () => void
-  gLogoSrc: string
-  elouTextSrc: string
 }
 
 const SHOWN_KEY = 'intro_shown'
@@ -29,11 +28,7 @@ function markShownThisTab() {
   }
 }
 
-export default function IntroLoader({
-  onComplete,
-  gLogoSrc,
-  elouTextSrc,
-}: IntroLoaderProps) {
+export default function IntroLoader({ onComplete }: IntroLoaderProps) {
   const [stage, setStage] = useState<'pulse' | 'revealLogo' | 'sliding' | 'done'>(() =>
     hasShownThisTab() ? 'done' : 'pulse',
   )
@@ -110,42 +105,47 @@ export default function IntroLoader({
             )}
 
             {(stage === 'revealLogo' || stage === 'sliding') && (
-              <motion.div
-                className="flex items-center justify-center gap-1 sm:gap-2"
-                initial={{ opacity: 1 }}
-                animate={{ scale: [0.95, 1, 1.02] }}
-                transition={{ duration: 2, ease: 'easeInOut' }}
-              >
-                <motion.img
-                  src={gLogoSrc}
-                  alt="G Logo"
-                  initial={{ opacity: 0, scale: 0.4, rotate: -15 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-16 sm:h-20 md:h-24 w-auto object-contain"
+              <div className="flex flex-col items-center gap-5">
+                {/* Same negative margin as the Wordmark component: tracking is
+                    added after the last letter too, and it would otherwise
+                    push the block off centre. */}
+                <div
+                  aria-label="Gelou"
+                  className={`${WORDMARK_CLASS} flex text-3xl sm:text-5xl`}
+                >
+                  {WORDMARK_LETTERS.map((letter, i) => (
+                    <motion.span
+                      key={letter}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: i * 0.09,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
+
+                <motion.span
+                  aria-hidden="true"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="h-px w-44 origin-center bg-white/25 sm:w-64"
                 />
 
-                <motion.img
-                  src={elouTextSrc}
-                  alt="elou Text"
-                  initial={{
-                    opacity: 0,
-                    x: -25,
-                    clipPath: 'inset(0% 100% 0% 0%)',
-                  }}
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                    clipPath: 'inset(0% 0% 0% 0%)',
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.45,
-                    ease: [0.25, 1, 0.5, 1],
-                  }}
-                  className="h-12 sm:h-16 md:h-20 w-auto object-contain"
-                />
-              </motion.div>
+                <motion.span
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-eyebrow-sm text-white/45"
+                >
+                  Full-Stack Developer
+                </motion.span>
+              </div>
             )}
           </div>
         </motion.div>

@@ -1,5 +1,282 @@
 @import "tailwindcss";
 
+/* Monochrome theme. Every palette collapses onto one neutral ramp whose
+   darkest step is a soft #101010 rather than pure black. Hue differences
+   become value differences: accents are pushed toward the extremes so
+   emphasis survives, and each accent family sits on a slightly different
+   step so multi-colour gradients do not flatten into a single block. */
+@theme {
+  /* Inter for UI text, JetBrains Mono for eyebrows, labels and code. Both
+     load from Google Fonts in index.html; the stacks fall back to the
+     system UI faces so nothing shifts badly if the request fails. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-slate-50: #fbfbfb;
+  --color-slate-100: #f5f5f5;
+  --color-slate-200: #e2e2e2;
+  --color-slate-300: #d4d4d4;
+  --color-slate-400: #a3a3a3;
+  --color-slate-500: #737373;
+  --color-slate-600: #5c5c5c;
+  --color-slate-700: #464646;
+  --color-slate-800: #303030;
+  --color-slate-900: #1e1e1e;
+  --color-slate-950: #101010;
+
+  --color-gray-50: #fbfbfb;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e2e2e2;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #5c5c5c;
+  --color-gray-700: #464646;
+  --color-gray-800: #303030;
+  --color-gray-900: #1e1e1e;
+  --color-gray-950: #101010;
+
+  --color-zinc-50: #fbfbfb;
+  --color-zinc-100: #f5f5f5;
+  --color-zinc-200: #e2e2e2;
+  --color-zinc-300: #d4d4d4;
+  --color-zinc-400: #a3a3a3;
+  --color-zinc-500: #737373;
+  --color-zinc-600: #5c5c5c;
+  --color-zinc-700: #464646;
+  --color-zinc-800: #303030;
+  --color-zinc-900: #1e1e1e;
+  --color-zinc-950: #101010;
+
+  --color-neutral-50: #fbfbfb;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e2e2e2;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #5c5c5c;
+  --color-neutral-700: #464646;
+  --color-neutral-800: #303030;
+  --color-neutral-900: #1e1e1e;
+  --color-neutral-950: #101010;
+
+  --color-stone-50: #fbfbfb;
+  --color-stone-100: #f5f5f5;
+  --color-stone-200: #e2e2e2;
+  --color-stone-300: #d4d4d4;
+  --color-stone-400: #a3a3a3;
+  --color-stone-500: #737373;
+  --color-stone-600: #5c5c5c;
+  --color-stone-700: #464646;
+  --color-stone-800: #303030;
+  --color-stone-900: #1e1e1e;
+  --color-stone-950: #101010;
+
+  --color-sky-50: #ffffff;
+  --color-sky-100: #fbfbfb;
+  --color-sky-200: #ededed;
+  --color-sky-300: #e2e2e2;
+  --color-sky-400: #d4d4d4;
+  --color-sky-500: #5c5c5c;
+  --color-sky-600: #303030;
+  --color-sky-700: #1e1e1e;
+  --color-sky-800: #1e1e1e;
+  --color-sky-900: #101010;
+  --color-sky-950: #101010;
+
+  --color-cyan-50: #fbfbfb;
+  --color-cyan-100: #f5f5f5;
+  --color-cyan-200: #e2e2e2;
+  --color-cyan-300: #d4d4d4;
+  --color-cyan-400: #bdbdbd;
+  --color-cyan-500: #464646;
+  --color-cyan-600: #1e1e1e;
+  --color-cyan-700: #101010;
+  --color-cyan-800: #101010;
+  --color-cyan-900: #101010;
+  --color-cyan-950: #101010;
+
+  --color-blue-50: #ffffff;
+  --color-blue-100: #ffffff;
+  --color-blue-200: #f5f5f5;
+  --color-blue-300: #ededed;
+  --color-blue-400: #e2e2e2;
+  --color-blue-500: #737373;
+  --color-blue-600: #464646;
+  --color-blue-700: #303030;
+  --color-blue-800: #303030;
+  --color-blue-900: #1e1e1e;
+  --color-blue-950: #1e1e1e;
+
+  --color-indigo-50: #ffffff;
+  --color-indigo-100: #ffffff;
+  --color-indigo-200: #f5f5f5;
+  --color-indigo-300: #ededed;
+  --color-indigo-400: #e2e2e2;
+  --color-indigo-500: #737373;
+  --color-indigo-600: #464646;
+  --color-indigo-700: #303030;
+  --color-indigo-800: #303030;
+  --color-indigo-900: #1e1e1e;
+  --color-indigo-950: #1e1e1e;
+
+  --color-violet-50: #ffffff;
+  --color-violet-100: #ffffff;
+  --color-violet-200: #fbfbfb;
+  --color-violet-300: #f5f5f5;
+  --color-violet-400: #ededed;
+  --color-violet-500: #8a8a8a;
+  --color-violet-600: #5c5c5c;
+  --color-violet-700: #464646;
+  --color-violet-800: #464646;
+  --color-violet-900: #303030;
+  --color-violet-950: #303030;
+
+  --color-purple-50: #ffffff;
+  --color-purple-100: #ffffff;
+  --color-purple-200: #fbfbfb;
+  --color-purple-300: #f5f5f5;
+  --color-purple-400: #ededed;
+  --color-purple-500: #8a8a8a;
+  --color-purple-600: #5c5c5c;
+  --color-purple-700: #464646;
+  --color-purple-800: #464646;
+  --color-purple-900: #303030;
+  --color-purple-950: #303030;
+
+  --color-fuchsia-50: #ffffff;
+  --color-fuchsia-100: #ffffff;
+  --color-fuchsia-200: #f5f5f5;
+  --color-fuchsia-300: #ededed;
+  --color-fuchsia-400: #e2e2e2;
+  --color-fuchsia-500: #737373;
+  --color-fuchsia-600: #464646;
+  --color-fuchsia-700: #303030;
+  --color-fuchsia-800: #303030;
+  --color-fuchsia-900: #1e1e1e;
+  --color-fuchsia-950: #1e1e1e;
+
+  --color-emerald-50: #fbfbfb;
+  --color-emerald-100: #f5f5f5;
+  --color-emerald-200: #e2e2e2;
+  --color-emerald-300: #d4d4d4;
+  --color-emerald-400: #bdbdbd;
+  --color-emerald-500: #464646;
+  --color-emerald-600: #1e1e1e;
+  --color-emerald-700: #101010;
+  --color-emerald-800: #101010;
+  --color-emerald-900: #101010;
+  --color-emerald-950: #101010;
+
+  --color-green-50: #fbfbfb;
+  --color-green-100: #f5f5f5;
+  --color-green-200: #e2e2e2;
+  --color-green-300: #d4d4d4;
+  --color-green-400: #bdbdbd;
+  --color-green-500: #464646;
+  --color-green-600: #1e1e1e;
+  --color-green-700: #101010;
+  --color-green-800: #101010;
+  --color-green-900: #101010;
+  --color-green-950: #101010;
+
+  --color-teal-50: #f5f5f5;
+  --color-teal-100: #ededed;
+  --color-teal-200: #d4d4d4;
+  --color-teal-300: #bdbdbd;
+  --color-teal-400: #a3a3a3;
+  --color-teal-500: #303030;
+  --color-teal-600: #101010;
+  --color-teal-700: #101010;
+  --color-teal-800: #101010;
+  --color-teal-900: #101010;
+  --color-teal-950: #101010;
+
+  --color-lime-50: #ffffff;
+  --color-lime-100: #ffffff;
+  --color-lime-200: #fbfbfb;
+  --color-lime-300: #f5f5f5;
+  --color-lime-400: #ededed;
+  --color-lime-500: #8a8a8a;
+  --color-lime-600: #5c5c5c;
+  --color-lime-700: #464646;
+  --color-lime-800: #464646;
+  --color-lime-900: #303030;
+  --color-lime-950: #303030;
+
+  --color-amber-50: #ffffff;
+  --color-amber-100: #ffffff;
+  --color-amber-200: #f5f5f5;
+  --color-amber-300: #ededed;
+  --color-amber-400: #e2e2e2;
+  --color-amber-500: #737373;
+  --color-amber-600: #464646;
+  --color-amber-700: #303030;
+  --color-amber-800: #303030;
+  --color-amber-900: #1e1e1e;
+  --color-amber-950: #1e1e1e;
+
+  --color-orange-50: #ffffff;
+  --color-orange-100: #ffffff;
+  --color-orange-200: #f5f5f5;
+  --color-orange-300: #ededed;
+  --color-orange-400: #e2e2e2;
+  --color-orange-500: #737373;
+  --color-orange-600: #464646;
+  --color-orange-700: #303030;
+  --color-orange-800: #303030;
+  --color-orange-900: #1e1e1e;
+  --color-orange-950: #1e1e1e;
+
+  --color-yellow-50: #ffffff;
+  --color-yellow-100: #ffffff;
+  --color-yellow-200: #fbfbfb;
+  --color-yellow-300: #f5f5f5;
+  --color-yellow-400: #ededed;
+  --color-yellow-500: #8a8a8a;
+  --color-yellow-600: #5c5c5c;
+  --color-yellow-700: #464646;
+  --color-yellow-800: #464646;
+  --color-yellow-900: #303030;
+  --color-yellow-950: #303030;
+
+  --color-red-50: #fbfbfb;
+  --color-red-100: #f5f5f5;
+  --color-red-200: #e2e2e2;
+  --color-red-300: #d4d4d4;
+  --color-red-400: #bdbdbd;
+  --color-red-500: #464646;
+  --color-red-600: #1e1e1e;
+  --color-red-700: #101010;
+  --color-red-800: #101010;
+  --color-red-900: #101010;
+  --color-red-950: #101010;
+
+  --color-rose-50: #fbfbfb;
+  --color-rose-100: #f5f5f5;
+  --color-rose-200: #e2e2e2;
+  --color-rose-300: #d4d4d4;
+  --color-rose-400: #bdbdbd;
+  --color-rose-500: #464646;
+  --color-rose-600: #1e1e1e;
+  --color-rose-700: #101010;
+  --color-rose-800: #101010;
+  --color-rose-900: #101010;
+  --color-rose-950: #101010;
+
+  --color-pink-50: #ffffff;
+  --color-pink-100: #fbfbfb;
+  --color-pink-200: #ededed;
+  --color-pink-300: #e2e2e2;
+  --color-pink-400: #d4d4d4;
+  --color-pink-500: #5c5c5c;
+  --color-pink-600: #303030;
+  --color-pink-700: #1e1e1e;
+  --color-pink-800: #1e1e1e;
+  --color-pink-900: #101010;
+  --color-pink-950: #101010;
+}
+
 /* Class-based dark mode; Tailwind v4 defaults the variant to prefers-color-scheme. */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,6 +290,37 @@ html {
 html.dark {
   background-color: var(--color-slate-950);
   color-scheme: dark;
+}
+
+/* Base type: Inter's optical size axis pinned to the text grade, tabular
+   figures off, and wrapping rules so headings break evenly and paragraphs
+   never end on an orphan word. */
+body {
+  font-family: var(--font-sans);
+  font-variation-settings: "opsz" 20;
+  font-feature-settings: "cv05", "cv11", "ss03";
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Display sizes need tighter tracking and the display optical grade; the
+   text grade above is calibrated for paragraph sizes and looks loose big. */
+h1,
+h2 {
+  font-variation-settings: "opsz" 32;
 }
 
 /* Nothing between the viewport edge and the page content. */
@@ -52,6 +360,51 @@ body {
   border-radius: 0.5rem;
 }
 
+/* Custom scrollbar - thin monochrome thumb with a border matching the page
+   background so it reads as a floating pill rather than touching the edge.
+   Firefox via scrollbar-color, everything else via the webkit pseudo-els. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-slate-300) transparent;
+}
+
+html.dark {
+  scrollbar-color: var(--color-slate-700) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-300);
+  background-clip: padding-box;
+  border: 2px solid var(--color-white);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-slate-400);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-700);
+  border-color: var(--color-slate-950);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-slate-600);
+}
+
 /* Small entrance keyframes used by section headings and accents. */
 @keyframes fade-in-up {
   from {
@@ -89,7 +442,7 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-12px);
+    transform: translateY(-8px);
   }
 }
 
@@ -100,6 +453,16 @@ body {
 @utility animate-float-delayed {
   animation: float 6s ease-in-out infinite;
   animation-delay: -3s;
+}
+
+@utility animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+  animation-delay: -1.5s;
+}
+
+@utility animate-float-fast {
+  animation: float 4.5s ease-in-out infinite;
+  animation-delay: -2.2s;
 }
 
 /* Sweeping highlight for skeleton and placeholder surfaces. */
@@ -149,4 +512,28 @@ body {
 
 @utility animate-marquee {
   animation: marquee 30s linear infinite;
+}
+
+/* One label style for the small mono type that appears as section eyebrows,
+   stat captions, tags and badges. Replaces the ad-hoc mix of 8/9/10/11px
+   sizes and four different tracking values these used to carry inline. */
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-variation-settings: normal;
+}
+
+/* Same face and casing, sized down for captions inside cards and pills. */
+@utility text-eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.2;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-variation-settings: normal;
 }

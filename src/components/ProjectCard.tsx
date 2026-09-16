@@ -57,7 +57,7 @@ export default function ProjectCard({
   const rotateY = useSpring(tiltY, { stiffness: 220, damping: 22 })
   const glowX = useMotionValue(0)
   const glowY = useMotionValue(0)
-  const glow = useMotionTemplate`radial-gradient(280px circle at ${glowX}px ${glowY}px, rgba(56,189,248,0.12), transparent 70%)`
+  const glow = useMotionTemplate`radial-gradient(280px circle at ${glowX}px ${glowY}px, rgba(163,163,163,0.16), transparent 70%)`
 
   const handleMove = (e: MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -113,7 +113,7 @@ export default function ProjectCard({
           />
         ) : (
           <>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(56,189,248,0.14),transparent_60%)] transition-transform duration-700 ease-out group-hover:scale-110" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(163,163,163,0.18),transparent_60%)] transition-transform duration-700 ease-out group-hover:scale-110" />
             <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent dark:via-white/[0.06]" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="rounded-md border border-slate-300 px-3 py-1.5 font-mono text-xs text-slate-400 dark:border-slate-800 dark:text-slate-600">
@@ -131,12 +131,12 @@ export default function ProjectCard({
               {initial}
             </div>
           )}
-          <span className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
+          <span className="text-eyebrow-sm text-sky-600 dark:text-sky-300">
             {eyebrow}
           </span>
         </div>
 
-        <h3 className={`mt-3 font-bold tracking-tight text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300 ${compact ? 'text-base' : 'text-lg'}`}>
+        <h3 className={`mt-3 font-bold tracking-[-0.02em] text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300 ${compact ? 'text-base' : 'text-lg'}`}>
           {title}
         </h3>
 
@@ -148,7 +148,7 @@ export default function ProjectCard({
           {tags.map((tag) => (
             <span
               key={tag}
-              className={`rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium ${tagStyle(tag)}`}
+              className={`rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium tracking-tight ${tagStyle(tag)}`}
             >
               {tag}
             </span>

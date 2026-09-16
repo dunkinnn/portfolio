@@ -32,7 +32,7 @@ export function ProjectCard({
   const rotateY = useSpring(tiltY, { stiffness: 220, damping: 22 })
   const glowX = useMotionValue(0)
   const glowY = useMotionValue(0)
-  const glow = useMotionTemplate`radial-gradient(280px circle at ${glowX}px ${glowY}px, rgba(56,189,248,0.12), transparent 75%)`
+  const glow = useMotionTemplate`radial-gradient(280px circle at ${glowX}px ${glowY}px, rgba(163,163,163,0.16), transparent 75%)`
 
   const handleCardMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -81,7 +81,7 @@ export function ProjectCard({
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors group-hover:bg-amber-400/80 dark:bg-slate-700/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors group-hover:bg-emerald-400/80 dark:bg-slate-700/80" />
           </div>
-          <div className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white/80 px-2 py-0.5 font-mono text-[10px] text-slate-400 dark:border-slate-800/80 dark:bg-slate-950/80 dark:text-slate-500">
+          <div className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white/80 px-2 py-1 font-mono text-[11px] tracking-tight text-slate-400 dark:border-slate-800/80 dark:bg-slate-950/80 dark:text-slate-500">
             <svg className="h-2.5 w-2.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
             </svg>
@@ -130,28 +130,28 @@ export function ProjectCard({
       </div>
 
       {/* Card Content & Details */}
-      <div className="flex flex-1 flex-col p-4 pt-4">
+      <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center justify-between gap-2">
           {/* Eyebrow & Status Pill */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-medium text-sky-600 dark:border-sky-400/20 dark:text-sky-300">
+          <div className="text-eyebrow-sm inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-2.5 py-1 text-sky-600 dark:border-sky-400/20 dark:text-sky-300">
             {status && <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-500" />}
             {eyebrow}
           </div>
 
           {/* Metric Tag */}
           {metric && (
-            <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="text-eyebrow-sm text-emerald-600 dark:text-emerald-400">
               {metric}
             </span>
           )}
         </div>
 
-        <h3 className="mt-2.5 text-base font-semibold text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300">
+        <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em] text-slate-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-300">
           {title}
         </h3>
 
         <p
-          className={`mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400 ${fullDescription ? '' : 'line-clamp-2'}`}
+          className={`mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400 ${fullDescription ? '' : 'line-clamp-2'}`}
         >
           {description}
         </p>
@@ -162,7 +162,7 @@ export function ProjectCard({
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-0.5 font-mono text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"
+                className="rounded-md border border-slate-200/80 bg-slate-100/80 px-2 py-1 font-mono text-[11px] tracking-tight text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400"
               >
                 {tag}
               </span>
@@ -182,17 +182,17 @@ export default function Projects() {
       id="projects"
       reveal={false}
       fullBleed
-      paddingClassName="py-10 md:py-16"
+      paddingClassName="py-12 md:py-16"
       className="bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:bg-slate-950/40"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <SectionHeading number="02">Projects</SectionHeading>
-        </div>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <SectionHeading number="02" className="flex-1">
+          Projects
+        </SectionHeading>
 
         <a
           href="/projects"
-          className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-700 transition-colors duration-300 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
+          className="group inline-flex items-center gap-2 text-eyebrow text-slate-700 transition-colors duration-300 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
         >
           <span>All projects</span>
           <svg

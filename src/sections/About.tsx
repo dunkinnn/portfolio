@@ -6,24 +6,26 @@ import {
   useReducedMotion,
   useSpring,
 } from 'framer-motion'
-import { GraduationCap } from 'lucide-react'
+import { Download } from 'lucide-react'
+import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import profileUrl from '../assets/profile.png'
 import { EASE, fade, rise, stagger } from '../lib/motion'
 
-const stats = [
-  { value: '2+', label: 'Years Experience' },
-  { value: '12+', label: 'Projects Shipped' },
-  { value: '2', label: 'Disciplines, One Workflow' },
-]
+// Drop the PDF at public/angelou-bulauan-cv.pdf and this starts working.
+const CV_URL = '/angelou-bulauan-cv.pdf'
 
-const education = {
-  degree: 'Bachelor of Science in Information Technology',
-  major: 'Major in Web and Mobile Application Development',
-  school: 'Isabela State University',
-  period: 'August 2022 - July 2026',
-}
+// TODO replace the GitHub placeholder with the real profile URL.
+const socials = [
+  { label: 'GitHub', href: '#', Icon: FaGithub },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/angelou-bulauan-125401338/',
+    Icon: FaLinkedin,
+  },
+  { label: 'Facebook', href: 'https://www.facebook.com/angelou.bulauan', Icon: FaFacebook },
+]
 
 export default function About() {
   const reduced = useReducedMotion()
@@ -36,7 +38,7 @@ export default function About() {
   const rotateY = useSpring(tiltY, { stiffness: 220, damping: 22 })
   const glowX = useMotionValue(0)
   const glowY = useMotionValue(0)
-  const glow = useMotionTemplate`radial-gradient(240px circle at ${glowX}px ${glowY}px, rgba(56, 189, 248, 0.12), transparent 80%)`
+  const glow = useMotionTemplate`radial-gradient(240px circle at ${glowX}px ${glowY}px, rgba(163,163,163,0.16), transparent 80%)`
 
   const handlePortraitMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -57,10 +59,12 @@ export default function About() {
       id="about"
       reveal={false}
       fullBleed
-      paddingClassName="py-5 md:py-8"
+      paddingClassName="py-12 md:py-16"
       className="border-t border-slate-200/80 bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/40"
     >
-      <SectionHeading number="01">About</SectionHeading>
+      <SectionHeading number="01" watermark="About - Me">
+        About
+      </SectionHeading>
 
       <div className="mt-6 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12 lg:gap-12">
         {/* LEFT: Interactive Portrait Frame */}
@@ -86,7 +90,7 @@ export default function About() {
             />
 
             {/* Live Indicator Badge */}
-            <div className="absolute top-5 left-5 z-30 flex items-center gap-2 rounded-full border border-slate-200/60 bg-white/80 px-3 py-1 text-[11px] font-medium tracking-wide text-slate-700 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-300">
+            <div className="text-eyebrow-sm absolute left-5 top-5 z-30 flex items-center gap-2 rounded-full border border-slate-200/60 bg-white/80 px-3 py-1.5 text-slate-700 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-300">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -112,17 +116,17 @@ export default function About() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          className="lg:col-span-7 flex flex-col justify-between"
+          className="flex flex-col justify-center gap-8 lg:col-span-7"
         >
           <div>
-            <motion.div variants={item} className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-sky-600 dark:text-sky-400 mb-3">
+            <motion.div variants={item} className="text-eyebrow mb-3 inline-flex items-center gap-2 text-sky-600 dark:text-sky-400">
               <span className="h-px w-6 bg-sky-500/50" />
-              Background & Focus
+              Who am I?
             </motion.div>
 
             <motion.h3
               variants={item}
-              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+              className="text-3xl font-extrabold tracking-[-0.03em] text-slate-900 sm:text-4xl dark:text-white"
             >
               Hi, I&apos;m Angelou Bulauan.
             </motion.h3>
@@ -146,45 +150,33 @@ export default function About() {
             </motion.p>
           </div>
 
-          {/* Academic Background */}
-          <motion.div
-            variants={item}
-            className="mt-5 flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white/70 p-4 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-900/50"
-          >
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sky-500/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-400">
-              <GraduationCap className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                {education.degree}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{education.major}</p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                {education.school} &middot; {education.period}
-              </p>
+          {/* CV download and social links */}
+          <motion.div variants={item} className="flex flex-wrap items-center gap-4">
+            <a
+              href={CV_URL}
+              download
+              className="group inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+            >
+              <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              Download CV
+            </a>
+
+            <div className="flex items-center gap-2">
+              {socials.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={label}
+                  title={label}
+                  className="grid h-11 w-11 place-items-center rounded-xl border border-slate-200/80 bg-white/70 text-slate-600 shadow-sm backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-sky-500/40 hover:text-sky-600 dark:border-white/10 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:border-sky-400/40 dark:hover:text-sky-400"
+                >
+                  <Icon aria-hidden="true" className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </motion.div>
-
-          {/* Metric Grid Cards */}
-          <motion.dl
-            variants={item}
-            className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3"
-          >
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/70 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/50 dark:hover:border-white/20 dark:hover:bg-slate-900/80"
-              >
-                <div className="absolute top-0 right-0 h-16 w-16 -mr-4 -mt-4 rounded-full bg-sky-500/5 blur-xl group-hover:bg-sky-500/10 transition-colors" />
-                <dt className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
-                  {stat.value}
-                </dt>
-                <dd className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-                  {stat.label}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
         </motion.div>
       </div>
     </Section>

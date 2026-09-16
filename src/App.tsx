@@ -15,9 +15,6 @@ import ScrollToTop from './components/ScrollToTop'
 import IntroLoader from './components/IntroLoader'
 import { useRoute } from './lib/useRoute'
 
-import gLogoImg from './assets/G.png'
-import elouTextImg from './assets/elou.png'
-
 function App() {
   const path = useRoute()
   const [heroVisible, setHeroVisible] = useState(false)
@@ -40,28 +37,27 @@ function App() {
   } else {
     page = (
       <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
-        <Nav />
         <Hero isLoaded={heroVisible} />
         <About />
         <Projects />
         <Skills />
         <Experience />
         <Contact />
-        <Footer />
       </div>
     )
   }
 
-  // Rendered alongside every route, not just the homepage, since the
-  // sub-pages (skills, experience, project, projects) can run long too.
+  // Rendered alongside every route, not just the homepage. The nav's links
+  // point at the sub-pages, so it has to be present on them too or those
+  // pages become dead ends; the footer gives every page the same ending
+  // instead of stopping dead after the content; and the sub-pages can run
+  // long enough to want the back-to-top button.
   return (
     <>
-      <IntroLoader
-        gLogoSrc={gLogoImg}
-        elouTextSrc={elouTextImg}
-        onComplete={() => setHeroVisible(true)}
-      />
+      <IntroLoader onComplete={() => setHeroVisible(true)} />
+      <Nav />
       {page}
+      <Footer />
       <ScrollToTop />
     </>
   )

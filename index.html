@@ -2,13 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- SVG first so supporting browsers get the monochrome wordmark mark;
+         the PNGs stay as fallbacks. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Inter for UI text, JetBrains Mono for the eyebrow/label/code type. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
     <meta name="author" content="Angelou Bulauan" />
     <meta name="copyright" content="Copyright 2026 Angelou Bulauan. All rights reserved." />
-    <meta name="description" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer" />
+    <meta
+      name="description"
+      content="Angelou Bulauan is a full-stack developer and UI/UX designer based in the Philippines, designing and building web platforms, mobile apps, and interfaces for startups and modern brands."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#101010" />
     <title>Angelou Bulauan - Full-Stack Developer / UI/UX Designer</title>
+
+    <!-- Open Graph / Twitter - no canonical og:url yet since the site has no
+         deployed domain wired in anywhere in the codebase; add one (and a
+         proper 1200x630 og:image) once this ships to a real domain. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Angelou Bulauan" />
+    <meta property="og:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer" />
+    <meta
+      property="og:description"
+      content="Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
+    />
+    <meta property="og:image" content="/apple-touch-icon.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer" />
+    <meta
+      name="twitter:description"
+      content="Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
+    />
+    <meta name="twitter:image" content="/apple-touch-icon.png" />
+
+    <!-- Person schema so search engines can attach the name/role/socials to
+         this page directly, not just infer them from body text. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Angelou Bulauan",
+        "jobTitle": "Full-Stack Developer & UI/UX Designer",
+        "description": "Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "Isabela",
+          "addressCountry": "PH"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/angelou-bulauan-125401338/",
+          "https://www.facebook.com/angelou.bulauan"
+        ]
+      }
+    </script>
     <script>
       // Applied before first paint so there is no flash of the wrong theme.
       // Dark is the default; light is opt-in and remembered.

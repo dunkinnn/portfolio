@@ -15,17 +15,19 @@ export default function Experience() {
       id="experience"
       reveal={false}
       fullBleed
-      paddingClassName="py-10 md:py-16"
+      paddingClassName="py-12 md:py-16"
       // Same tint as About, Projects and Skills, no top border - the whole
       // run of sections reads as one continuous block.
       className="bg-slate-50/50 backdrop-blur-md transition-colors duration-300 dark:bg-slate-950/40"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionHeading number="04">Experience</SectionHeading>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <SectionHeading number="04" className="flex-1">
+          Experience
+        </SectionHeading>
 
         <a
           href="/experience"
-          className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
+          className="group inline-flex items-center gap-2 text-eyebrow text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
         >
           <span>View details</span>
           <svg
@@ -65,13 +67,15 @@ export default function Experience() {
                   right - the duration half of `period` that `dateRange`
                   drops. `sm:contents` un-wraps this on the grid layout so it
                   lands in its own trailing column instead of next to the date. */}
-              <span className="shrink-0 whitespace-nowrap rounded-full border border-slate-200 px-3 py-1 text-xs font-medium uppercase tracking-wider text-slate-500 dark:border-slate-700 dark:text-slate-400 sm:order-3">
+              <span className="text-eyebrow-sm shrink-0 whitespace-nowrap rounded-full border border-slate-200 px-3 py-1.5 text-slate-500 dark:border-slate-700 dark:text-slate-400 sm:order-3">
                 {duration(role.period)}
               </span>
             </div>
 
             <div className="max-w-xl">
-              <h3 className="font-semibold text-slate-900 dark:text-slate-50">{role.title}</h3>
+              <h3 className="text-base font-semibold tracking-[-0.015em] text-slate-900 dark:text-slate-50">
+                {role.title}
+              </h3>
               <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-300">
                 {role.company} &middot; {role.type}
               </p>

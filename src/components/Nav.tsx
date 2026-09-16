@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-// Imported rather than referenced as "/logo.png" so Vite fingerprints and
-// bundles it; files under src/assets are not served from the site root.
-import logoUrl from '../assets/logo.png'
-import { useActiveSection } from '../lib/useActiveSection'
+import { useRoute } from '../lib/useRoute'
 import ThemeToggle from './ThemeToggle'
+import Wordmark from './Wordmark'
 
+// Each link goes straight to its own full page rather than to a section of
+// the home page. About is deliberately absent - it only exists as a home
+// page section, which the brand mark already leads back to.
 const links = [
-  { href: '#about', label: 'About' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#experience', label: 'Experience' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/experience', label: 'Experience' },
 ]
 
-// Module-level so the array identity is stable across renders.
-const sectionIds = links.map((link) => link.href.slice(1))
+// A single project's case study still counts as being under Projects.
+function isActiveLink(path: string, href: string) {
+  if (href === '/projects' && path.startsWith('/project/')) return true
+  return path.replace(/\/$/, '') === href
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const activeSection = useActiveSection(sectionIds)
+  const path = useRoute()
 
   // Tighten the nav shell once the user leaves the top of the page.
   useEffect(() => {
@@ -66,32 +69,28 @@ export default function Nav() {
       <header
         className={`w-full border-b transition-[background-color,border-color,box-shadow] duration-300 ease-out motion-reduce:transition-none ${
           scrolled
-            ? 'border-slate-200 bg-white/90 shadow-md shadow-slate-900/5 backdrop-blur-xl dark:border-slate-800 dark:bg-[#0F172A]/95 dark:shadow-2xl dark:shadow-black/40'
-            : 'border-slate-200/60 bg-white/70 shadow-sm shadow-slate-900/5 backdrop-blur-md dark:border-slate-800/60 dark:bg-[#0F172A]/70 dark:shadow-black/10'
+            ? 'border-slate-200 bg-white/90 shadow-md shadow-slate-900/5 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 dark:shadow-2xl dark:shadow-black/40'
+            : 'border-slate-200/60 bg-white/70 shadow-sm shadow-slate-900/5 backdrop-blur-md dark:border-slate-800/60 dark:bg-slate-950/70 dark:shadow-black/10'
         }`}
       >
         {/* Content stays inside the same column the rest of the page uses,
             even though the bar's background now spans edge to edge. */}
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3 sm:px-8 lg:px-12">
           {/* Brand mark */}
-          <a href="#hero" className="group flex items-center" aria-label="Home">
-            <img
-              src={logoUrl}
-              alt="Home"
-              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-12"
-            />
+          <a href="/#hero" className="group flex items-center" aria-label="Home">
+            <Wordmark className="text-base text-slate-900 sm:text-lg dark:text-white" />
           </a>
 
           {/* Navigation Links */}
           <nav className="hidden items-center gap-10 text-sm font-medium text-slate-500 lg:flex lg:gap-14 dark:text-slate-400">
             {links.map((link) => {
-              const isActive = activeSection === link.href.slice(1)
+              const isActive = isActiveLink(path, link.href)
 
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  aria-current={isActive ? 'true' : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   className={`group relative py-1 transition-colors duration-200 hover:text-slate-900 dark:hover:text-white ${
                     isActive ? 'text-slate-900 dark:text-white' : ''
                   }`}
@@ -100,7 +99,7 @@ export default function Nav() {
                   {/* Underline wipes in on hover/focus, and stays put for the active section */}
                   <span
                     aria-hidden="true"
-                    className={`absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-[#2340FF] to-cyan-400 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none ${
+                    className={`absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none ${
                       isActive ? 'scale-x-100' : 'scale-x-0'
                     }`}
                   />
@@ -114,8 +113,8 @@ export default function Nav() {
             <ThemeToggle />
 
             <a
-              href="#contact"
-              className="hidden rounded-full bg-[#2340FF] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-[#2340FF]/25 transition duration-300 hover:bg-[#1f37e0] hover:shadow-[#2340FF]/40 hover:scale-[1.02] active:scale-[0.98] sm:block"
+              href="/#contact"
+              className="hidden rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-900/25 transition duration-300 hover:bg-slate-700 hover:shadow-slate-900/40 hover:scale-[1.02] active:scale-[0.98] sm:block dark:bg-white dark:text-slate-950 dark:shadow-black/40 dark:hover:bg-slate-200"
             >
               Contact
             </a>
@@ -169,10 +168,10 @@ export default function Nav() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-y-0 right-0 z-50 flex w-[82vw] max-w-xs flex-col border-l border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 lg:hidden dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-black/40"
+              className="fixed inset-y-0 right-0 z-50 flex w-[82vw] max-w-xs flex-col border-l border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 lg:hidden dark:border-slate-800 dark:bg-slate-950 dark:shadow-black/40"
             >
               <div className="flex items-center justify-between">
-                <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" />
+                <Wordmark className="text-base text-slate-900 dark:text-white" />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -187,14 +186,14 @@ export default function Nav() {
 
               <div className="mt-4 flex flex-col gap-1 border-t border-slate-200 pt-4 dark:border-slate-800">
                 {links.map((link) => {
-                  const isActive = activeSection === link.href.slice(1)
+                  const isActive = isActiveLink(path, link.href)
 
                   return (
                     <a
                       key={link.href}
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      aria-current={isActive ? 'true' : undefined}
+                      aria-current={isActive ? 'page' : undefined}
                       className={`rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                         isActive
                           ? 'bg-slate-100 text-slate-900 dark:bg-slate-800/60 dark:text-white'
@@ -208,9 +207,9 @@ export default function Nav() {
               </div>
 
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
-                className="mt-6 block rounded-xl bg-[#2340FF] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#1f37e0]"
+                className="mt-6 block rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-slate-700 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
               >
                 Contact
               </a>

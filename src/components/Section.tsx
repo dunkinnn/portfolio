@@ -27,16 +27,16 @@ export default function Section({
   reveal = true,
   direction = 'up',
   fullBleed = false,
-  contentClassName = 'mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-10',
-  paddingClassName = 'py-20',
+  contentClassName = 'mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12',
+  paddingClassName = 'py-14 md:py-20',
 }: SectionProps) {
   const { ref, isVisible } = useScrollReveal<HTMLElement>()
 
   // Full-bleed sections drop the max width so their background reaches the
   // viewport edges; the inner wrapper restores the column for the content.
   const base = fullBleed
-    ? `w-full scroll-mt-28 ${paddingClassName} ${className}`
-    : `mx-auto w-full max-w-5xl scroll-mt-28 px-6 ${paddingClassName} ${className}`
+    ? `w-full scroll-mt-24 ${paddingClassName} ${className}`
+    : `mx-auto w-full max-w-5xl scroll-mt-24 px-6 sm:px-8 ${paddingClassName} ${className}`
 
   // Deliberately not `relative`, so absolutely positioned children still
   // resolve against the outer section and can cover the full bleed area.
