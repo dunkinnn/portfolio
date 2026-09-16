@@ -119,9 +119,9 @@ export default function Footer() {
             row. Below lg the columns drop under the brand block and share a
             row of their own. */}
 
-        <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
           {/* ---------- LEFT: who and where ---------- */}
-          <div className="max-w-sm sm:col-span-3 lg:col-span-1 lg:max-w-none">
+          <div className="col-span-2 max-w-sm sm:col-span-3 lg:col-span-1 lg:max-w-none">
             <a href="/#hero" className="group inline-flex" aria-label="Home">
               <Wordmark className="text-base text-slate-900 dark:text-white" />
             </a>

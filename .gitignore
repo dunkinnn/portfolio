@@ -31,3 +31,6 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Build-verification tarballs (temporary, should never be committed)
+*.tgz

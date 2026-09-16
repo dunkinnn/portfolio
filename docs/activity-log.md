@@ -300,3 +300,28 @@ fragment next to `Nav`, after `{page}`.
 
 Verified at 1440: exactly one `<footer>` per route, mark aligned at x=128 on all
 five pages, light and dark.
+
+## 2026-09-16 - Footer: filled the centre gap
+
+The brand block was capped at `max-w-sm` inside a wide grid column, which left a
+dead strip across the middle of the footer at desktop width.
+
+- Added a "Selected work" column between the brand block and Sitemap: deep links
+  to the four real case studies, read from `projects` and filtered on
+  `imageUrl`, which is what separates a real project from the coming-soon
+  placeholder.
+- `Project` gained an optional `shortTitle`, set on the three projects whose
+  full titles are too long for a footer column (Corn Leaf Detector, LandKoTo,
+  Smart Plate). Falls back to `title`.
+- Grid is now four columns across at `lg` so they fill the row evenly, three at
+  `sm`, and two on a phone - stacking all three made the footer a very long
+  scroll.
+
+Also from this pass, before the gap fix:
+
+- Dropped the oversized GELOU watermark entirely.
+- Visit counter restored in the bottom bar. It reads in a lazy `useState`
+  initialiser rather than an effect, so there is no second render and no
+  `set-state-in-effect` lint suppression; the module-level guard means a client
+  side navigation does not count as a new visit. Verified: 3 navigations leave
+  it at 1, a reload takes it to 2.
