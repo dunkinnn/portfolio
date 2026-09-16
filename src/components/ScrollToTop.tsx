@@ -8,14 +8,32 @@ import { ArrowUp } from 'lucide-react'
 // fragment even with no matching element, so this needs no scroll logic of
 // its own and picks up prefers-reduced-motion for free via index.css.
 export default function ScrollToTop() {
-  const [visible, setVisible] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [footerInView, setFooterInView] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400)
+    const onScroll = () => setScrolled(window.scrollY > 400)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // The footer carries its own "Back to top" link and ends with the wordmark,
+  // which this button would otherwise sit on top of. Stand down once the
+  // footer is on screen - there is a better control there by then.
+  useEffect(() => {
+    const footer = document.querySelector('footer')
+    if (!footer || typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0 },
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
+  const visible = scrolled && !footerInView
 
   return (
     <AnimatePresence>

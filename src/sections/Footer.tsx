@@ -1,125 +1,197 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Section from '../components/Section'
-import { useRiseVariant } from '../lib/motion'
+import { ArrowUp, ArrowUpRight, Eye } from 'lucide-react'
 import Wordmark from '../components/Wordmark'
+import { useRiseVariant } from '../lib/motion'
+import {
+  CALENDLY_URL,
+  FACEBOOK_URL,
+  LINKEDIN_URL,
+  LOCATION,
+  REAL_EMAIL,
+} from '../data/contact'
 
-// Vector human avatar icons representing visitors
-const visitorIcons = [
-  {
-    bg: 'bg-indigo-500/10 text-indigo-500 dark:bg-indigo-400/20 dark:text-indigo-300',
-    icon: (
-      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-  },
-  {
-    bg: 'bg-sky-500/10 text-sky-500 dark:bg-sky-400/20 dark:text-sky-300',
-    icon: (
-      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-  },
-  {
-    bg: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-400/20 dark:text-emerald-300',
-    icon: (
-      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-  },
+const sitemap = [
+  { label: 'Projects', href: '/projects' },
+  { label: 'Skills', href: '/skills' },
+  { label: 'Experience', href: '/experience' },
+  // Lives on the home page, so it needs the path as well as the hash to
+  // resolve from a sub-page.
+  { label: 'Contact', href: '/#contact' },
 ]
+
+const elsewhere = [
+  { label: 'LinkedIn', href: LINKEDIN_URL, external: true },
+  { label: 'Facebook', href: FACEBOOK_URL, external: true },
+  { label: 'Book a call', href: CALENDLY_URL, external: true },
+  { label: 'Email', href: `mailto:${REAL_EMAIL}` },
+]
+
+const YEAR = 2026
+const VIEWS_KEY = 'visitor_count'
 
 // Module scope, not a ref: the footer renders on every route, so it remounts
 // on each client-side navigation. A per-mount guard would count a new visit
 // every time someone moved between pages.
 let counted = false
 
+function ColumnHeading({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-eyebrow-sm text-slate-400 dark:text-slate-600">{children}</h2>
+}
+
+function FooterLink({
+  href,
+  label,
+  external,
+}: {
+  href: string
+  label: string
+  external?: boolean
+}) {
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer noopener' : undefined}
+      className="group inline-flex items-center gap-1 text-sm text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+    >
+      {label}
+      {external && (
+        <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
+      )}
+    </a>
+  )
+}
+
+/**
+ * Reads the tally, and bumps it once per page load.
+ *
+ * NOTE: this lives in the visitor's own localStorage, so it counts this
+ * browser's visits rather than the site's audience - every visitor sees their
+ * own number, starting at 1. A shared count needs a store behind an API route,
+ * which this project does not have yet.
+ *
+ * Runs as a lazy `useState` initialiser rather than in an effect: the value is
+ * read once at mount and never changes afterwards, so an effect would only add
+ * a second render. The module-level guard covers StrictMode's double-invoke.
+ */
+function readVisitCount(): number | null {
+  try {
+    const stored = Number.parseInt(localStorage.getItem(VIEWS_KEY) ?? '', 10)
+    if (counted) return Number.isFinite(stored) ? stored : null
+
+    counted = true
+    const next = Number.isFinite(stored) ? stored + 1 : 1
+    localStorage.setItem(VIEWS_KEY, String(next))
+    return next
+  } catch {
+    // Private browsing can throw on localStorage access.
+    return null
+  }
+}
+
 export default function Footer() {
   const item = useRiseVariant()
-  const [visitorCount, setVisitorCount] = useState<number | null>(null)
-
-  useEffect(() => {
-    // Also covers StrictMode's double-invoke in dev.
-    if (counted) return
-    counted = true
-
-    // Per-browser tally. countapi.xyz shut down, so there is no shared count.
-    // Deliberate one-time sync from localStorage (an external system) on
-    // mount, guarded above against StrictMode's double-invoke - not the
-    // "derived state" case this lint rule is meant to catch, and this
-    // decorative footer badge has no perf sensitivity to the extra render.
-    try {
-      const stored = Number.parseInt(localStorage.getItem('visitor_count') ?? '', 10)
-      const next = Number.isFinite(stored) ? stored + 1 : 1
-      localStorage.setItem('visitor_count', String(next))
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisitorCount(next)
-    } catch {
-      // Private browsing can throw on localStorage access.
-      setVisitorCount(null)
-    }
-  }, [])
-
-  const overflowCount = visitorCount !== null ? Math.max(0, visitorCount - visitorIcons.length) : 34
+  const [views] = useState(readVisitCount)
 
   return (
     <footer className="border-t border-slate-200/80 bg-slate-50/50 antialiased backdrop-blur-md transition-colors duration-300 dark:border-slate-800/80 dark:bg-slate-950/60">
-      <Section
-        id="footer"
-        reveal={false}
-        fullBleed
-        contentClassName="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12"
-        paddingClassName="py-6"
-        className="text-slate-900 dark:text-slate-100"
+      <motion.div
+        variants={item}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mx-auto w-full max-w-7xl px-6 pb-8 pt-14 sm:px-8 md:pt-16 lg:px-12"
       >
-        <motion.div
-          variants={item}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center justify-between gap-3 md:flex-row"
-        >
-          {/* Left Side: Logo & Status Badge */}
-          <div className="flex items-center gap-3">
-            <a href="#top" className="group flex items-center" aria-label="Back to top">
-              <Wordmark
-                className="text-sm text-slate-900 dark:text-white"
-                caption="Full-Stack Developer"
-              />
+        {/* ================= TOP BAND =================
+            Identity on the left, two link columns on the right. Below lg the
+            columns drop under the brand block and sit side by side. */}
+
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-20">
+          {/* ---------- LEFT: who and where ---------- */}
+          <div className="max-w-sm">
+            <a href="/#hero" className="group inline-flex" aria-label="Home">
+              <Wordmark className="text-base text-slate-900 dark:text-white" />
             </a>
-          </div>
 
-          {/* Center: Copyright Notice */}
-          <p className="text-center text-xs text-slate-500 dark:text-slate-500">
-            &copy; 2026 Designed &amp; Built with Precision.
-          </p>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Full-Stack Developer and UI/UX Designer, building web platforms and
+              mobile apps from {LOCATION}.
+            </p>
 
-          {/* Right Side: Total Visitors Stack */}
-          <div className="flex items-center gap-2.5">
-            <span className="text-eyebrow-sm text-slate-500 dark:text-slate-400">
-              Visitors:
-            </span>
+            <a
+              href={`mailto:${REAL_EMAIL}`}
+              className="group mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 [overflow-wrap:anywhere] transition-colors hover:text-sky-600 dark:text-white dark:hover:text-sky-400"
+            >
+              {REAL_EMAIL}
+              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
 
-            <div className="flex items-center -space-x-2 overflow-hidden p-0.5">
-              {visitorIcons.map((avatar, idx) => (
-                <div
-                  key={idx}
-                  className={`inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200/80 ring-2 ring-white transition-transform hover:z-10 hover:scale-110 dark:border-slate-800 dark:ring-slate-950 ${avatar.bg}`}
-                >
-                  {avatar.icon}
-                </div>
-              ))}
-
-              <div className="relative z-0 flex h-6 min-w-[2rem] items-center justify-center rounded-full border border-slate-800/20 bg-slate-900 px-2 font-mono text-[11px] font-bold text-sky-400 shadow-md ring-2 ring-white dark:border-slate-700/50 dark:bg-slate-900 dark:ring-slate-950">
-                +{overflowCount}
-              </div>
+            <div className="mt-5 flex w-fit items-center gap-2.5 rounded-full border border-slate-200/80 bg-white/70 py-1.5 pl-3 pr-4 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <span className="text-eyebrow-sm text-slate-700 dark:text-slate-300">
+                Available for work
+              </span>
             </div>
           </div>
-        </motion.div>
-      </Section>
+
+          {/* ---------- RIGHT: the columns ---------- */}
+          <div className="grid grid-cols-2 gap-x-12 gap-y-10 sm:gap-x-20 lg:gap-x-16">
+            <div>
+              <ColumnHeading>Sitemap</ColumnHeading>
+              <ul className="mt-4 space-y-2.5">
+                {sitemap.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink {...link} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <ColumnHeading>Elsewhere</ColumnHeading>
+              <ul className="mt-4 space-y-2.5">
+                {elsewhere.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink {...link} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= BOTTOM BAR ================= */}
+
+        <div className="mt-12 flex flex-col-reverse gap-4 border-t border-slate-200/80 pt-6 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800/80">
+          <p className="text-xs text-slate-400 dark:text-slate-600">
+            &copy; {YEAR} Angelou Bulauan. All rights reserved.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {views !== null && (
+              <span
+                className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400"
+                title="Visits recorded in this browser"
+              >
+                <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+                {views.toLocaleString()} {views === 1 ? 'visit' : 'visits'}
+              </span>
+            )}
+
+            <a
+              href="#top"
+              className="group inline-flex items-center gap-1.5 text-eyebrow-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >
+              Back to top
+              <ArrowUp className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5" />
+            </a>
+          </div>
+        </div>
+      </motion.div>
     </footer>
   )
 }

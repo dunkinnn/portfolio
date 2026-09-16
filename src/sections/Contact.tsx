@@ -19,11 +19,13 @@ import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import { stagger, useRiseVariant } from '../lib/motion'
 
-const REAL_EMAIL = 'angeloubulauan04@gmail.com'
-const PHONE_NUMBER = '+639970710157'
-const LINKEDIN_URL = 'https://www.linkedin.com/in/angelou-bulauan-125401338/'
-const CALENDLY_URL = 'https://calendly.com/angeloubulauan04/30min'
-const FACEBOOK_URL = 'https://www.facebook.com/angelou.bulauan'
+import {
+  CALENDLY_URL,
+  FACEBOOK_URL,
+  LINKEDIN_URL,
+  PHONE_NUMBER,
+  REAL_EMAIL,
+} from '../data/contact'
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
