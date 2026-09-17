@@ -8,6 +8,9 @@ import Wordmark from './Wordmark'
 // the home page. About is deliberately absent - it only exists as a home
 // page section, which the brand mark already leads back to.
 const links = [
+  // Hash rather than a bare '/': the router ignores a link to the current path
+  // with no hash, which would let the browser do a full reload on the home page.
+  { href: '/#hero', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/skills', label: 'Skills' },
   { href: '/experience', label: 'Experience' },
@@ -15,8 +18,11 @@ const links = [
 
 // A single project's case study still counts as being under Projects.
 function isActiveLink(path: string, href: string) {
+  const current = path.replace(/\/$/, '') || '/'
+  // Home is the only link carrying a hash; it owns the home page.
+  if (href.startsWith('/#')) return current === '/'
   if (href === '/projects' && path.startsWith('/project/')) return true
-  return path.replace(/\/$/, '') === href
+  return current === href
 }
 
 export default function Nav() {

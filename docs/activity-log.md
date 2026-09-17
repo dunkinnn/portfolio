@@ -325,3 +325,38 @@ Also from this pass, before the gap fix:
   `set-state-in-effect` lint suppression; the module-level guard means a client
   side navigation does not count as a new visit. Verified: 3 navigations leave
   it at 1, a reload takes it to 2.
+
+### Footer mark sized up
+
+The footer wordmark went from `text-base` to `text-3xl sm:text-4xl` - 36px at
+desktop, 30px on a phone - so it anchors the band as a brand mark rather than
+reading as a label. It renders 190px wide in a 331px column, so there is still
+room around it. The paragraph under it gained a little air (`mt-4` to `mt-5`).
+
+This is a real element at full opacity, not a return of the oversized watermark
+that was dropped earlier.
+
+## 2026-09-16 - Contact channels, form buttons, Home link
+
+- **Book a call removed** from the Contact section's rows and the footer's
+  Elsewhere column. `CALENDLY_URL` deleted from `data/contact.ts` since nothing
+  referenced it any more, along with the now-unused `Calendar` import.
+- **"Call or text" is now WhatsApp**, pointing at `wa.me`. `WHATSAPP_URL` is
+  derived from `PHONE_NUMBER` in `data/contact.ts` by stripping non-digits,
+  because wa.me rejects the plus sign and spaces. Added a WhatsApp glyph beside
+  the existing inline LinkedIn and Facebook marks; the `Phone` import and the
+  direct `PHONE_NUMBER` import in Contact went with the old row.
+- **Nav gained Home**, pointing at `/#hero` rather than `/`: the router ignores
+  a link to the current path with no hash, so a bare `/` would have triggered a
+  full page reload from the home page. `isActiveLink` treats any `/#` link as
+  owning the home page.
+
+### The form buttons were never going to sit side by side
+
+Send message and Clear Form were laid out with `flex-col xs:flex-row`, and
+`xs` is not a breakpoint in this project - Tailwind v4 has no `xs` by default
+and the theme never defines one. Every `xs:` variant in `Contact.tsx` was inert,
+so the buttons were permanently stacked and the quick-status cards were
+permanently one-up. Four `xs:` variants replaced with `sm:`. The buttons now
+share a row from 640px up and stack on a phone, which is what that layout
+wanted all along.

@@ -5,11 +5,11 @@ import Wordmark from '../components/Wordmark'
 import { useRiseVariant } from '../lib/motion'
 import { projects } from '../data/projects'
 import {
-  CALENDLY_URL,
   FACEBOOK_URL,
   LINKEDIN_URL,
   LOCATION,
   REAL_EMAIL,
+  WHATSAPP_URL,
 } from '../data/contact'
 
 const sitemap = [
@@ -24,7 +24,7 @@ const sitemap = [
 const elsewhere = [
   { label: 'LinkedIn', href: LINKEDIN_URL, external: true },
   { label: 'Facebook', href: FACEBOOK_URL, external: true },
-  { label: 'Book a call', href: CALENDLY_URL, external: true },
+  { label: 'WhatsApp', href: WHATSAPP_URL, external: true },
   { label: 'Email', href: `mailto:${REAL_EMAIL}` },
 ]
 
@@ -123,10 +123,10 @@ export default function Footer() {
           {/* ---------- LEFT: who and where ---------- */}
           <div className="col-span-2 max-w-sm sm:col-span-3 lg:col-span-1 lg:max-w-none">
             <a href="/#hero" className="group inline-flex" aria-label="Home">
-              <Wordmark className="text-base text-slate-900 dark:text-white" />
+              <Wordmark className="text-3xl text-slate-900 sm:text-4xl dark:text-white" />
             </a>
 
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            <p className="mt-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Full-Stack Developer and UI/UX Designer, building web platforms and
               mobile apps from {LOCATION}.
             </p>

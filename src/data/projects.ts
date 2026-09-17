@@ -39,6 +39,14 @@ export interface Project {
 // and the full listing page (/projects).
 export const projects: Project[] = [
   {
+    href: '/project/project-coming-soon',
+    eyebrow: 'New project',
+    status: 'Coming soon',
+    title: 'Project Coming Soon',
+    description: 'Case study coming soon.',
+    tags: ['UI/UX Design', 'Figma'],
+  },
+  {
     href: '/project/corn-leaf-nutrient-deficiency-detector',
     eyebrow: 'Mobile App',
     status: 'Project Based',
@@ -94,13 +102,5 @@ export const projects: Project[] = [
       'Self-directed Figma concept for a food delivery app designed as a complete loop - browsing and ordering, live tracking, payments, notifications, support, and rewards, built as high-fidelity screens with their real states.',
     tags: ['UI/UX Design', 'Figma'],
     imageUrl: uiuxDesignCover,
-  },
-  {
-    href: '/project/project-coming-soon',
-    eyebrow: 'New project',
-    status: 'Coming soon',
-    title: 'Project Coming Soon',
-    description: 'Case study coming soon.',
-    tags: ['UI/UX Design', 'Figma'],
   },
 ]
