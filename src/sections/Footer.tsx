@@ -16,9 +16,7 @@ const sitemap = [
   { label: 'Projects', href: '/projects' },
   { label: 'Skills', href: '/skills' },
   { label: 'Experience', href: '/experience' },
-  // Lives on the home page, so it needs the path as well as the hash to
-  // resolve from a sub-page.
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 const elsewhere = [

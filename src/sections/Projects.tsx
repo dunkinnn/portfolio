@@ -131,16 +131,20 @@ export function ProjectCard({
 
       {/* Card Content & Details */}
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center justify-between gap-2">
+        {/* The row wraps as a whole and neither label breaks internally: a
+            longer eyebrow used to split mid-phrase ("Web Design &" /
+            "Development") and take the metric with it. The metric now drops to
+            its own line when the card is too narrow for both. */}
+        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2">
           {/* Eyebrow & Status Pill */}
-          <div className="text-eyebrow-sm inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-2.5 py-1 text-sky-600 dark:border-sky-400/20 dark:text-sky-300">
+          <div className="text-eyebrow-sm inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-sky-500/20 bg-sky-500/10 px-2.5 py-1 text-sky-600 dark:border-sky-400/20 dark:text-sky-300">
             {status && <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-500" />}
             {eyebrow}
           </div>
 
           {/* Metric Tag */}
           {metric && (
-            <span className="text-eyebrow-sm text-emerald-600 dark:text-emerald-400">
+            <span className="text-eyebrow-sm whitespace-nowrap text-emerald-600 dark:text-emerald-400">
               {metric}
             </span>
           )}

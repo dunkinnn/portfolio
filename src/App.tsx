@@ -11,6 +11,7 @@ import SkillsPage from './pages/SkillsPage'
 import ExperiencePage from './pages/ExperiencePage'
 import ProjectPage from './pages/ProjectPage'
 import AllProjectsPage from './pages/AllProjectsPage'
+import ContactPage from './pages/ContactPage'
 import ScrollToTop from './components/ScrollToTop'
 import IntroLoader from './components/IntroLoader'
 import { useRoute } from './lib/useRoute'
@@ -34,6 +35,8 @@ function App() {
     page = <ProjectPage />
   } else if (path === '/projects') {
     page = <AllProjectsPage />
+  } else if (path === '/contact') {
+    page = <ContactPage />
   } else {
     page = (
       <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">

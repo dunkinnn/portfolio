@@ -87,7 +87,19 @@ const inputClassName =
 const cardClassName =
   'rounded-2xl border border-slate-200/80 bg-white/70 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/60'
 
-export default function Contact() {
+interface ContactProps {
+  /**
+   * Overrides the section's vertical padding. The /contact route needs extra
+   * room at the top to clear the fixed nav, and it has to come from inside the
+   * section: padding added above it would expose the page background over the
+   * section's lighter gradient, which reads as a black band.
+   */
+  paddingClassName?: string
+}
+
+export default function Contact({
+  paddingClassName = 'py-16 md:py-24',
+}: ContactProps) {
   const item = useRiseVariant()
   const formRef = useRef<HTMLFormElement>(null)
   const [status, setStatus] = useState<Status>('idle')
@@ -137,7 +149,7 @@ export default function Contact() {
       id="contact"
       reveal={false}
       fullBleed
-      paddingClassName="py-16 md:py-24"
+      paddingClassName={paddingClassName}
       className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 text-slate-900 transition-colors duration-300 dark:border-slate-800/80 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 dark:text-slate-100"
     >
       <SectionHeading number="05">Contact</SectionHeading>

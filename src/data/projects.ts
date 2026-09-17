@@ -4,6 +4,8 @@ import maisnutriCover from '../assets/maisnutri-cover.png'
 import uiuxDesignCover from '../assets/C2WAD.png'
 import volterraCover from '../assets/volterra-cover.png'
 import volterraDesignSystem from '../assets/volterra-design-system.png'
+import helixCover from '../assets/helix-cover.png'
+import helixBefore from '../assets/helix-before.png'
 
 export interface Project {
   href: string
@@ -23,6 +25,12 @@ export interface Project {
   imageUrl?: string
   metric?: string
   /**
+   * The deployed site. A discriminated union so a 'live' entry cannot exist
+   * without a url - the alternative, an optional url alongside a status flag,
+   * lets a dead "Visit site" button ship.
+   */
+  live?: { status: 'live'; url: string } | { status: 'coming-soon' }
+  /**
    * Long-form write-up for the detail page, shown under the cover. No project
    * uses it right now - every one leads with its `description` instead - but
    * the template still renders it for any project that gets one later.
@@ -31,6 +39,18 @@ export interface Project {
   // Optional second image on the detail page for a design-system sheet
   // (palette, type scale, components) alongside the main mockup.
   designSystemImageUrl?: string
+  /**
+   * Paired shots for a redesign, rendered side by side under the write-up.
+   * One object rather than two loose fields so a lone "before" is impossible.
+   * Both images want the same framing and aspect ratio - the comparison is the
+   * point, and mismatched crops undercut it.
+   */
+  beforeAfter?: {
+    before: string
+    after: string
+    /** Optional line under the pair, e.g. what changed and why. */
+    caption?: string
+  }
 }
 
 // Every card links to its own detail page at /project/<slug> (see
@@ -39,12 +59,22 @@ export interface Project {
 // and the full listing page (/projects).
 export const projects: Project[] = [
   {
-    href: '/project/project-coming-soon',
-    eyebrow: 'New project',
-    status: 'Coming soon',
-    title: 'Project Coming Soon',
-    description: 'Case study coming soon.',
-    tags: ['UI/UX Design', 'Figma'],
+    href: '/project/helix-group',
+    eyebrow: 'Web Design & Development',
+    status: 'Client project',
+    title: 'Helix Group',
+    description:
+      'Website redesign for a Sydney construction firm, built in Wix with custom HTML and CSS - a brand-led layout across services, portfolio and testimonials, plus an SEO setup so the work is findable.',
+    tags: ['UI/UX Design', 'Wix', 'HTML', 'CSS', 'SEO Optimization'],
+    imageUrl: helixCover,
+    metric: 'Redesign + SEO',
+    live: { status: 'coming-soon' },
+    beforeAfter: {
+      before: helixBefore,
+      after: helixCover,
+      caption:
+        'The original led with the company name over a photo and ran dark throughout, with long unbroken paragraphs and the services stacked as a plain list. The redesign leads on what Helix actually does, lightens the palette, and breaks the services and project work into sections that can be scanned.',
+    },
   },
   {
     href: '/project/corn-leaf-nutrient-deficiency-detector',

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 import { stagger, useRiseVariant } from '../lib/motion'
 import { projects } from '../data/projects'
 import { useRoute } from '../lib/useRoute'
@@ -122,6 +122,48 @@ export default function ProjectPage() {
                 </motion.div>
               )}
 
+              {/* ================= BEFORE / AFTER ================= */}
+
+              {project.beforeAfter && (
+                <motion.div variants={item} className="mt-16">
+                  <h2 className="text-eyebrow text-slate-400 dark:text-slate-600">
+                    Before &amp; after
+                  </h2>
+
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2 sm:gap-6">
+                    {(
+                      [
+                        { label: 'Before', src: project.beforeAfter.before },
+                        { label: 'After', src: project.beforeAfter.after },
+                      ] as const
+                    ).map((shot) => (
+                      <figure key={shot.label} className="m-0">
+                        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-lg shadow-slate-900/5 dark:border-slate-800/80 dark:bg-slate-950/60">
+                          <img
+                            src={shot.src}
+                            alt={`${project.title}, ${shot.label.toLowerCase()} the redesign`}
+                            onError={(e) => {
+                              // Gracefully handle missing local image paths
+                              e.currentTarget.style.display = 'none'
+                            }}
+                            className="block w-full"
+                          />
+                        </div>
+                        <figcaption className="text-eyebrow-sm mt-3 text-slate-400 dark:text-slate-600">
+                          {shot.label}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+
+                  {project.beforeAfter.caption && (
+                    <p className="mt-5 max-w-[68ch] text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                      {project.beforeAfter.caption}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+
               {project.designSystemImageUrl && (
                 <motion.div variants={item} className="mt-16">
                   <h2 className="text-eyebrow text-slate-400 dark:text-slate-600">Design System</h2>
@@ -143,6 +185,30 @@ export default function ProjectPage() {
             {/* ================= META RAIL ================= */}
 
             <motion.aside variants={item} className="lg:sticky lg:top-28 lg:self-start">
+              {/* Deployed site. Rendered as a dashed, non-interactive chip
+                  until there is a url - a "Visit site" button that goes
+                  nowhere is worse than saying it is not up yet. */}
+              {project.live && (
+                <div className="mb-6">
+                  {project.live.status === 'live' ? (
+                    <a
+                      href={project.live.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+                    >
+                      Visit site
+                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  ) : (
+                    <span className="text-eyebrow-sm inline-flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 px-4 py-3 text-slate-400 dark:border-slate-700 dark:text-slate-500">
+                      <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                      Live site coming soon
+                    </span>
+                  )}
+                </div>
+              )}
+
               <dl className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-slate-800/80 dark:border-slate-800/80">
                 {meta.map((row) => (
                   <div key={row.label} className="flex items-baseline justify-between gap-4 py-3">

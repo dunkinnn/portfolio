@@ -360,3 +360,131 @@ so the buttons were permanently stacked and the quick-status cards were
 permanently one-up. Four `xs:` variants replaced with `sm:`. The buttons now
 share a row from 640px up and stack on a phone, which is what that layout
 wanted all along.
+
+## 2026-09-17 - Contact page
+
+New route `/contact` rendering `ContactPage`, which reuses the `Contact`
+section in full - same form, channels and status cards as the home page.
+
+- `Nav`'s Contact button (bar and drawer) and the footer's sitemap link now
+  point at `/contact` instead of `/#contact`. The home page still carries the
+  section at `#contact`, so that anchor keeps working for anyone scrolling.
+- The section carries a divider-style `h2` ("05 - Contact"), which left the
+  route with no `h1`. Added a visually hidden one so the page has a title for
+  screen readers and search engines without changing what the section looks
+  like. The other sub-pages have a real `h1`; this one is a stand-in.
+- Wrapper padding `pt-20` puts the section's top border below the 61px nav
+  rather than tucked under it.
+
+Known trade-offs, accepted deliberately when choosing to keep both copies:
+
+- The same content now lives at `/contact` and `/#contact`. Search engines read
+  that as duplicate content. A `<link rel="canonical">` would settle it, but
+  this is a client-rendered SPA with no per-route head management, so it needs
+  either runtime head updates or prerendering.
+- The "05" in the heading refers to the home page's numbered section run
+  (01 About ... 05 Contact), which does not exist on a standalone page. Left as
+  is because the ask was to keep the section in full.
+
+### Fix: black band across the top of /contact
+
+The `pt-20` wrapper I used to push the section clear of the fixed nav was
+showing 80px of the page background above it. Sampled at x=720: rgb(15,15,15)
+down to y~70, then the section's gradient starting at rgb(29,29,29) - the page
+is slate-950 (#101010) and the section's dark gradient starts at slate-900
+(#1e1e1e), so the gap read as a black stripe under the nav.
+
+Nav clearance now comes from inside the section instead. `Contact` takes an
+optional `paddingClassName` (defaulting to the `py-16 md:py-24` it always had),
+and `/contact` passes `pb-16 pt-32 md:pb-24 md:pt-36`. The gradient runs to the
+very top of the page, under the translucent nav, with no exposed background.
+Section top is now 0 and the heading sits at 202px, well clear of the 61px bar.
+
+## 2026-09-17 - Helix Group replaces the placeholder
+
+The `Project Coming Soon` entry is gone; the Helix Group site takes its slot at
+the front of the list.
+
+- `src/assets/helix-cover.png` - the supplied mockup, already 1500x1000 to match
+  every other cover, flattened RGBA to RGB (1.25MB).
+- Entry: slug `/project/helix-group`, eyebrow `Web Design`, status
+  `Client project`, focus `Redesign + SEO`, stack UI/UX Design / Wix / HTML /
+  CSS / SEO Optimization.
+- Description written from what the user confirmed (redesign plus SEO setup,
+  Wix with custom HTML and CSS, live client work) and what the mockup itself
+  shows (Sydney construction firm; services, portfolio and testimonials pages).
+- No `project coming soon` placeholder renders anywhere now.
+
+Knock-on: the footer's Selected work column takes the first four projects with a
+cover, so Helix Group entering the list pushed Volterra Electric out of it.
+
+Still open: it is live client work with no link on the site. `Project` has no
+`liveUrl` field yet, so there is nowhere to put the URL.
+
+## 2026-09-17 - Helix Group before / after
+
+`Project` gained an optional `beforeAfter: { before, after, caption? }` - one
+object rather than two loose fields, so a lone "before" with no "after" cannot
+be expressed. `ProjectPage` renders it between the write-up and the
+design-system sheet: two equal figures side by side from `sm` up, labels
+underneath, stacked on a phone, with the caption capped at 68ch.
+
+- `src/assets/helix-before.png` - the supplied old-site mockup, already
+  1500x1000 and composed the same way as the new one, so the pair compares
+  like for like rather than a flat screenshot against an angled mockup.
+- `after` reuses `helixCover`, so the new-site shot is stored once.
+- Caption describes only what both images actually show: dark palette to light,
+  company name in the hero replaced by what the firm does, dense paragraphs and
+  a plain services list broken into scannable sections.
+
+Verified at 1440 and 390, both themes: both images load, labels read
+Before / After, figures share a row at 396px each on desktop and stack on
+mobile, alt text distinguishes the two.
+
+Note on weight: the two Helix mockups are 2.6MB of PNG between them, on top of
+the other five covers. Worth converting the covers to WebP or JPEG before this
+ships anywhere that matters - the case study pages pull a full-size PNG each.
+
+## 2026-09-17 - Live site link
+
+`Project` gained an optional `live` field, typed as a discriminated union:
+
+    live?: { status: 'live'; url: string } | { status: 'coming-soon' }
+
+A union rather than an optional `url` beside a status flag, so a 'live' entry
+without a url is not expressible - that is the shape that ships a dead "Visit
+site" button.
+
+Rendered at the top of the case study's meta rail, above Type/Status/Focus:
+
+- `status: 'live'` - a solid "Visit site" button opening in a new tab.
+- `status: 'coming-soon'` - a dashed, non-interactive `span` reading "Live site
+  coming soon". Deliberately not an anchor, so there is nothing to click and
+  no dead href in the markup.
+
+Helix Group is set to `coming-soon` pending deployment. Swap to
+`{ status: 'live', url: '...' }` when it is up; nothing else needs touching.
+
+Verified: the control renders as a SPAN, not a link; the page has zero dead
+links; projects without a `live` field show no control at all.
+
+## 2026-09-17 - Helix eyebrow, and a card header that could not take a long one
+
+Helix Group's eyebrow is now `Web Design & Development` (was `Web Design`). It
+shows on the card pill and the case study's Type row.
+
+The longer label exposed a latent bug in the card header. That row was
+`flex items-center justify-between gap-2` with no wrapping rules, so once the
+pill outgrew the space both labels broke mid-phrase - "WEB DESIGN &" /
+"DEVELOPMENT" beside "REDESIGN + / SEO". Measured: pill height 34px against the
+22px of a single line, at 1440, 1280, 1100, 700 and 390. It only held together
+at 900, where the grid happens to give the card more room.
+
+Fixed at the layout rather than by shortening the text: the row is now
+`flex-wrap` with `gap-x-2 gap-y-2`, and both the pill and the metric carry
+`whitespace-nowrap`. The row wraps as a whole - the metric drops to its own line
+when the card is too narrow for both - and neither label ever splits internally.
+
+Verified across 1440/1280/1100/900/700/390: pill height stays 22px everywhere.
+The other five cards are untouched (row height 22px, unchanged) since their
+eyebrows were always short enough to share the line.

@@ -119,7 +119,7 @@ export default function Nav() {
             <ThemeToggle />
 
             <a
-              href="/#contact"
+              href="/contact"
               className="hidden rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-900/25 transition duration-300 hover:bg-slate-700 hover:shadow-slate-900/40 hover:scale-[1.02] active:scale-[0.98] sm:block dark:bg-white dark:text-slate-950 dark:shadow-black/40 dark:hover:bg-slate-200"
             >
               Contact
@@ -213,7 +213,7 @@ export default function Nav() {
               </div>
 
               <a
-                href="/#contact"
+                href="/contact"
                 onClick={() => setOpen(false)}
                 className="mt-6 block rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-slate-700 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
               >
