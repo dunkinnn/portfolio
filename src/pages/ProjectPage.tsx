@@ -36,13 +36,17 @@ export default function ProjectPage() {
   // carries it as the lead.
   const paragraphs = project.story ?? []
 
-  // Type / status / focus / stack, pulled out of the body so the write-up
-  // keeps a readable measure instead of running the full page width.
+  // Status, then whatever the project adds, then Type - pulled out of the body
+  // so the write-up keeps a readable measure instead of running the full page
+  // width. A list value renders one line per entry.
   const meta = [
-    { label: 'Type', value: project.eyebrow },
     { label: 'Status', value: project.status },
-    { label: 'Focus', value: project.metric },
-  ].filter((row): row is { label: string; value: string } => Boolean(row.value))
+    ...(project.details ?? []),
+    { label: 'Type', value: project.eyebrow },
+  ].filter(
+    (row): row is { label: string; value: string | string[] } =>
+      Array.isArray(row.value) ? row.value.length > 0 : Boolean(row.value),
+  )
 
   return (
     <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
@@ -211,12 +215,18 @@ export default function ProjectPage() {
 
               <dl className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-slate-800/80 dark:border-slate-800/80">
                 {meta.map((row) => (
-                  <div key={row.label} className="flex items-baseline justify-between gap-4 py-3">
+                  <div key={row.label} className="flex items-start justify-between gap-4 py-3">
                     <dt className="text-eyebrow-sm text-slate-400 dark:text-slate-600">
                       {row.label}
                     </dt>
                     <dd className="text-right text-sm font-medium text-slate-900 dark:text-slate-200">
-                      {row.value}
+                      {Array.isArray(row.value)
+                        ? row.value.map((entry) => (
+                            <span key={entry} className="block">
+                              {entry}
+                            </span>
+                          ))
+                        : row.value}
                     </dd>
                   </div>
                 ))}

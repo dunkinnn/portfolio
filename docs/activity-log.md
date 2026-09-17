@@ -488,3 +488,67 @@ when the card is too narrow for both - and neither label ever splits internally.
 Verified across 1440/1280/1100/900/700/390: pill height stays 22px everywhere.
 The other five cards are untouched (row height 22px, unchanged) since their
 eyebrows were always short enough to share the line.
+
+## 2026-09-17 - Removed the metric label
+
+`metric` is gone from `Project` and from all four projects that carried one
+(Redesign + SEO, On-device AI, Centralized GIS, Real-time AI).
+
+It fed two places, so both went:
+
+- The card header's green tag, top right.
+- The case study meta rail's "Focus" row. The rail is now Type / Status /
+  Stack. Worth knowing: the ask named the card labels, and this row used the
+  same strings, so it went with them - one line in `ProjectPage` to bring back
+  if it was wanted there.
+
+With only the eyebrow pill left in the card header, the flex-wrap row added in
+the previous pass had nothing left to wrap, so it was removed and the pill
+renders directly. It needed `w-fit`: as a direct child of the card's `flex-col`,
+`inline-flex` alone would have stretched it to the full card width. It keeps
+`whitespace-nowrap` so a long eyebrow still cannot split mid-phrase.
+
+Verified on /projects: none of the four strings appear anywhere, all six pills
+render on one 22px line, and the rail shows only Type and Status.
+
+## 2026-09-17 - Extra meta rows
+
+`Project` gained `details?: { label: string; value: string }[]` - free-form
+rows appended after Type and Status in the case study's meta rail. Generic, so
+any project can carry its own without another named field each time.
+
+Helix Group now reads Type / Status / Industry / Location / Pages / Stack.
+
+Every added value is either visible in the supplied mockups or already
+confirmed, nothing inferred:
+
+- Industry "Construction" - the site's own copy says residential, commercial,
+  industrial and renovation construction.
+- Location "Sydney, NSW" - printed on the new site and in its hero copy.
+- Pages - the six nav destinations, identical across the old and new mockups.
+
+Deliberately NOT added, because they cannot be derived and inventing them on a
+client-facing page would be a lie: the year, the project duration, and any
+result (traffic, ranking, enquiries). Those are the two or three rows most
+likely to win work, so they are worth supplying.
+
+Verified at 1440 and 390: five rows render, values right-aligned, the Pages row
+wraps to two lines at the rail's 288px and does not overflow. The other five
+projects still show only Type / Status.
+
+### Rail rows settled
+
+Pages and Location removed; a Delivered row added. The Helix rail is now
+Type / Status / Industry / Delivered / Stack.
+
+    Type        Web Design & Development
+    Status      Client project
+    Industry    Construction
+    Delivered   Redesign, build & SEO setup
+
+Every row fits on a single 20px line at both 1440 and 390, so nothing wraps.
+The `details` field stays generic, so the other projects can take their own
+rows whenever there is something to put there.
+
+Still missing, and still the rows most likely to win work: a date and a result.
+Neither can be derived from the mockups.

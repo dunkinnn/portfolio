@@ -23,7 +23,12 @@ export interface Project {
   tags: string[]
   // Optional until a screenshot is added - card falls back to a placeholder.
   imageUrl?: string
-  metric?: string
+  /**
+   * Extra rows for the case study's meta rail, rendered between Status and
+   * Type. A list value stacks on its own lines - a role split across several
+   * hats, say. Keep values short, the rail is narrow.
+   */
+  details?: { label: string; value: string | string[] }[]
   /**
    * The deployed site. A discriminated union so a 'live' entry cannot exist
    * without a url - the alternative, an optional url alongside a status flag,
@@ -67,7 +72,12 @@ export const projects: Project[] = [
       'Website redesign for a Sydney construction firm, built in Wix with custom HTML and CSS - a brand-led layout across services, portfolio and testimonials, plus an SEO setup so the work is findable.',
     tags: ['UI/UX Design', 'Wix', 'HTML', 'CSS', 'SEO Optimization'],
     imageUrl: helixCover,
-    metric: 'Redesign + SEO',
+    details: [
+      { label: 'Industry', value: 'Construction' },
+      { label: 'Platform', value: 'Wix' },
+      { label: 'Role', value: ['Web Designer', 'Front-End Developer', 'SEO Setup'] },
+      { label: 'Timeline', value: '3 weeks' },
+    ],
     live: { status: 'coming-soon' },
     beforeAfter: {
       before: helixBefore,
@@ -86,7 +96,11 @@ export const projects: Project[] = [
       'Flutter app that spots nitrogen, phosphorus, and potassium deficiencies in a corn leaf entirely offline - a YOLOv8 detector and an EfficientNetB0 classifier run on-device, then a recommendation screen returns the matching fertilizer, rate, and timing.',
     tags: ['Flutter', 'Dart', 'TensorFlow Lite', 'YOLOv8', 'EfficientNetB0', 'PostgreSQL'],
     imageUrl: maisnutriCover,
-    metric: 'On-device AI',
+    details: [
+      { label: 'Platform', value: 'Mobile' },
+      { label: 'Role', value: 'Mobile Developer' },
+      { label: 'Timeline', value: '3 weeks' },
+    ],
   },
   {
     href: '/project/landkoto-land-record-management-system',
@@ -98,7 +112,11 @@ export const projects: Project[] = [
       "One web platform replacing an assessor's office's Excel sheets and paper folders - property records, document storage, an interactive map, automated certificates, and an audit trail that keeps ownership history traceable.",
     tags: ['UI/UX Design', 'PHP', 'MySQL', 'Bootstrap'],
     imageUrl: landrecordsCover,
-    metric: 'Centralized GIS',
+    details: [
+      { label: 'Platform', value: 'Web' },
+      { label: 'Role', value: ['Front-End Developer', 'Back-End Developer'] },
+      { label: 'Timeline', value: '1 month' },
+    ],
   },
   {
     href: '/project/smart-plate-ai-meal-planning-app',
@@ -110,7 +128,11 @@ export const projects: Project[] = [
       'Mobile app that generates the meal plan rather than just logging it - dietary preferences and health goals in, a personalized plan, shopping list, and real-time nutritional breakdowns out, with alerts when calories or nutrients drift off target.',
     tags: ['UI/UX Design', 'Flutter', 'Dart', 'PostgreSQL'],
     imageUrl: smartplateCover,
-    metric: 'Real-time AI',
+    details: [
+      { label: 'Platform', value: 'Mobile' },
+      { label: 'Role', value: ['Front-End Developer', 'Back-End Developer'] },
+      { label: 'Timeline', value: '3 weeks' },
+    ],
   },
   {
     href: '/project/volterra-electric',
@@ -122,6 +144,11 @@ export const projects: Project[] = [
     tags: ['UI/UX Design', 'Design System', 'Figma'],
     imageUrl: volterraCover,
     designSystemImageUrl: volterraDesignSystem,
+    details: [
+      { label: 'Platform', value: 'Figma' },
+      { label: 'Role', value: 'UI/UX Designer' },
+      { label: 'Timeline', value: '1 day' },
+    ],
   },
   {
     href: '/project/c2wad-delivery-app',
@@ -132,5 +159,10 @@ export const projects: Project[] = [
       'Self-directed Figma concept for a food delivery app designed as a complete loop - browsing and ordering, live tracking, payments, notifications, support, and rewards, built as high-fidelity screens with their real states.',
     tags: ['UI/UX Design', 'Figma'],
     imageUrl: uiuxDesignCover,
+    details: [
+      { label: 'Platform', value: 'Figma' },
+      { label: 'Role', value: 'UI/UX Designer' },
+      { label: 'Timeline', value: '2 days' },
+    ],
   },
 ]
