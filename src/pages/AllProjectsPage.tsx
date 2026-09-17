@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ProjectCard } from '../sections/Projects'
 import { projects } from '../data/projects'
 import { stagger, useRiseVariant } from '../lib/motion'
+import { PAGE_SHELL } from '../lib/pageShell'
 
 // Standalone page at /projects, linked from the Projects section's "All
 // projects" link - same pattern as Skills' "View all" -> /skills. Lists
@@ -12,7 +13,7 @@ export default function AllProjectsPage() {
   const item = useRiseVariant()
 
   return (
-    <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
+    <div className={PAGE_SHELL}>
       <div className="mx-auto w-full max-w-7xl px-6 pb-16 pt-28 sm:px-8 lg:px-12">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
           All Projects

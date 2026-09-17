@@ -7,7 +7,7 @@ import {
   useSpring,
 } from 'framer-motion'
 import { ArrowUpRight, FileText } from 'lucide-react'
-import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaFacebook, FaLinkedin } from 'react-icons/fa'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import profileUrl from '../assets/profile.webp'
@@ -17,9 +17,7 @@ import { EASE, fade, rise, stagger } from '../lib/motion'
 // new tab. No `download` attribute - reading it should not cost a file on disk.
 const RESUME_URL = '/angelou-bulauan-resume.pdf'
 
-// TODO replace the GitHub placeholder with the real profile URL.
 const socials = [
-  { label: 'GitHub', href: '#', Icon: FaGithub },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/angelou-bulauan-125401338/',

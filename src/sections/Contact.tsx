@@ -95,10 +95,17 @@ interface ContactProps {
    * section's lighter gradient, which reads as a black band.
    */
   paddingClassName?: string
+  /**
+   * The numbered "05 - Contact" divider only makes sense on the home page,
+   * where it marks one section in a run of six. On the standalone /contact
+   * route there is nothing to number.
+   */
+  showHeading?: boolean
 }
 
 export default function Contact({
   paddingClassName = 'py-16 md:py-24',
+  showHeading = true,
 }: ContactProps) {
   const item = useRiseVariant()
   const formRef = useRef<HTMLFormElement>(null)
@@ -152,14 +159,19 @@ export default function Contact({
       paddingClassName={paddingClassName}
       className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 text-slate-900 transition-colors duration-300 dark:border-slate-800/80 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 dark:text-slate-100"
     >
-      <SectionHeading number="05">Contact</SectionHeading>
+      {showHeading && <SectionHeading number="05">Contact</SectionHeading>}
 
       <motion.div
         variants={stagger}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.15 }}
-        className="mt-8 grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-stretch"
+        // mt-8 is the gap under the numbered heading. With the heading hidden
+        // there is nothing above to clear, and it would push this page's first
+        // line 2rem below where the other sub-pages start.
+        className={`grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-stretch ${
+          showHeading ? 'mt-8' : ''
+        }`}
       >
         {/* Left Column */}
         <motion.div variants={item} className="flex flex-col gap-4 sm:gap-6 lg:h-full">

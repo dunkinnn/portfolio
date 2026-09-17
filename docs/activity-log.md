@@ -908,3 +908,91 @@ instead of forcing a download:
 
 Reading it should not cost a file on someone's disk, and a recruiter skimming
 on a phone will open a tab where they would not accept a download.
+
+### GitHub removed from the site
+
+The social row's GitHub icon linked to `#` - a button that went nowhere, live
+on the site, with a TODO next to it. Removed, along with its `FaGithub` import
+and the unused `Github` mark in `components/BrandIcons.tsx`. LinkedIn and
+Facebook are unaffected.
+
+Left in place: the GitHub pill in the Skills list. That is a tool he uses, not
+a profile link, and a stack listing Git without GitHub reads oddly.
+
+Two dead files worth deleting separately: `components/BrandIcons.tsx` is
+imported by nothing at all, and `public/icons.svg` is Vite starter leftover
+(bluesky, discord, x).
+
+### /contact drops the numbered divider
+
+"05 - Contact" numbers one section in the home page's run of six; on the
+standalone route there is nothing to number. `Contact` takes a `showHeading`
+prop, default true, and /contact passes false. The home page section is
+unchanged.
+
+The page's sr-only h1 now carries the heading on its own, and the stale comment
+about needing a canonical came out - the seo-pages plugin writes one per route.
+
+### /contact padding matches the other sub-pages
+
+    pb-16 pt-32 md:pb-24 md:pt-36  ->  pb-16 pt-28
+
+`pt-32 md:pt-36` was picked to sit under the home page's rhythm; /projects,
+/skills and /experience all use `pb-16 pt-28`, so /contact was the odd one out
+and started lower than its siblings. It still has to be padding inside the
+section rather than a wrapper above it - that is what avoids the black band.
+
+Matching the padding alone was not enough: the content grid carried `mt-8`,
+the gap under the numbered heading, which stayed behind when the heading was
+hidden and pushed the page 2rem lower again. The margin is now tied to
+`showHeading`.
+
+Measured against the real build in a browser at 1440x950:
+
+    /skills      first heading top  112px
+    /experience                     112px
+    /projects                       112px
+    /contact                        113px
+
+The 1px is line-height rounding between the h1 and the h3.
+
+### Sub-pages share the Contact background
+
+/projects, /skills and /experience were flat `bg-white` / `dark:bg-slate-950`
+against Contact's gradient, so moving between them showed a colour change that
+was not meant to signal anything.
+
+The gradient now lives in `src/lib/pageShell.ts` as `PAGE_SHELL`, and those
+three pages use it in place of their repeated class list:
+
+    bg-gradient-to-b from-blue-50/80 via-white to-slate-50
+    dark:from-slate-900 dark:via-slate-950 dark:to-slate-950
+
+One constant rather than the same string three times, so the next change to it
+is one edit. Contact keeps painting its own, because on the home page it has to
+start where that section starts, not at the top of the document.
+
+Checked against the real build at 1280x800 in both themes; all four routes now
+read as one surface. /project/<slug> is still on the flat background.
+
+### Favicon is the profile photo
+
+    favicon.png          64x64, the whole 2x2, rounded corners
+    apple-touch-icon.png 180x180, square and opaque - iOS fills transparency
+                         with black, so the touch icon keeps its background
+
+First attempt cropped a 340px box tight on the face and masked it to a circle,
+on the theory that a shrunk portrait would be unreadable. It read worse: the
+crop reached the top of the hair and the circle then cut it again, so the head
+looked sliced. The 2x2 is already framed as an ID photo - headroom above,
+shoulders below - so it is used whole, and it survives 32px fine.
+
+`favicon.svg` is no longer linked from index.html. It is still in public/, but
+an SVG icon wins over a PNG wherever it is supported, so leaving the link in
+would have kept the G on most browsers. The file stays in case the wordmark
+mark is wanted back.
+
+Honest limit: at 16px - old displays, or a browser that picks the smallest
+size - a face becomes a smudge. A letterform stays legible at any size, which
+is why most sites use one. At the 32px most modern tab bars actually render,
+this reads fine.

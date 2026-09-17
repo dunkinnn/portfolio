@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { dateRange, duration, initials, roles } from '../data/experience'
 import { stagger, useRiseVariant } from '../lib/motion'
+import { PAGE_SHELL } from '../lib/pageShell'
 
 // Standalone page at /experience, linked from the Experience section's
 // "View details" - same pattern as Skills' "View all" -> /skills. Shows
@@ -10,7 +11,7 @@ export default function ExperiencePage() {
   const item = useRiseVariant()
 
   return (
-    <div className="min-h-screen w-full bg-white text-slate-600 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300">
+    <div className={PAGE_SHELL}>
       <div className="mx-auto w-full max-w-7xl px-6 pb-16 pt-28 sm:px-8 lg:px-12">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
           Experience
