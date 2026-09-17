@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { initials, roles } from '../data/experience'
+import { dateRange, duration, initials, roles } from '../data/experience'
 import { stagger, useRiseVariant } from '../lib/motion'
 
 // Standalone page at /experience, linked from the Experience section's
@@ -50,14 +50,18 @@ export default function ExperiencePage() {
               </div>
 
               <div>
-                <h2 className="font-semibold text-slate-900 dark:text-slate-50">{role.company}</h2>
-                <p className="text-eyebrow-sm mt-1 text-slate-400 dark:text-slate-500">
-                  {role.type}
+                {/* Role first: the job title is what a reader is scanning
+                    for, the employer and engagement type qualify it. */}
+                <h2 className="font-semibold text-slate-900 dark:text-slate-50">{role.title}</h2>
+                <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-300">
+                  {role.company} &middot; {role.type}
                 </p>
 
-                <h3 className="mt-4 font-semibold text-slate-900 dark:text-slate-50">{role.title}</h3>
-                <p className="text-eyebrow-sm mt-1 text-slate-400 dark:text-slate-500">
-                  {role.period}
+                {/* Rebuilt rather than printed raw: an ongoing role leaves
+                    the duration out of `period` so it cannot go stale, and
+                    `duration` counts it from the start date instead. */}
+                <p className="text-eyebrow-sm mt-3 text-slate-400 dark:text-slate-500">
+                  {dateRange(role.period)} &middot; {duration(role.period)}
                 </p>
                 <p className="mt-1 text-sm text-cyan-700 dark:text-cyan-300/80">{role.location}</p>
 

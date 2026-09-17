@@ -34,7 +34,7 @@ export default function Skills() {
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
         <SectionHeading number="03" className="flex-1">
-          Skills
+          Technologies
         </SectionHeading>
 
         <div className="flex shrink-0 items-center gap-3">
@@ -55,7 +55,7 @@ export default function Skills() {
             href="/skills"
             className="group inline-flex items-center gap-2 text-eyebrow text-slate-700 transition-colors duration-300 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-cyan-400"
           >
-            <span>All Skills</span>
+            <span>View All</span>
             <svg
               className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
               fill="none"

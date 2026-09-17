@@ -16,12 +16,12 @@ export function ProjectCard({
   eyebrow,
   status,
   title,
+  summary,
   description,
   tags,
   imageUrl,
   className = '',
-  fullDescription = false,
-}: Project & { className?: string; fullDescription?: boolean }) {
+}: Project & { className?: string }) {
   const reduced = useReducedMotion()
 
   // 3D Tilt & Cursor Glow setup
@@ -142,10 +142,11 @@ export function ProjectCard({
           {title}
         </h3>
 
-        <p
-          className={`mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400 ${fullDescription ? '' : 'line-clamp-2'}`}
-        >
-          {description}
+        {/* The card carries the short line; the full description leads the
+            detail page. Clamped anyway so a project without a summary yet
+            cannot stretch its card taller than the rest of the row. */}
+        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+          {summary ?? description}
         </p>
 
         {/* Footer with Tags */}
@@ -186,7 +187,7 @@ export default function Projects() {
           href="/projects"
           className="group inline-flex items-center gap-2 text-eyebrow text-slate-700 transition-colors duration-300 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
         >
-          <span>All projects</span>
+          <span>View All</span>
           <svg
             className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
             fill="none"

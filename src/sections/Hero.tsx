@@ -133,6 +133,12 @@ export default function Hero({ isLoaded = true }: HeroProps) {
               <span className="whitespace-nowrap text-slate-700 dark:text-slate-300">
                 Full-Stack Developer
               </span>
+
+              <span className="hidden h-1 w-1 shrink-0 rounded-full bg-slate-400 sm:block dark:bg-slate-600" />
+
+              <span className="whitespace-nowrap text-slate-700 dark:text-slate-300">
+                SEO Specialist
+              </span>
             </motion.div>
 
             {/* ================================================

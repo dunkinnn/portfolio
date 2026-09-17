@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Clock, Lock } from 'lucide-react'
 import { stagger, useRiseVariant } from '../lib/motion'
 import { projects } from '../data/projects'
 import { useRoute } from '../lib/useRoute'
@@ -189,26 +189,42 @@ export default function ProjectPage() {
             {/* ================= META RAIL ================= */}
 
             <motion.aside variants={item} className="lg:sticky lg:top-28 lg:self-start">
-              {/* Deployed site. Rendered as a dashed, non-interactive chip
-                  until there is a url - a "Visit site" button that goes
-                  nowhere is worse than saying it is not up yet. */}
-              {project.live && (
-                <div className="mb-6">
-                  {project.live.status === 'live' ? (
-                    <a
-                      href={project.live.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
-                    >
-                      Visit site
-                      <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </a>
-                  ) : (
-                    <span className="text-eyebrow-sm inline-flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 px-4 py-3 text-slate-400 dark:border-slate-700 dark:text-slate-500">
-                      <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                      Live site coming soon
-                    </span>
+              {/* Where to go and see it: the deployed site, a Figma file, a
+                  repo. An entry with no url renders as a dashed,
+                  non-interactive chip - a button that goes nowhere is worse
+                  than saying the thing is not ready, and work that is private
+                  says so rather than going unmentioned. */}
+              {project.links && project.links.length > 0 && (
+                <div className="mb-6 flex flex-col gap-2">
+                  {project.links.map((link) =>
+                    'url' in link ? (
+                      <a
+                        key={link.label}
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+                      >
+                        {link.label}
+                        <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </a>
+                    ) : 'comingSoon' in link ? (
+                      <span
+                        key={link.label}
+                        className="text-eyebrow-sm inline-flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 px-4 py-3 text-slate-400 dark:border-slate-700 dark:text-slate-500"
+                      >
+                        <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                        {link.label} coming soon
+                      </span>
+                    ) : (
+                      <span
+                        key={link.label}
+                        className="text-eyebrow-sm inline-flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 px-4 py-3 text-slate-400 dark:border-slate-700 dark:text-slate-500"
+                      >
+                        <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+                        {link.label}
+                      </span>
+                    ),
                   )}
                 </div>
               )}

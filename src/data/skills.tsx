@@ -7,8 +7,10 @@ import {
   Database,
   FileSpreadsheet,
   Palette,
+  Map,
   Search,
   Table,
+  Tags,
   Webhook,
 } from 'lucide-react'
 import {
@@ -124,9 +126,16 @@ export const skillGroups: { title: string; items: Tech[] }[] = [
       { label: 'WordPress', Icon: SiWordpress, color: '#21759B' },
       { label: 'Webflow', Icon: SiWebflow, color: '#146EF5' },
       { label: 'Wix', Icon: SiWix, color: '#0C6EFC' },
-      // No dedicated SEO brand mark - generic search icon tinted green for
-      // the "growth/optimization" association.
-      { label: 'SEO Optimization', Icon: Search, color: '#16A34A' },
+    ],
+  },
+  {
+    // Named for what the Helix setup actually covered. No brand marks exist
+    // for any of it, so all three use generic lucide icons on one green.
+    title: 'SEO',
+    items: [
+      { label: 'Keyword Research', Icon: Search, color: '#16A34A' },
+      { label: 'On-Page SEO', Icon: Tags, color: '#16A34A' },
+      { label: 'Sitemap & Indexing', Icon: Map, color: '#16A34A' },
     ],
   },
   {

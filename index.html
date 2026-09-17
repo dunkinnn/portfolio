@@ -20,30 +20,35 @@
     <meta name="copyright" content="Copyright 2026 Angelou Bulauan. All rights reserved." />
     <meta
       name="description"
-      content="Angelou Bulauan is a full-stack developer and UI/UX designer based in the Philippines, designing and building web platforms, mobile apps, and interfaces for startups and modern brands."
+      content="Angelou Bulauan is a full-stack developer, UI/UX designer and SEO specialist based in the Philippines, designing and building web platforms, mobile apps, and interfaces for startups and modern brands."
     />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#101010" />
-    <title>Angelou Bulauan - Full-Stack Developer / UI/UX Designer</title>
+    <title>Angelou Bulauan - Full-Stack Developer / UI/UX Designer / SEO Specialist</title>
 
-    <!-- Open Graph / Twitter - no canonical og:url yet since the site has no
-         deployed domain wired in anywhere in the codebase; add one (and a
-         proper 1200x630 og:image) once this ships to a real domain. -->
+    <!-- Canonical and og:url are rewritten per route at build time by the
+         seo-pages plugin in vite.config.ts; the values here are the homepage's
+         and the fallback for any route the plugin does not emit. -->
+    <link rel="canonical" href="https://angelou-bulauan.vercel.app/" />
+    <meta property="og:url" content="https://angelou-bulauan.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Angelou Bulauan" />
-    <meta property="og:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer" />
+    <meta property="og:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer / SEO Specialist" />
     <meta
       property="og:description"
-      content="Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
+      content="Full-stack developer, UI/UX designer and SEO specialist based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
     />
-    <meta property="og:image" content="/apple-touch-icon.png" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer" />
+    <meta property="og:image" content="https://angelou-bulauan.vercel.app/og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Angelou Bulauan - Full-Stack Developer, UI/UX Designer and SEO Specialist" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angelou Bulauan - Full-Stack Developer / UI/UX Designer / SEO Specialist" />
     <meta
       name="twitter:description"
-      content="Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
+      content="Full-stack developer, UI/UX designer and SEO specialist based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands."
     />
-    <meta name="twitter:image" content="/apple-touch-icon.png" />
+    <meta name="twitter:image" content="https://angelou-bulauan.vercel.app/og-cover.png" />
 
     <!-- Person schema so search engines can attach the name/role/socials to
          this page directly, not just infer them from body text. -->
@@ -52,8 +57,8 @@
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Angelou Bulauan",
-        "jobTitle": "Full-Stack Developer & UI/UX Designer",
-        "description": "Full-stack developer and UI/UX designer based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands.",
+        "jobTitle": "Full-Stack Developer, UI/UX Designer & SEO Specialist",
+        "description": "Full-stack developer, UI/UX designer and SEO specialist based in the Philippines, building web platforms, mobile apps, and interfaces for startups and modern brands.",
         "address": {
           "@type": "PostalAddress",
           "addressRegion": "Isabela",

@@ -552,3 +552,317 @@ rows whenever there is something to put there.
 
 Still missing, and still the rows most likely to win work: a date and a result.
 Neither can be derived from the mockups.
+
+## 2026-09-17 - Meta rail restructured across all six projects
+
+Rail order is now Status / <project's own rows> / Type, then Stack. `details`
+values accept a list as well as a string, so a role split across several hats
+renders one line each; the row switched from `items-baseline` to `items-start`
+so a multi-line value sits against the top of its row.
+
+Every project now carries Platform, Role and Timeline. Timelines came from the
+user directly. Platform and Role were read off each project's own tags and its
+original write-up, which the earlier copy pass moved into this log:
+
+- Helix - Wix; Web Designer / Front-End Developer / SEO Setup; 3 weeks. Keeps
+  its Industry row.
+- Corn Leaf - Mobile; Mobile Developer; 3 weeks. Write-up: "brought on as a
+  freelance developer to build the mobile half ... the Flutter app and
+  integrating both models".
+- LandKoTo - Web; Front-End / Back-End Developer; 1 month. Write-up: "focused on
+  the front end and the PHP/MySQL data layer".
+- Smart Plate - Mobile; Front-End / Back-End Developer; 3 weeks. Write-up:
+  "contributing the Flutter front end and the Dart/PostgreSQL data layer".
+- Volterra - Figma; UI/UX Designer; 1 day.
+- C2WAD - Figma; UI/UX Designer; 2 days.
+
+Platform for the two Flutter apps is "Mobile" rather than a named OS: nothing in
+the project data says which stores they shipped to.
+
+Verified on all six case studies at a 288px rail: rows render in order, list
+values stack, nothing overflows.
+
+## 2026-09-17 - Volterra: View in Figma
+
+Volterra Electric now carries a "View in Figma" button at the top of its meta
+rail, in the same slot Helix uses for its live-site chip. It needed no component
+work - the rail's `links` array already renders any entry with a url as a solid
+button opening in a new tab, so this was one data entry.
+
+The URL was trimmed from what was supplied:
+
+    ...Volterra-Landing-Page?node-id=52-20&t=UtLsvOnriNVjv4Mp-1   given
+    ...Volterra-Landing-Page?node-id=52-20                        stored
+
+`t=` is a personal session token from the share dialog. It can expire, and it is
+not something to publish. The file and node ids are what matter - the link still
+opens on the same frame.
+
+Verified: Volterra renders an `<a>` with target=_blank and
+rel="noreferrer noopener"; Helix still renders its non-interactive chip; C2WAD
+has no links and shows no button.
+
+### Volterra Figma link swapped
+
+    ...Volterra-Landing-Page?m=auto&t=UuPlTtrGLwS7P1FY-6   given
+    ...Volterra-Landing-Page?m=auto                        stored
+
+Same file, `t=` session token stripped again. `m=auto` is kept - it is a view
+mode, not a token.
+
+Note this drops the `node-id=52-20` the previous link carried, so the button now
+opens the file at its default view rather than landing on that one frame.
+
+### Private note arm for work that cannot be shared
+
+The three Project Based case studies have no public URL, so the link slot sat
+empty and read like an oversight. Added a third arm to the `links` union:
+
+    { label, url }          -> solid button, opens in a new tab
+    { label, comingSoon }   -> dashed chip, clock icon, "<label> coming soon"
+    { label, note }         -> dashed chip, lock icon, label verbatim
+
+Wording per project, each defensible from the project itself:
+
+    Corn Leaf    Private client work
+    LandKoTo     Internal system
+    Smart Plate  Not publicly available
+
+Same chip styling as the coming-soon arm so the rail stays consistent; only the
+icon and the absence of the appended suffix differ.
+
+### Cards carry a short line, not the whole description
+
+`description` is one long sentence written to lead the detail page, and the
+cards were showing it clamped to two lines - a sentence cut mid-clause reads as
+truncated rather than written. Added an optional `summary` to `Project`, one
+short line per project, and the card now renders `summary ?? description`.
+
+The clamp stays as a floor for any project added later without a summary. The
+`fullDescription` prop on `ProjectCard` is gone - it existed so /projects could
+show the untruncated sentence, which the summary makes redundant.
+
+### Educate Learning Center added as the seventh project
+
+Figma design for a language centre's student portal - enrolment per course,
+a per-skill proficiency breakdown, graded exam sessions that unlock a
+certificate, and a paid upgrade tier. Appended last in `projects`, as asked.
+
+    eyebrow   UI/UX Design
+    status    Project Based
+    details   Platform Figma / Role UI/UX Designer
+    links     Client-owned design (note arm)
+    cover     src/assets/educate-cover.png (1500x1000, the three-screen mockup)
+
+No Timeline row: the build time was never given, and a made-up number on a
+case study is worse than a missing row.
+
+Two knock-on notes:
+
+- The homepage caps at `projects.slice(0, 6)`, so with seven projects this one
+  shows on /projects only. Six is two clean rows of three; seven leaves a
+  row of one. Raising the cap is a one-number change if the home page should
+  carry it.
+- The footer's Selected Work column takes the first four with a cover, so it
+  is unaffected.
+
+### Section watermarks scaled down
+
+The oversized ABOUT / PROJECTS / TECHNOLOGIES words behind each section
+heading read as too heavy on the home page.
+
+    font-size   clamp(4rem, 12vw, 9rem)      ->  clamp(2.125rem, 6vw, 4.5rem)
+    height      h-24 sm:h-28 md:h-32         ->  h-16 sm:h-20 md:h-24
+
+Half the old size at every breakpoint, in two passes - the first landed at
+clamp(2.5rem, 7vw, 5.5rem) and still read heavy. The row height comes down
+with it so the sections do not gain dead space where the word used to be.
+Opacity, tracking and the foreground "01 -- Label" tag are untouched.
+
+### C2WAD Figma link added
+
+    ...C2WAD---DELIVERY-APP?m=auto&t=UuPlTtrGLwS7P1FY-6   given
+    ...C2WAD---DELIVERY-APP?m=auto                        stored
+
+Same handling as Volterra: `t=` is a personal session token, stripped before
+storing; `m=auto` is a view mode and is kept. Renders as the solid "View in
+Figma" button at the top of the meta rail.
+
+### Educate Learning Center anonymised in experience
+
+Misread the ask first time and pulled the project out of `projects`; it is
+back, unchanged. The client's name comes off the experience row instead:
+
+    company  Educate Learning Center  ->  Freelance
+    type     Freelance                ->  Project-Based
+
+`type` moves because the row renders as `company - type` on the home page and
+as company over type on /experience, so leaving both as "Freelance" would have
+printed it twice. Project-Based matches the other freelance row. The location
+stays - Doha, Qatar names no client.
+
+### Ongoing-role duration computed instead of hardcoded
+
+    period: 'May 2024 - Present - 2 yrs 3 mos'   before
+    period: 'May 2024 - Present'                 after
+
+The suffix was written by hand and had drifted: it read 2 yrs 3 mos in
+September 2026, when the true span was 2 yrs 5 mos, and it lost another month
+every month.
+
+`duration()` now returns the stated suffix when a role has one - the finished
+roles keep theirs, since a closed period cannot drift - and otherwise counts
+from the start date to today. Counting includes both end months, matching how
+the hand-written periods were already written (Feb 2026 - Jun 2026 is 5 mos,
+not 4), and the label singularises: 1 mo, 1 yr 1 mo, 2 yrs 5 mos.
+
+### Experience detail page shows the computed duration
+
+/experience printed `role.period` raw, so the ongoing role lost its duration
+the moment the hardcoded suffix came out of the data. It now builds the line
+from `dateRange` and `duration`, the same pair the home page row uses.
+
+### UI/UX Designer role rewritten from the actual work
+
+The summary and four bullets were role-generic - "user-centered designs",
+"wireframes, prototypes", "collaborated with developers" - true of any design
+job and so evidence of none. Rewritten against what the Educate portal screens
+actually show: enrolment and per-course level, the four-skill proficiency
+breakdown, graded exam sessions unlocking a certificate, the free-to-paid
+upgrade tier, one visual system, and screens drawn in their real states.
+
+Scope note: only the learning portal is claimed here. Volterra and C2WAD sit
+outside this engagement's dates and were self-directed, so folding them into a
+client role would misdate them.
+
+### Self-directed design row added to experience
+
+    UI/UX Designer - Self-directed - Project-Based
+    Aug 2026 - Sep 2026 - 2 mos
+    Isabela, Cagayan Valley, Philippines
+
+Covers Volterra and C2WAD, which had no place on the timeline before: they are
+in Projects but the experience list only showed paid and internship work.
+Type reads Project-Based, matching the Full Stack row, since the work was
+taken on project by project. Company stays Self-directed rather than Freelance:
+same working shape as the paid row, but not client work, and the distinction is
+what stops the entry reading as padding.
+
+Slotted second, after the ongoing Full Stack row and ahead of the Feb 2026
+internship, keeping the list reverse-chronological by start date.
+
+Bullets name what the two designs actually contain - the documented Volterra
+system and its sandbox, C2WAD's full ordering loop and its real screen states -
+rather than restating the generic design-process line the other UI/UX row used
+to carry.
+
+### Design credit added to LandKoTo and Smart Plate
+
+Both were designed in Figma before being built, but their rails credited only
+the build:
+
+    Role  Front-End Developer, Back-End Developer
+       -> UI/UX Designer, Front-End Developer, Back-End Developer
+
+    tags  + Figma, beside the UI/UX Design tag already there
+
+Designer first in the Role list, since that is the order the work happened in.
+
+Left alone: Corn Leaf (built, not designed by him) and Educate Learning Center
+(design only so far - the build has not happened, so the Figma-only rail is
+still accurate).
+
+### Two UI/UX Designer rows merged into one
+
+The Self-directed row sat two rows above the Freelance one, same job title, and
+read as a duplicate. Merged into a single row:
+
+    UI/UX Designer - Freelance - Project-Based
+    Dec 2025 - Sep 2026 - 10 mos
+    Isabela, Cagayan Valley, Philippines - Remote
+
+The span runs first project to most recent, the same convention the Full Stack
+row already uses; the two engagements inside it were about two months each.
+Location is where the work was done from - Doha now appears in the summary as
+the client's location rather than as his own.
+
+Six bullets: the portal first, then the self-directed work, with "self-directed"
+stated in its own bullet so the paid and unpaid work stay distinguishable under
+one heading.
+
+### /experience cards lead with the role, not the employer
+
+Each card opened with the company name and engagement type, pushing the job
+title four lines down under the badge. Reordered:
+
+    Freelance / Project-Based / Full Stack Developer / dates
+    -> Full Stack Developer / Freelance - Project-Based / dates
+
+Company and type now share one line as a subtitle, matching how the condensed
+home page row already reads. The separate h3 for the title is gone, so each
+card is one heading instead of two.
+
+### Student Intern moved to the end of the list
+
+    Full Stack Developer  May 2024 - Present
+    UI/UX Designer        Dec 2025 - Sep 2026
+    Student Intern        Feb 2026 - Jun 2026
+
+The move arrived from another editor mid-session and had dropped the array's
+closing bracket, so `experience.tsx` would not compile - TS1137 at the
+`dateRange` comment, since the parser was still inside the array literal.
+Bracket restored.
+
+Ordering comment updated with it: the list now sorts by when each role ended
+rather than when it started, which is what puts the internship last.
+
+### SEO Specialist added as a third title
+
+    Hero          UI/UX Designer - Full-Stack Developer - SEO Specialist
+    Footer        Full-Stack Developer, UI/UX Designer and SEO Specialist
+    index.html    title, og:title, twitter:title, both descriptions, and the
+                  Person schema's jobTitle
+    Helix rail    Role: SEO Setup -> SEO Specialist
+
+Skills gains its own SEO group - Keyword Research, On-Page SEO, Sitemap and
+Indexing - and the vague "SEO Optimization" pill leaves CMS & Marketing so the
+same claim is not made twice. No brand marks exist for any of it, so all three
+use lucide icons on one green.
+
+Caveat recorded deliberately: the three SEO skills are inferred from what a
+site SEO setup involves, not from a list he gave. The file's own header says
+not to pad this list, so they need confirming or swapping for what he really
+used.
+
+### SEO: per-route metadata, robots, sitemap, share card
+
+Audited the deployed site first. Every route returned the homepage's title and
+description - /project/helix-group included - the body was an empty root div,
+and /robots.txt returned the SPA's HTML with a 200 because vercel.json rewrites
+everything outside /api to index.html. Nothing was in Google.
+
+Four changes:
+
+    public/robots.txt      real file, so the rewrite no longer answers for it;
+                           points at the sitemap, disallows /api
+    public/og-cover.png    1200x630 share card, replacing the 180px icon that
+                           og:image pointed at; twitter:card raised to
+                           summary_large_image
+    index.html             canonical and og:url added, description updated
+    vite.config.ts         seoPages() plugin
+
+`seoPages` runs after the bundle is written. It loads src/data/projects.ts
+through a throwaway Vite server - plain Node cannot resolve the file's image
+imports - then writes a copy of dist/index.html per route with that route's
+title, description, canonical and og:url swapped in, plus dist/sitemap.xml.
+Twelve routes: five static, seven projects. Vercel serves each directory's
+index.html for the extensionless path, and the catch-all rewrite only applies
+where no file matches, so the per-route files win.
+
+Verified by running the real build: 12 routes emitted, titles and canonicals
+distinct per page, sitemap complete.
+
+Not solved: the body is still client-rendered, so the first pass a crawler
+makes sees an empty root. Google renders JavaScript on a second pass, and the
+head is what search results and link previews read, which is why the metadata
+split was the half worth doing without adding a prerender dependency.

@@ -125,8 +125,8 @@ export default function Footer() {
             </a>
 
             <p className="mt-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              Full-Stack Developer and UI/UX Designer, building web platforms and
-              mobile apps from {LOCATION}.
+              Full-Stack Developer, UI/UX Designer and SEO Specialist, building
+              web platforms and mobile apps from {LOCATION}.
             </p>
 
             <a

@@ -22,13 +22,13 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div
-      className={`relative flex h-24 min-w-0 items-center overflow-hidden sm:h-28 md:h-32 ${className}`}
+      className={`relative flex h-16 min-w-0 items-center overflow-hidden sm:h-20 md:h-24 ${className}`}
     >
       {/* Oversized watermark of the section name. */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap font-black uppercase leading-none tracking-[-0.04em] text-slate-900/[0.05] dark:text-white/[0.045]"
-        style={{ fontSize: 'clamp(4rem, 12vw, 9rem)' }}
+        style={{ fontSize: 'clamp(2.125rem, 6vw, 4.5rem)' }}
       >
         {watermark ?? children}
       </span>

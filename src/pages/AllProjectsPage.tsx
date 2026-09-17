@@ -29,7 +29,7 @@ export default function AllProjectsPage() {
         >
           {projects.map((project) => (
             <motion.div key={project.title} variants={item} className="h-full">
-              <ProjectCard {...project} className="h-full w-full" fullDescription />
+              <ProjectCard {...project} className="h-full w-full" />
             </motion.div>
           ))}
         </motion.div>
