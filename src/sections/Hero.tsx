@@ -4,18 +4,17 @@ import { ArrowUpRight } from 'lucide-react'
 
 import HeroVisualPanel from '../components/HeroVisualPanel'
 import Section from '../components/Section'
-import { projects } from '../data/projects'
 import { fade, rise, stagger } from '../lib/motion'
 
 const WebGLHero = lazy(() => import('../components/WebGLHero'))
 
-// Placeholder entries have no write-up, so this counts only real case studies.
-const SHIPPED_COUNT = projects.filter((project) => project.story?.length).length
-
+// Stated figures, not derived ones. Shipped work and clients both run past
+// what the site shows - the projects list is a selection, so counting it would
+// undercount the real total.
 const STATS = [
   { value: '2+', label: 'Years Experience' },
-  { value: `${SHIPPED_COUNT}`, label: 'Projects Shipped' },
-  { value: '2', label: 'Disciplines' },
+  { value: '14+', label: 'Projects Shipped' },
+  { value: '10+', label: 'Clients Served' },
 ]
 
 interface HeroProps {

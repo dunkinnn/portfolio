@@ -866,3 +866,45 @@ Not solved: the body is still client-rendered, so the first pass a crawler
 makes sees an empty root. Google renders JavaScript on a second pass, and the
 head is what search results and link previews read, which is why the metadata
 split was the half worth doing without adding a prerender dependency.
+
+### Hero stats: fixed a zero, swapped Disciplines for clients
+
+    2+   Years Experience   unchanged
+    14+  Projects Shipped   was a derived count
+    10+  Clients Served     was "2 Disciplines"
+
+The shipped figure was computed as `projects.filter(p => p.story?.length)`,
+and no project carries a `story` any more - that field was left behind when the
+case studies moved to leading with `description`. So the live hero has been
+reading "0 Projects Shipped" since that change. Now a stated figure, which is
+also the honest shape: the projects list is a curated selection, so counting it
+would undercount the real total either way.
+
+The now-unused `projects` import came out with it.
+
+### Internship end date corrected
+
+    Feb 2026 - Jun 2026 - 5 mos  ->  Feb 2026 - May 2026 - 4 mos
+
+His resume said May; the portfolio said June. He confirmed May, so the
+portfolio was wrong. The title stays Student Intern, which is what the resume
+was corrected to - it had "Records Office & ICT Support Staff".
+
+Noted for anyone comparing the two: the resume also said freelancing began
+Nov 2025 against the portfolio's May 2024. He confirmed May 2024, so the resume
+was corrected rather than the site.
+
+### Download CV becomes View Resume
+
+The button pointed at `/angelou-bulauan-cv.pdf`, which had never been added -
+a dead link on the live site that downloaded nothing. The real PDF now sits at
+`public/angelou-bulauan-resume.pdf` and the button opens it in a new tab
+instead of forcing a download:
+
+    href      /angelou-bulauan-cv.pdf  ->  /angelou-bulauan-resume.pdf
+    behaviour download attribute       ->  target="_blank"
+    label     Download CV              ->  View Resume
+    icon      Download                 ->  FileText + ArrowUpRight
+
+Reading it should not cost a file on someone's disk, and a recruiter skimming
+on a phone will open a tab where they would not accept a download.

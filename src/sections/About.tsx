@@ -6,15 +6,16 @@ import {
   useReducedMotion,
   useSpring,
 } from 'framer-motion'
-import { Download } from 'lucide-react'
+import { ArrowUpRight, FileText } from 'lucide-react'
 import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
-import profileUrl from '../assets/profile.png'
+import profileUrl from '../assets/profile.webp'
 import { EASE, fade, rise, stagger } from '../lib/motion'
 
-// Drop the PDF at public/angelou-bulauan-cv.pdf and this starts working.
-const CV_URL = '/angelou-bulauan-cv.pdf'
+// Served straight from public/, so the browser's own PDF viewer opens it in a
+// new tab. No `download` attribute - reading it should not cost a file on disk.
+const RESUME_URL = '/angelou-bulauan-resume.pdf'
 
 // TODO replace the GitHub placeholder with the real profile URL.
 const socials = [
@@ -150,15 +151,17 @@ export default function About() {
             </motion.p>
           </div>
 
-          {/* CV download and social links */}
+          {/* Resume and social links */}
           <motion.div variants={item} className="flex flex-wrap items-center gap-4">
             <a
-              href={CV_URL}
-              download
+              href={RESUME_URL}
+              target="_blank"
+              rel="noreferrer noopener"
               className="group inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
             >
-              <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              Download CV
+              <FileText className="h-4 w-4" aria-hidden="true" />
+              View Resume
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
 
             <div className="flex items-center gap-2">

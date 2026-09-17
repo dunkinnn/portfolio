@@ -14,15 +14,24 @@ import { useSyncExternalStore } from 'react'
 // caller intercepted the same click and pushed its own history entry, which
 // took one Back press per mounted caller to undo.
 
-function samePath(a: string, b: string) {
-  return a.replace(/\/$/, '') === b.replace(/\/$/, '')
+// Routes are compared with ===, so a trailing slash would miss every one of
+// them and land on the home page instead. The build emits each route as a
+// directory index, which is exactly the shape that invites a trailing slash,
+// so it is stripped once here rather than at each comparison.
+function normalize(path: string) {
+  return path.length > 1 ? path.replace(/\/+$/, '') : path
 }
 
-let currentPath = window.location.pathname
+function samePath(a: string, b: string) {
+  return normalize(a) === normalize(b)
+}
+
+let currentPath = normalize(window.location.pathname)
 const subscribers = new Set<() => void>()
 let listening = false
 
-function emit(next: string) {
+function emit(rawNext: string) {
+  const next = normalize(rawNext)
   if (next === currentPath) return
   currentPath = next
   subscribers.forEach((notify) => notify())

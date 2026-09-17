@@ -33,7 +33,7 @@ export const roles: Role[] = [
     title: 'UI/UX Designer',
     company: 'Freelance',
     type: 'Project-Based',
-    period: 'Dec 2025 - Sep 2026 · 10 mos',
+    period: 'Dec 2025 - Present · 10 mos',
     location: 'Isabela, Cagayan Valley, Philippines · Remote',
     summary:
       "Design work taken from first screen to handoff - a language learning centre's student portal in Doha designed end to end in Figma, alongside self-directed concept work carried through to a documented design system.",
@@ -50,7 +50,7 @@ export const roles: Role[] = [
     title: 'Student Intern',
     company: 'SDO Cagayan',
     type: 'Internship',
-    period: 'Feb 2026 - Jun 2026 · 5 mos',
+    period: 'Feb 2026 - May 2026 · 4 mos',
     location: 'Tuguegarao, Cagayan Valley, Philippines · On-site',
     summary:
       'Supported IT operations and contributed to the development and maintenance of internal digital systems at the Schools Division Office of Cagayan.',

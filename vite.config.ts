@@ -105,7 +105,7 @@ const STATIC_PAGES = [
     route: '/experience',
     title: 'Experience - Angelou Bulauan',
     description:
-      'Freelance development, UI/UX design and internship experience of Angelou Bulauan, with what each role involved.',
+      'The freelance development, UI/UX design and internship roles Angelou Bulauan has worked, with the dates, the clients and what each one actually involved.',
   },
   {
     route: '/contact',
@@ -114,6 +114,15 @@ const STATIC_PAGES = [
       'Get in touch with Angelou Bulauan, a full-stack developer and UI/UX designer in Isabela, Philippines, available for freelance and remote work.',
   },
 ]
+
+// Google shows roughly 160 characters of a description and the project
+// summaries run short of that, so the longer write-up is used and cut at a
+// word boundary rather than mid-word.
+function clampDescription(text: string, limit = 158) {
+  if (text.length <= limit) return text
+  const cut = text.slice(0, limit)
+  return `${cut.slice(0, cut.lastIndexOf(' '))}...`
+}
 
 function escapeAttr(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -175,7 +184,7 @@ function seoPages(): Plugin {
         ...projects.map((project) => ({
           route: project.href,
           title: `${project.title} - Angelou Bulauan`,
-          description: project.summary ?? project.description,
+          description: clampDescription(project.description),
         })),
       ]
 

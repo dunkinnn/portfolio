@@ -1,12 +1,12 @@
-import smartplateCover from '../assets/smartplate-cover.png'
-import landrecordsCover from '../assets/landrecords-cover.png'
-import maisnutriCover from '../assets/maisnutri-cover.png'
-import uiuxDesignCover from '../assets/C2WAD.png'
-import volterraCover from '../assets/volterra-cover.png'
-import volterraDesignSystem from '../assets/volterra-design-system.png'
-import helixCover from '../assets/helix-cover.png'
-import helixBefore from '../assets/helix-before.png'
-import educateCover from '../assets/educate-cover.png'
+import smartplateCover from '../assets/smartplate-cover.webp'
+import landrecordsCover from '../assets/landrecords-cover.webp'
+import maisnutriCover from '../assets/maisnutri-cover.webp'
+import uiuxDesignCover from '../assets/C2WAD.webp'
+import volterraCover from '../assets/volterra-cover.webp'
+import volterraDesignSystem from '../assets/volterra-design-system.webp'
+import helixCover from '../assets/helix-cover.webp'
+import helixBefore from '../assets/helix-before.webp'
+import educateCover from '../assets/educate-cover.webp'
 
 export interface Project {
   href: string
